@@ -2,7 +2,7 @@ package application;
 	
 import java.util.List;
 
-import database.AccountCRUD;
+import database.AccountDAO;
 import entites.Account;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -30,7 +30,7 @@ public class Main extends Application {
 	}
 	
 	public static void testConnect() {
-		AccountCRUD accManager = new AccountCRUD();
+		AccountDAO accManager = new AccountDAO();
 		List<Account> dsAccount = accManager.getAll();
 	    for (Account account : dsAccount) {
 	      System.out.println(account);
