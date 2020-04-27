@@ -15,6 +15,7 @@ import database.BanAnDAO;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entites.BanAn;
+import entites.MonAn;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,7 +30,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class BanAnManagerController implements Initializable {
@@ -41,7 +44,7 @@ public class BanAnManagerController implements Initializable {
 	@FXML
 	private TableColumn<BanAn, String> idColumn;
 	@FXML
-	private TableColumn<BanAn, String> tenMonAnColumn;
+	private TableColumn<BanAn, String> kySoBAColumn;
 	@FXML
 	private TableColumn<BanAn, String> moTaColumn;
 	@FXML
@@ -99,9 +102,10 @@ public class BanAnManagerController implements Initializable {
 			int soLuongNguoi = Integer.parseInt(soLuongNguoiString);
 			long giaTien = Long.parseLong(giaTienString);
 
-			BanAn banAn = new BanAn(new BanAnDAO().generateID(), kySoBanAn, soLuongNguoi, moTa, giaTien, true, false,
+			BanAn banAn = new BanAn(kySoBanAn, soLuongNguoi, moTa, giaTien, true, false,
 					hinhAnh);
-			new BanAnDAO().save(banAn);
+			new BanAnDAO().addBanAn(banAn);
+			xoaInput();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Thêm bàn thành công");
 			alert.setContentText("Đã thêm bàn vào hệ thống");
@@ -138,6 +142,7 @@ public class BanAnManagerController implements Initializable {
 			BanAn banAn = new BanAn(danhSachBanAn.getSelectionModel().getSelectedItem().getMaBA(), kySoBanAn,
 					soLuongNguoi, moTa, giaTien, true, false, hinhAnh);
 			new BanAnDAO().update(banAn);
+			xoaInput();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Cập nhật bàn thành công");
 			alert.setContentText("Đã cập nhật bàn vào hệ thống");
@@ -163,7 +168,7 @@ public class BanAnManagerController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		hinhAnhColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("hinhAnhBA"));
 		idColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("maBA"));
-		tenMonAnColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("kySoBA"));
+		kySoBAColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("kySoBA"));
 		moTaColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("motaBA"));
 		soLuongNguoiColumn.setCellValueFactory(new PropertyValueFactory<BanAn, Integer>("soLuongGhe"));
 		giaTienColumn.setCellValueFactory(new PropertyValueFactory<BanAn, Long>("giaTien"));
@@ -218,4 +223,21 @@ public class BanAnManagerController implements Initializable {
 		listBanAn = FXCollections.observableArrayList(list);
 		danhSachBanAn.setItems(listBanAn);
 	}
+	public void chooseBanAn(MouseEvent event) {
+    BanAn banAn = danhSachBanAn.getSelectionModel().getSelectedItem();
+    txtKySoBanAn.setText(banAn.getKySoBA());
+    txtMoTaBA.setText(banAn.getMotaBA());
+    txtSoLuongNguoiBA.setText(String.valueOf(banAn.getSoLuongGhe()));
+    txtGiaTienBA.setText(String.valueOf(banAn.getGiaTien()));
+  }
+	public void xoaInput() {
+    txtKySoBanAn.setText("");
+    txtMoTaBA.setText("");
+    txtSoLuongNguoiBA.setText("");
+    txtGiaTienBA.setText("");
+    txtKySoBanAn.requestFocus();
+    hinhAnh = "/images/icon-food-and-drink-hd-png-download.png";
+    Image image = new Image("file:./src/images/icon-food-and-drink-hd-png-download.png", 200, 150, false, true);
+    imvHinhAnhBA.setImage(image);
+  }
 }

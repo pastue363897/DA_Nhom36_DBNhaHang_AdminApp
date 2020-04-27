@@ -36,7 +36,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
 public class MonAnManagerController implements Initializable {
@@ -78,9 +77,8 @@ public class MonAnManagerController implements Initializable {
       int soLuongNguoi = Integer.parseInt(soLuongNguoiString);
       long giaTien = Long.parseLong(giaTienString);
       
-      MonAn monAn = new MonAn("MA003", tenMonAn, moTa, soLuongNguoi, hinhAnh, giaTien, false, false);
-      
-      new MonAnDAO().save(monAn);
+      MonAn monAn = new MonAn(tenMonAn, moTa, soLuongNguoi, hinhAnh, giaTien);
+      new MonAnDAO().addMonAn(monAn);
       loadMonAn();
       xoaInput();
       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -119,7 +117,7 @@ public class MonAnManagerController implements Initializable {
       xoaInput();
       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
       alert.setTitle("Sửa món ăn bàn thành công");
-      alert.setContentText("Đã thêm món ăn vào hệ thống");
+      alert.setContentText("Đã sửa thông tin món ăn vào hệ thống");
       alert.show();
     } catch (HibernateException he) {
       he.printStackTrace();
@@ -144,7 +142,7 @@ public class MonAnManagerController implements Initializable {
     File file = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
     if (file != null) {
       hinhAnh = file.getPath();
-      Image image = new Image(file.toURI().toString(), 149, 120, false, true);
+      Image image = new Image(file.toURI().toString(), 200, 150, false, true);
       imvHinhAnhMA.setImage(image);
     }
   }
@@ -164,8 +162,15 @@ public class MonAnManagerController implements Initializable {
           @Override
           public void handle(ActionEvent event) {
             try {
+              danhSachMonAn.getSelectionModel().clearSelection();
+              danhSachMonAn.getSelectionModel().select(getIndex());
               MonAn monAn = danhSachMonAn.getSelectionModel().getSelectedItem();
-              new MonAnDAO().delete(monAn);
+              MonAnDAO maDao = new MonAnDAO();
+              if (maDao.checkPreviouslyBooked(monAn)) {
+                maDao.setIsDeleted(monAn);
+              } else {
+                maDao.delete(monAn);
+              }
               loadMonAn();
               Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
               alert.setTitle("Xóa món ăn bàn thành công");
@@ -222,5 +227,8 @@ public class MonAnManagerController implements Initializable {
     txtSoLuongNguoiMA.setText("");
     txtGiaTienMA.setText("");
     txtTenMonAn.requestFocus();
+    hinhAnh = "/images/icon-food-and-drink-hd-png-download.png";
+    Image image = new Image("file:./src/images/icon-food-and-drink-hd-png-download.png", 200, 150, false, true);
+    imvHinhAnhMA.setImage(image);
   }
 }

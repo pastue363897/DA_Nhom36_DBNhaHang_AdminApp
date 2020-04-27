@@ -30,11 +30,11 @@
 				<RowConstraints maxHeight="420.0" minHeight="10.0" prefHeight="391.0" vgrow="SOMETIMES" />
 			</rowConstraints>
 			<children>
-				<TableView fx:id="danhSachBanAn" prefHeight="378.0" prefWidth="915.0" stylesheets="@../css/style-left.css" GridPane.rowIndex="1">
+				<TableView fx:id="danhSachBanAn" onMousePressed="#chooseBanAn" prefHeight="378.0" prefWidth="915.0" stylesheets="@../css/style-left.css" GridPane.rowIndex="1">
 					<columns>
 						<TableColumn fx:id="hinhAnhColumn" prefWidth="162.0" text="Hình ảnh" />
 						<TableColumn fx:id="idColumn" minWidth="0.0" prefWidth="72.0" text="Id" />
-						<TableColumn fx:id="tenMonAnColumn" prefWidth="94.0" text="Ký số bàn" />
+						<TableColumn fx:id="kySoBAColumn" prefWidth="94.0" text="Ký số bàn" />
 						<TableColumn fx:id="moTaColumn" prefWidth="300.0" text="Mô tả" />
 						<TableColumn fx:id="soLuongNguoiColumn" prefWidth="85.0" text="Số lượng" />
 						<TableColumn fx:id="giaTienColumn" prefWidth="101.0" text="Giá tiền" />
