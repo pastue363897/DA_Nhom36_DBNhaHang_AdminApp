@@ -14,7 +14,11 @@
          <children>
             <Pane prefHeight="151.0" prefWidth="375.0">
                <children>
-                  <FontAwesomeIconView fill="WHITE" glyphName="VK" layoutX="94.0" layoutY="88.0" size="60" />
+                  <Pane prefHeight="110.0" prefWidth="300.0" style="-fx-background-color: #2A1C42;">
+                     <children>
+                        <FontAwesomeIconView fill="WHITE" glyphName="VK" layoutX="108.0" layoutY="75.0" size="60" />
+                     </children>
+                  </Pane>
                </children>
             </Pane>
             <Button fx:id="btnBanDatManager" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#navigationBar" prefHeight="62.0" prefWidth="300.0" stylesheets="@../css/style-left.css" text="Quản lý bàn đặt" textFill="WHITE">

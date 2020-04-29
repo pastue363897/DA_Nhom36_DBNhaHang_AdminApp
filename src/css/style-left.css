@@ -8,6 +8,11 @@
 .button:pressed {
     -fx-background-color:  #7156DD;
 }
+.button:focused {
+    -fx-background-color:  #7156DD;
+    -fx-border-color: #3F2B63 #3F2B63 #3F2B63 #CDD1D6 ;
+    -fx-border-width: 0 1px 0 3px;
+}
 .table-view .column-header, .table-view .column-header-background .filler {
     -fx-background-color:   #692BEA;
 }
