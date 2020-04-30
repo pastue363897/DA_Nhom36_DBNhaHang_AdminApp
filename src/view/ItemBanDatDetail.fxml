@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="539.0" prefWidth="807.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+   <children>
+      <Pane prefHeight="140.0" prefWidth="806.0">
+         <children>
+            <Label layoutX="46.0" layoutY="13.0" prefHeight="27.0" prefWidth="161.0" text="MÃ KHÁCH HÀNG:" textFill="#514d4d">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="46.0" layoutY="45.0" prefHeight="27.0" prefWidth="80.0" text="HỌ TÊN:" textFill="#514d4d">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="46.0" layoutY="77.0" prefHeight="27.0" prefWidth="80.0" text="ĐỊA CHỈ:" textFill="#514d4d">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="46.0" layoutY="106.0" prefHeight="27.0" prefWidth="72.0" text="CMND:" textFill="#514d4d">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="552.0" layoutY="27.0" prefHeight="27.0" prefWidth="95.0" text="Ngày đặt" textFill="#6f6d6d">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="554.0" layoutY="50.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#6f6d6d">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="598.0" layoutY="51.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#6f6d6d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="598.0" layoutY="70.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Separator layoutX="640.0" layoutY="32.0" orientation="VERTICAL" prefHeight="59.0" prefWidth="12.0" />
+            <Label layoutX="652.0" layoutY="28.0" prefHeight="27.0" prefWidth="124.0" text="Ngày phục vụ" textFill="#6f6d6d">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="654.0" layoutY="51.0" prefHeight="53.0" prefWidth="44.0" text="30" textFill="#6f6d6d">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="698.0" layoutY="52.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#6f6d6d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="698.0" layoutY="71.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="207.0" layoutY="13.0" prefHeight="27.0" prefWidth="95.0" text="KH001">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="127.0" layoutY="42.0" prefHeight="27.0" prefWidth="374.0" text="Nguyễn Văn A">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="125.0" layoutY="107.0" prefHeight="27.0" prefWidth="146.0" text="81273481234">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="127.0" layoutY="76.0" prefHeight="27.0" prefWidth="344.0" text="12 abc, quận 3, Thành phố Hồ Chí Minh">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Separator layoutX="35.0" layoutY="137.0" prefHeight="16.0" prefWidth="743.0" />
+      <Pane layoutX="35.0" layoutY="177.0" prefHeight="129.0" prefWidth="743.0" />
+      <Label layoutX="45.0" layoutY="153.0" text="Thông tin bàn">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Pane layoutX="32.0" layoutY="341.0" prefHeight="129.0" prefWidth="743.0" />
+      <Label layoutX="47.0" layoutY="316.0" text="Thông tin món ăn">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Pane layoutY="480.0" prefHeight="59.0" prefWidth="807.0" style="-fx-background-color: #aba7a7;">
+         <children>
+            <Label layoutX="44.0" layoutY="25.0" text="Tổng tiền:" textFill="#1552d7">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="135.0" layoutY="25.0" text="10000 Đ" textFill="#1552d7">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <StackPane layoutX="579.0" layoutY="14.0" prefHeight="43.0" prefWidth="214.0">
+               <children>
+                  <HBox prefHeight="23.0" prefWidth="214.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="126.0" text="Thanh toán">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="CHECK" size="15" />
+                           </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="67.0" text="Hủy">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="CLOSE" size="15" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Label text="Đã hủy" textFill="#c61c1c" visible="false">
+                     <graphic>
+                        <FontAwesomeIconView fill="#ab1212" glyphName="TIMES_CIRCLE" size="18" />
+                     </graphic>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="Đã thanh toán" textFill="#22781b" visible="false">
+                     <graphic>
+                        <FontAwesomeIconView fill="#22781b" glyphName="CHECK_SQUARE_ALT" size="18" />
+                     </graphic>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

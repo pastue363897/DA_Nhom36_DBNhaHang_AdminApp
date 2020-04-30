@@ -7,6 +7,7 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -14,60 +15,61 @@ import java.util.ResourceBundle;
 import org.hibernate.HibernateException;
 
 import database.MonAnDAO;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entites.MonAn;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 
 public class MonAnManagerController implements Initializable {
-  @FXML
-  private Button btnThemMA;
+  
+  private String idMonAnUpdate;
   @FXML
   private TextField txtTenMonAn, txtSoLuongNguoiMA, txtGiaTienMA;
   @FXML
   private TextArea txtMoTaMA;
   @FXML
   private ImageView imvHinhAnhMA;
-  @FXML
-  private TableView<MonAn> danhSachMonAn;
-  @FXML
-  private TableColumn<MonAn, String> hinhAnhColumn;
-  @FXML
-  private TableColumn<MonAn, String> idColumn;
-  @FXML
-  private TableColumn<MonAn, String> tenMonAnColumn;
-  @FXML
-  private TableColumn<MonAn, String> moTaColumn;
-  @FXML
-  private TableColumn<MonAn, Integer> soLuongNguoiColumn;
-  @FXML
-  private TableColumn<MonAn, Long> giaTienColumn;
-  @FXML
-  private TableColumn<MonAn, Void> huyMAColumn;
   
-  private ObservableList<MonAn> listMonAn;
+  @FXML
+  private FlowPane dsMonAn;
   
-  private static String hinhAnh = "/images/icon-food-and-drink-hd-png-download.png";
+  private static String hinhAnh = "/images/food-view.png";
   
+  
+  public void setIdMonAnUpdate(String idMonAnUpdate) {
+    this.idMonAnUpdate = idMonAnUpdate;
+  }
+
+  public TextField getTxtTenMonAn() {
+    return txtTenMonAn;
+  }
+
+  public TextField getTxtSoLuongNguoiMA() {
+    return txtSoLuongNguoiMA;
+  }
+
+  public TextField getTxtGiaTienMA() {
+    return txtGiaTienMA;
+  }
+
+  public TextArea getTxtMoTaMA() {
+    return txtMoTaMA;
+  }
+
+  public ImageView getImvHinhAnhMA() {
+    return imvHinhAnhMA;
+  }
+
   public void themMonAn(ActionEvent e) {
     String tenMonAn = txtTenMonAn.getText();
     String soLuongNguoiString = txtSoLuongNguoiMA.getText();
@@ -79,7 +81,7 @@ public class MonAnManagerController implements Initializable {
       
       MonAn monAn = new MonAn(tenMonAn, moTa, soLuongNguoi, hinhAnh, giaTien);
       new MonAnDAO().addMonAn(monAn);
-      loadMonAn();
+      loadAllMonAn();
       xoaInput();
       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
       alert.setTitle("Thêm món ăn thành công");
@@ -109,11 +111,11 @@ public class MonAnManagerController implements Initializable {
       int soLuongNguoi = Integer.parseInt(soLuongNguoiString);
       long giaTien = Long.parseLong(giaTienString);
       
-      MonAn monAn = new MonAn(danhSachMonAn.getSelectionModel().getSelectedItem().getMaMA(), tenMonAn, moTa,
+      MonAn monAn = new MonAn(idMonAnUpdate, tenMonAn, moTa,
           soLuongNguoi, hinhAnh, giaTien, false, false);
       
       new MonAnDAO().update(monAn);
-      loadMonAn();
+      loadAllMonAn();
       xoaInput();
       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
       alert.setTitle("Sửa món ăn bàn thành công");
@@ -149,86 +151,42 @@ public class MonAnManagerController implements Initializable {
   
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    hinhAnhColumn.setCellValueFactory(new PropertyValueFactory<MonAn, String>("hinhAnhMA"));
-    idColumn.setCellValueFactory(new PropertyValueFactory<MonAn, String>("maMA"));
-    tenMonAnColumn.setCellValueFactory(new PropertyValueFactory<MonAn, String>("tenMA"));
-    moTaColumn.setCellValueFactory(new PropertyValueFactory<MonAn, String>("moTaMA"));
-    soLuongNguoiColumn.setCellValueFactory(new PropertyValueFactory<MonAn, Integer>("soLuongNguoi"));
-    giaTienColumn.setCellValueFactory(new PropertyValueFactory<MonAn, Long>("giaTien"));
-    huyMAColumn.setCellFactory(param -> new TableCell<MonAn, Void>() {
-      private Button btnHuy = new Button("Hủy");
-      {
-        btnHuy.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            try {
-              danhSachMonAn.getSelectionModel().clearSelection();
-              danhSachMonAn.getSelectionModel().select(getIndex());
-              MonAn monAn = danhSachMonAn.getSelectionModel().getSelectedItem();
-              MonAnDAO maDao = new MonAnDAO();
-              if (maDao.checkPreviouslyBooked(monAn)) {
-                maDao.setIsDeleted(monAn);
-              } else {
-                maDao.delete(monAn);
-              }
-              loadMonAn();
-              Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-              alert.setTitle("Xóa món ăn bàn thành công");
-              alert.setContentText("Đã xóa món ăn trong hệ thống");
-              alert.show();
-            } catch (HibernateException he) {
-              he.printStackTrace();
-              Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-              alert.setTitle("Xóa món ăn thất bại");
-              alert.setContentText("Đã xảy ra sự cố hãy thử lại");
-              alert.show();
-            } catch (Exception ex) {
-              ex.printStackTrace();
-              Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-              alert.setTitle("Xóa món ăn thất bại");
-              alert.setContentText("Đã xảy ra sự cố hãy thử lại");
-              alert.show();
-            }
-          }
-        });
-      }
-      
-      @Override
-      protected void updateItem(Void item, boolean empty) {
-        super.updateItem(item, empty);
-        btnHuy.setTextFill(Color.WHITE);
-        FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.TIMES_CIRCLE);
-        icon.setSize("18");
-        icon.setFill(Color.WHITE);
-        btnHuy.setGraphic(icon);
-        setGraphic(empty ? null : btnHuy);
-      }
-    });
-    loadMonAn();
+    loadAllMonAn();
   }
-  
-  public void loadMonAn() {
+  public void loadAllMonAn() {
     List<MonAn> list = new MonAnDAO().getAll();
-    listMonAn = FXCollections.observableArrayList(list);
-    danhSachMonAn.setItems(listMonAn);
+    loadMonAn(list);
   }
   
-  public void chooseMonAn(MouseEvent event) {
-    MonAn monAn = danhSachMonAn.getSelectionModel().getSelectedItem();
-    txtTenMonAn.setText(monAn.getTenMA());
-    txtMoTaMA.setText(monAn.getMoTaMA());
-    txtSoLuongNguoiMA.setText(String.valueOf(monAn.getSoLuongNguoi()));
-    txtGiaTienMA.setText(String.valueOf(monAn.getGiaTien()));
+  public void loadMonAn(List<MonAn> list) {
+    dsMonAn.getChildren().clear();
+    Node node;
+    FXMLLoader fx;
+    for (MonAn ma : list) {
+      try {
+        fx = new FXMLLoader(getClass().getResource("/view/ItemMonAn.fxml"));
+        node = fx.load();
+        node.applyCss();
+        ItemMonAnController ict = fx.getController();
+        ict.loadData(ma);
+        ict.setMonAnMGCT(this);
+        dsMonAn.getChildren().add(node);
+        
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+    }
   }
   
   public void xoaInput() {
+    idMonAnUpdate = "";
     txtTenMonAn.setText("");
     txtMoTaMA.setText("");
     txtSoLuongNguoiMA.setText("");
     txtGiaTienMA.setText("");
     txtTenMonAn.requestFocus();
-    hinhAnh = "/images/icon-food-and-drink-hd-png-download.png";
-    Image image = new Image("file:./src/images/icon-food-and-drink-hd-png-download.png", 200, 150, false, true);
+    hinhAnh = "/images/food-view.png";
+    Image image = new Image("file:./src/images/food-view.png", 200, 150, false, true);
     imvHinhAnhMA.setImage(image);
   }
 }

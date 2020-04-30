@@ -5,6 +5,8 @@
 
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,47 +14,25 @@ import java.util.ResourceBundle;
 import org.hibernate.HibernateException;
 
 import database.BanAnDAO;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entites.BanAn;
-import entites.MonAn;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.FlowPane;
+import javafx.stage.FileChooser;
 
 public class BanAnManagerController implements Initializable {
 
-	@FXML
-	private TableView<BanAn> danhSachBanAn;
-	@FXML
-	private TableColumn<BanAn, String> hinhAnhColumn;
-	@FXML
-	private TableColumn<BanAn, String> idColumn;
-	@FXML
-	private TableColumn<BanAn, String> kySoBAColumn;
-	@FXML
-	private TableColumn<BanAn, String> moTaColumn;
-	@FXML
-	private TableColumn<BanAn, Integer> soLuongNguoiColumn;
-	@FXML
-	private TableColumn<BanAn, Long> giaTienColumn;
-	@FXML
-	private TableColumn<BanAn, Void> huyBAColumn;
+  private String idBanAnUpdate;
 	@FXML
 	private Button btnThemBanAn;
 	@FXML
@@ -60,17 +40,43 @@ public class BanAnManagerController implements Initializable {
 	@FXML
 	private TextField txtKySoBanAn;
 	@FXML
-	private TextField txtSoLuongNguoiBA;
+	private TextField txtSoLuongGheBA;
 	@FXML
 	private TextField txtGiaTienBA;
 	@FXML
 	private TextArea txtMoTaBA;
-
-	private ObservableList<BanAn> listBanAn;
-
-	private static String hinhAnh = "/images/icon-food-and-drink-hd-png-download.png";
-
+	
 	@FXML
+	private FlowPane dsBanAn;
+
+	private static String hinhAnh = "/images/table-view.png";
+
+	
+	public ImageView getImvHinhAnhBA() {
+    return imvHinhAnhBA;
+  }
+
+  public TextField getTxtKySoBanAn() {
+    return txtKySoBanAn;
+  }
+
+  public TextField getTxtSoLuongGheBA() {
+    return txtSoLuongGheBA;
+  }
+
+  public TextField getTxtGiaTienBA() {
+    return txtGiaTienBA;
+  }
+
+  public TextArea getTxtMoTaBA() {
+    return txtMoTaBA;
+  }
+
+  public void setIdBanAnUpdate(String idBanAnUpdate) {
+    this.idBanAnUpdate = idBanAnUpdate;
+  }
+
+  @FXML
 	void themBanAn(ActionEvent e) {
 		String kySoBanAn = txtKySoBanAn.getText();
 		String soLuongNguoiString = "";
@@ -81,7 +87,7 @@ public class BanAnManagerController implements Initializable {
 		 * 
 		 * } else {
 		 */
-		soLuongNguoiString = txtSoLuongNguoiBA.getText();
+		soLuongNguoiString = txtSoLuongGheBA.getText();
 		giaTienString = txtGiaTienBA.getText();
 		moTa = txtMoTaBA.getText();
 		/* } */
@@ -110,7 +116,7 @@ public class BanAnManagerController implements Initializable {
 			alert.setTitle("Thêm bàn thành công");
 			alert.setContentText("Đã thêm bàn vào hệ thống");
 			alert.show();
-			loadBanAn();
+			loadAllBanAn();
 			/* } */
 
 		} catch (HibernateException ex1) {
@@ -131,7 +137,7 @@ public class BanAnManagerController implements Initializable {
 	@FXML
 	void suaBanAn(ActionEvent e) {
 		String kySoBanAn = txtKySoBanAn.getText();
-		String soLuongNguoiString = txtSoLuongNguoiBA.getText();
+		String soLuongNguoiString = txtSoLuongGheBA.getText();
 		String giaTienString = txtGiaTienBA.getText();
 		String moTa = txtMoTaBA.getText();
 
@@ -139,7 +145,7 @@ public class BanAnManagerController implements Initializable {
 			int soLuongNguoi = Integer.parseInt(soLuongNguoiString);
 			long giaTien = Long.parseLong(giaTienString);
 
-			BanAn banAn = new BanAn(danhSachBanAn.getSelectionModel().getSelectedItem().getMaBA(), kySoBanAn,
+			BanAn banAn = new BanAn(idBanAnUpdate, kySoBanAn,
 					soLuongNguoi, moTa, giaTien, true, false, hinhAnh);
 			new BanAnDAO().update(banAn);
 			xoaInput();
@@ -147,7 +153,7 @@ public class BanAnManagerController implements Initializable {
 			alert.setTitle("Cập nhật bàn thành công");
 			alert.setContentText("Đã cập nhật bàn vào hệ thống");
 			alert.show();
-			loadBanAn();
+			loadAllBanAn();
 
 		} catch (HibernateException ex1) {
 			// ex1.printStackTrace();
@@ -166,78 +172,53 @@ public class BanAnManagerController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		hinhAnhColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("hinhAnhBA"));
-		idColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("maBA"));
-		kySoBAColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("kySoBA"));
-		moTaColumn.setCellValueFactory(new PropertyValueFactory<BanAn, String>("motaBA"));
-		soLuongNguoiColumn.setCellValueFactory(new PropertyValueFactory<BanAn, Integer>("soLuongGhe"));
-		giaTienColumn.setCellValueFactory(new PropertyValueFactory<BanAn, Long>("giaTien"));
-		huyBAColumn.setCellFactory(param -> new TableCell<BanAn, Void>() {
-			private Button btnHuy = new Button("Hủy");
-
-			@Override
-			protected void updateItem(Void item, boolean empty) {
-				super.updateItem(item, empty);
-				btnHuy.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						try {
-							System.out.println("WF: "+getIndex());
-							danhSachBanAn.getSelectionModel().clearSelection();
-							danhSachBanAn.getSelectionModel().select(getIndex());
-							BanAn banAn = danhSachBanAn.getSelectionModel().getSelectedItem();
-							new BanAnDAO().delete(banAn);
-							Alert alert = new Alert(Alert.AlertType.INFORMATION);
-							alert.setTitle("Xóa bàn thành công");
-							alert.setContentText("Đã xóa bàn ăn trong hệ thống");
-							alert.show();
-							loadBanAn();
-						} catch (HibernateException ex1) {
-							ex1.printStackTrace();
-							Alert alert = new Alert(Alert.AlertType.ERROR);
-							alert.setTitle("Xóa bàn thất bại");
-							alert.setContentText("Đã xảy ra sự cố hãy thử lại");
-							alert.show();
-						} catch (Exception ex) {
-							ex.printStackTrace();
-							Alert alert = new Alert(Alert.AlertType.ERROR);
-							alert.setTitle("Xóa bàn thất bại");
-							alert.setContentText("Đã xảy ra sự cố hãy thử lại");
-							alert.show();
-						}
-					}
-				});
-				btnHuy.setTextFill(Color.WHITE);
-				FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.TIMES_CIRCLE);
-				icon.setSize("18");
-				icon.setFill(Color.WHITE);
-				btnHuy.setGraphic(icon);
-				setGraphic(empty ? null : btnHuy);
-			}
-		});
-		loadBanAn();
+		loadAllBanAn();
 	}
 
-	public void loadBanAn() {
-		List<BanAn> list = new BanAnDAO().getAll();
-		listBanAn = FXCollections.observableArrayList(list);
-		danhSachBanAn.setItems(listBanAn);
+	public void loadAllBanAn() {
+	  List<BanAn> list = new BanAnDAO().getAll();
+    loadBanAn(list);
 	}
-	public void chooseBanAn(MouseEvent event) {
-    BanAn banAn = danhSachBanAn.getSelectionModel().getSelectedItem();
-    txtKySoBanAn.setText(banAn.getKySoBA());
-    txtMoTaBA.setText(banAn.getMotaBA());
-    txtSoLuongNguoiBA.setText(String.valueOf(banAn.getSoLuongGhe()));
-    txtGiaTienBA.setText(String.valueOf(banAn.getGiaTien()));
+	public void loadBanAn(List<BanAn> list) {
+		dsBanAn.getChildren().clear();
+    Node node;
+    FXMLLoader fx;
+    for (BanAn b : list) {
+      try {
+        fx = new FXMLLoader(getClass().getResource("/view/ItemBanAn.fxml"));
+        node = fx.load();
+        node.applyCss();
+        ItemBanAnController ict = fx.getController();
+        ict.loadData(b);
+        ict.setMonAnMGCT(this);
+        dsBanAn.getChildren().add(node);
+        
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+    }
+	}
+	public void chooseImage(MouseEvent event) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Choose image");
+    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("image", "*.jpg", "*.png");
+    fileChooser.getExtensionFilters().add(filter);
+    File file = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
+    if (file != null) {
+      hinhAnh = file.getPath();
+      Image image = new Image(file.toURI().toString(), 200, 150, false, true);
+      imvHinhAnhBA.setImage(image);
+    }
   }
 	public void xoaInput() {
+	  idBanAnUpdate = "";
     txtKySoBanAn.setText("");
     txtMoTaBA.setText("");
-    txtSoLuongNguoiBA.setText("");
+    txtSoLuongGheBA.setText("");
     txtGiaTienBA.setText("");
     txtKySoBanAn.requestFocus();
-    hinhAnh = "/images/icon-food-and-drink-hd-png-download.png";
-    Image image = new Image("file:./src/images/icon-food-and-drink-hd-png-download.png", 200, 150, false, true);
+    hinhAnh = "/images/table-view.png";
+    Image image = new Image("file:./src/images/table-view.png", 200, 150, false, true);
     imvHinhAnhBA.setImage(image);
   }
 }
