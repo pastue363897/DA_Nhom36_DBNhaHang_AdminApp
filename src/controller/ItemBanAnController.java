@@ -73,6 +73,7 @@ public class ItemBanAnController implements Initializable {
     banAnMGCT.getTxtSoLuongGheBA().setText(String.valueOf(ttBanAn.getSoLuongGhe()));
     banAnMGCT.getTxtGiaTienBA().setText(String.valueOf(ttBanAn.getGiaTien()));
     banAnMGCT.getImvHinhAnhBA().setImage(new Image("file:./src" + ttBanAn.getHinhAnh(), 200, 165, false, true));
+    banAnMGCT.setIdBanAnUpdate(ttBanAn.getMaBA());
   }
   
   public void huyBanAn(ActionEvent e) {
