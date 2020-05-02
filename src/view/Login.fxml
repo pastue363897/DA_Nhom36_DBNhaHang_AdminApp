@@ -55,7 +55,7 @@
                               <Font size="18.0" />
                            </font>
                         </TextField>
-                        <Button fx:id="btnSignin" layoutX="148.0" layoutY="285.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="103.0" styleClass="button-sign-in" text="Sign in" />
+                        <Button fx:id="btnSignin" layoutX="148.0" layoutY="285.0" mnemonicParsing="false" onAction="#signIn" prefHeight="39.0" prefWidth="103.0" styleClass="button-sign-in" text="Sign in" />
                      </children>
                   </Pane>
                </children>
