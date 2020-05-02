@@ -7,18 +7,23 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import database.BanAnDAO;
+import database.TTBanDatDAO;
+import entites.BanAn;
+import entites.TTBanDat;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.TilePane;
 
 public class BanDatManagerController implements Initializable{
 
   @FXML
-  private VBox danhSachBanDat;
+  private TilePane dsBanDat;
   
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -26,21 +31,30 @@ public class BanDatManagerController implements Initializable{
   }
   private void refreshNodes()
   {
-      danhSachBanDat.getChildren().clear();
-      
-      Node[] nodes = new  Node[15];
-      
-      for(int i = 0; i<10; i++)
-      {
-          try {
-              nodes[i] = (Node)FXMLLoader.load(getClass().getResource("/view/ItemBanDat.fxml"));
-              danhSachBanDat.getChildren().add(nodes[i]);
-              
-          } catch (IOException ex) {
-              ex.printStackTrace();
-          }
-         
-      }  
+      loadAllBanDat();
+  }
+  public void loadAllBanDat() {
+    List<TTBanDat> list = new TTBanDatDAO().getAll();
+    loadBanDat(list);
+  }
+  public void loadBanDat(List<TTBanDat> list) {
+    dsBanDat.getChildren().clear();
+    Node node;
+    FXMLLoader fx;
+    for (TTBanDat b : list) {
+      try {
+        fx = new FXMLLoader(getClass().getResource("/view/ItemBanDat.fxml"));
+        node = fx.load();
+        node.applyCss();
+        ItemTTBanDatController ict = fx.getController();
+        ict.loadData(b);
+        ict.setBanDatMGCT(this);
+        dsBanDat.getChildren().add(node);
+        
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+    }
   }
   
 }

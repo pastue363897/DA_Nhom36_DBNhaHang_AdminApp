@@ -63,7 +63,7 @@ public class ItemBanAnController implements Initializable {
     ttBanAn = b;
   }
   
-  public void setMonAnMGCT(BanAnManagerController banAnMGCT) {
+  public void setBanAnMGCT(BanAnManagerController banAnMGCT) {
     this.banAnMGCT = banAnMGCT;
   }
   

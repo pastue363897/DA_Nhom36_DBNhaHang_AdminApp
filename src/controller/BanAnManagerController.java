@@ -190,7 +190,7 @@ public class BanAnManagerController implements Initializable {
         node.applyCss();
         ItemBanAnController ict = fx.getController();
         ict.loadData(b);
-        ict.setMonAnMGCT(this);
+        ict.setBanAnMGCT(this);
         dsBanAn.getChildren().add(node);
         
       } catch (IOException ex) {

@@ -7,6 +7,10 @@
 .item-name {
 	-fx-font-weight: bold;
 }
+.item-bandat {
+    -fx-background-color: WHITE;
+    -fx-background-radius: 15px;
+}
 .button {
 	-fx-text-fill: WHITE;
 	-fx-background-radius: 50px;
@@ -38,4 +42,17 @@
 .pane-item-footer {
     -fx-background-radius: 0 0 15px 15px;
     -fx-background-color: rgba(166, 0, 30, 1);
+}
+.status {
+    -fx-text-fill: WHITE;
+    -fx-background-radius: 5px;
+}
+.status-paid {
+    -fx-background-color: rgba(82, 252, 3, 1);
+}
+.status-unpaid {
+    -fx-background-color: rgba(47, 181, 179, 1);
+}
+.status-cancel {
+    -fx-background-color: rgba(189, 26, 26, 1);
 }

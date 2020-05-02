@@ -1,8 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
-
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="165.0" prefWidth="460.0" styleClass="item-bandat" stylesheets="@../css/style-item.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ItemTTBanDatController">
+   <children>
+      <ImageView fx:id="imvBanAn" fitHeight="165.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/table-view.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="233.0" prefHeight="27.0" prefWidth="95.0" text="Ngày đặt" textFill="#50cd6f">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDateDat" layoutX="235.0" layoutY="18.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#50cd6f">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMonthDat" layoutX="275.0" layoutY="23.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#50cd6f">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblYearDat" layoutX="275.0" layoutY="38.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#50cd6f">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="333.0" layoutY="1.0" prefHeight="27.0" prefWidth="124.0" text="Ngày phục vụ" textFill="#d72a2a">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDatePhucVu" layoutX="335.0" layoutY="19.0" prefHeight="53.0" prefWidth="44.0" text="30" textFill="#d72a2a">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMonthPhucVu" layoutX="375.0" layoutY="24.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#d72a2a">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblYearPhucVu" layoutX="375.0" layoutY="39.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#d72a2a">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Separator layoutX="316.0" layoutY="5.0" orientation="VERTICAL" prefHeight="53.0" prefWidth="12.0" />
+      <Separator layoutX="226.0" layoutY="61.0" prefHeight="16.0" prefWidth="215.0" />
+      <FontAwesomeIconView fill="#cdb21c" glyphName="USER" layoutX="229.0" layoutY="92.0" size="16" />
+      <FontAwesomeIconView fill="#cdb21c" glyphName="YELP" layoutX="229.0" layoutY="120.0" size="16" />
+      <FontAwesomeIconView fill="#cdb21c" glyphName="DOLLAR" layoutX="335.0" layoutY="122.0" size="16" />
+      <FontAwesomeIconView fill="#cdb21c" glyphName="INFO_CIRCLE" layoutX="230.0" layoutY="149.0" size="16" />
+      <Label fx:id="lblHoTenKhachHang" layoutX="250.0" layoutY="74.0" prefHeight="26.0" prefWidth="194.0" text="Nguyen Van A">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblKySoBanAn" layoutX="250.0" layoutY="103.0" prefHeight="26.0" prefWidth="87.0" text="BA001">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTongTien" layoutX="347.0" layoutY="103.0" prefHeight="26.0" prefWidth="110.0" text="100.000.000 Đ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Button layoutX="367.0" layoutY="129.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="73.0" styleClass="button-chitiet" text="Chi tiết" />
+      <StackPane layoutX="248.0" layoutY="131.0" prefHeight="26.0" prefWidth="110.0" styleClass="pane-background">
+         <children>
+            <Label fx:id="lblDaThanhToan" alignment="CENTER" prefHeight="19.0" prefWidth="92.0" text="Đã thanh toán" visible="false">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="status-paid" />
+                  <String fx:value="status" />
+               </styleClass>
+            </Label>
+            <Label fx:id="lblDaHuy" alignment="CENTER" prefHeight="19.0" prefWidth="91.0" text="Đã hủy" visible="false">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="status-cancel" />
+                  <String fx:value="status" />
+               </styleClass>
+            </Label>
+            <Label fx:id="lblChuaThanhToan" alignment="CENTER" text="Chưa thanh toán">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="status-unpaid" />
+                  <String fx:value="status" />
+               </styleClass>
+            </Label>
+         </children>
+      </StackPane>
+   </children>
+</Pane>
