@@ -48,8 +48,8 @@ public class MonAnManagerController implements Initializable {
 	@FXML
 	private FlowPane dsMonAn;
 
-	private String chosenFileExtension;
-	private File chosenHinhAnh;
+	private String chosenFileExtension = FilenameUtils.getExtension("./src/images/food-view.png");
+	private File chosenHinhAnh = new File("./src/images/food-view.png");
 	private String currentHinhAnh;
 	private static String hinhAnh = "/images/food-view.png";
 

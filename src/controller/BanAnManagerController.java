@@ -54,8 +54,8 @@ public class BanAnManagerController implements Initializable {
 	@FXML
 	private FlowPane dsBanAn;
 
-	private String chosenFileExtension;
-	private File chosenHinhAnh;
+	private String chosenFileExtension = FilenameUtils.getExtension("./src/images/table-view.png");
+	private File chosenHinhAnh = new File("./src/images/table-view.png");
 	private String currentHinhAnh;
 	private static String hinhAnh = "/images/table-view.png";
 
