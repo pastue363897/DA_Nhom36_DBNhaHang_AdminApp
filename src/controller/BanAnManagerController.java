@@ -6,13 +6,18 @@
 package controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FilenameUtils;
 import org.hibernate.HibernateException;
 
+import application.PrimaryConf;
 import database.BanAnDAO;
 import entites.BanAn;
 import javafx.event.ActionEvent;
@@ -32,7 +37,7 @@ import javafx.stage.FileChooser;
 
 public class BanAnManagerController implements Initializable {
 
-  private String idBanAnUpdate;
+	private String idBanAnUpdate;
 	@FXML
 	private Button btnThemBanAn;
 	@FXML
@@ -45,38 +50,52 @@ public class BanAnManagerController implements Initializable {
 	private TextField txtGiaTienBA;
 	@FXML
 	private TextArea txtMoTaBA;
-	
+
 	@FXML
 	private FlowPane dsBanAn;
 
+	private String chosenFileExtension;
+	private File chosenHinhAnh;
+	private String currentHinhAnh;
 	private static String hinhAnh = "/images/table-view.png";
 
-	
 	public ImageView getImvHinhAnhBA() {
-    return imvHinhAnhBA;
-  }
+		return imvHinhAnhBA;
+	}
 
-  public TextField getTxtKySoBanAn() {
-    return txtKySoBanAn;
-  }
+	public TextField getTxtKySoBanAn() {
+		return txtKySoBanAn;
+	}
 
-  public TextField getTxtSoLuongGheBA() {
-    return txtSoLuongGheBA;
-  }
+	public TextField getTxtSoLuongGheBA() {
+		return txtSoLuongGheBA;
+	}
 
-  public TextField getTxtGiaTienBA() {
-    return txtGiaTienBA;
-  }
+	public TextField getTxtGiaTienBA() {
+		return txtGiaTienBA;
+	}
 
-  public TextArea getTxtMoTaBA() {
-    return txtMoTaBA;
-  }
+	public TextArea getTxtMoTaBA() {
+		return txtMoTaBA;
+	}
 
-  public void setIdBanAnUpdate(String idBanAnUpdate) {
-    this.idBanAnUpdate = idBanAnUpdate;
-  }
+	public void setIdBanAnUpdate(String idBanAnUpdate) {
+		this.idBanAnUpdate = idBanAnUpdate;
+	}
 
-  @FXML
+	public void setChosenFileExtension(String chosenFileExtension) {
+		this.chosenFileExtension = chosenFileExtension;
+	}
+
+	public void setChosenHinhAnh(File chosenHinhAnh) {
+		this.chosenHinhAnh = chosenHinhAnh;
+	}
+
+	public void setCurrentHinhAnh(String currentHinhAnh) {
+		this.currentHinhAnh = currentHinhAnh;
+	}
+
+	@FXML
 	void themBanAn(ActionEvent e) {
 		String kySoBanAn = txtKySoBanAn.getText();
 		String soLuongNguoiString = "";
@@ -108,9 +127,21 @@ public class BanAnManagerController implements Initializable {
 			int soLuongNguoi = Integer.parseInt(soLuongNguoiString);
 			long giaTien = Long.parseLong(giaTienString);
 
-			BanAn banAn = new BanAn(kySoBanAn, soLuongNguoi, moTa, giaTien, true, false,
-					hinhAnh);
-			new BanAnDAO().addBanAn(banAn);
+			String dataPath = "images/ban-an/" + chosenHinhAnh.getName();
+			BanAn banAn = new BanAn(kySoBanAn, soLuongNguoi, moTa, giaTien, true, false, dataPath);
+			String id = new BanAnDAO().addBanAn(banAn);
+
+			String imageSavePath = PrimaryConf.CUSTOM_FILE_PATH_HEAD + "images/ban-an/" + id
+					+ PrimaryConf.TABLE_IMAGE_DEFAULT_SUFFIX + "." + chosenFileExtension;
+			FileInputStream fis = null;
+			byte[] bArray = new byte[(int) chosenHinhAnh.length()];
+			fis = new FileInputStream(chosenHinhAnh);
+			fis.read(bArray);
+			OutputStream outStream = new FileOutputStream(imageSavePath);
+			outStream.write(bArray);
+			fis.close();
+			outStream.close();
+
 			xoaInput();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Thêm bàn thành công");
@@ -126,7 +157,7 @@ public class BanAnManagerController implements Initializable {
 			alert.setContentText("Đã xảy ra sự cố hãy thử lại");
 			alert.show();
 		} catch (Exception ex) {
-			// ex.printStackTrace();
+			ex.printStackTrace();
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Thêm bàn thất bại");
 			alert.setContentText("Đã xảy ra sự cố hãy thử lại");
@@ -145,9 +176,26 @@ public class BanAnManagerController implements Initializable {
 			int soLuongNguoi = Integer.parseInt(soLuongNguoiString);
 			long giaTien = Long.parseLong(giaTienString);
 
-			BanAn banAn = new BanAn(idBanAnUpdate, kySoBanAn,
-					soLuongNguoi, moTa, giaTien, true, false, hinhAnh);
-			new BanAnDAO().update(banAn);
+			String newDataPath = "images/ban-an/" + chosenHinhAnh.getName();
+			BanAn banAn = new BanAn(idBanAnUpdate, kySoBanAn, soLuongNguoi, moTa, giaTien, true, false, newDataPath);
+			new BanAnDAO().suaBanAn(banAn);
+
+			if (!FilenameUtils.getName(currentHinhAnh).equals(chosenHinhAnh.getName())) {
+				File file = new File(currentHinhAnh);
+				file.delete();
+			}
+
+			String imageSavePath = PrimaryConf.CUSTOM_FILE_PATH_HEAD + "images/ban-an/" + idBanAnUpdate
+					+ PrimaryConf.TABLE_IMAGE_DEFAULT_SUFFIX + "." + chosenFileExtension;
+			FileInputStream fis = null;
+			byte[] bArray = new byte[(int) chosenHinhAnh.length()];
+			fis = new FileInputStream(chosenHinhAnh);
+			fis.read(bArray);
+			fis.close();
+			OutputStream outStream = new FileOutputStream(imageSavePath);
+			outStream.write(bArray);
+			outStream.close();
+
 			xoaInput();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Cập nhật bàn thành công");
@@ -176,49 +224,56 @@ public class BanAnManagerController implements Initializable {
 	}
 
 	public void loadAllBanAn() {
-	  List<BanAn> list = new BanAnDAO().getAll();
-    loadBanAn(list);
+		List<BanAn> list = new BanAnDAO().getAll();
+		loadBanAn(list);
 	}
+
 	public void loadBanAn(List<BanAn> list) {
 		dsBanAn.getChildren().clear();
-    Node node;
-    FXMLLoader fx;
-    for (BanAn b : list) {
-      try {
-        fx = new FXMLLoader(getClass().getResource("/view/ItemBanAn.fxml"));
-        node = fx.load();
-        node.applyCss();
-        ItemBanAnController ict = fx.getController();
-        ict.loadData(b);
-        ict.setBanAnMGCT(this);
-        dsBanAn.getChildren().add(node);
-        
-      } catch (IOException ex) {
-        ex.printStackTrace();
-      }
-    }
+		Node node;
+		FXMLLoader fx;
+		for (BanAn b : list) {
+			try {
+				fx = new FXMLLoader(getClass().getResource("/view/ItemBanAn.fxml"));
+				node = fx.load();
+				node.applyCss();
+				ItemBanAnController ict = fx.getController();
+				ict.loadData(b);
+				ict.setBanAnMGCT(this);
+				dsBanAn.getChildren().add(node);
+
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
+
 	public void chooseImage(MouseEvent event) {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Choose image");
-    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("image", "*.jpg", "*.png");
-    fileChooser.getExtensionFilters().add(filter);
-    File file = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
-    if (file != null) {
-      hinhAnh = file.getPath();
-      Image image = new Image(file.toURI().toString(), 200, 150, false, true);
-      imvHinhAnhBA.setImage(image);
-    }
-  }
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Choose image");
+		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("image", "*.jpg", "*.png");
+		fileChooser.getExtensionFilters().add(filter);
+		File file = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
+		if (file != null) {
+			hinhAnh = file.getPath();
+			Image image = new Image(file.toURI().toString(), 200, 150, false, true);
+			chosenHinhAnh = file;
+			chosenFileExtension = FilenameUtils.getExtension(file.getPath());
+			imvHinhAnhBA.setImage(image);
+		}
+	}
+
 	public void xoaInput() {
-	  idBanAnUpdate = "";
-    txtKySoBanAn.setText("");
-    txtMoTaBA.setText("");
-    txtSoLuongGheBA.setText("");
-    txtGiaTienBA.setText("");
-    txtKySoBanAn.requestFocus();
-    hinhAnh = "/images/table-view.png";
-    Image image = new Image("file:./src/images/table-view.png", 200, 150, false, true);
-    imvHinhAnhBA.setImage(image);
-  }
+		idBanAnUpdate = "";
+		txtKySoBanAn.setText("");
+		txtMoTaBA.setText("");
+		txtSoLuongGheBA.setText("");
+		txtGiaTienBA.setText("");
+		txtKySoBanAn.requestFocus();
+		hinhAnh = "/images/table-view.png";
+		Image image = new Image("file:./src/images/table-view.png", 200, 150, false, true);
+		chosenHinhAnh = new File("./src/images/table-view.png");
+		chosenFileExtension = FilenameUtils.getExtension("./src/images/table-view.png");
+		imvHinhAnhBA.setImage(image);
+	}
 }
