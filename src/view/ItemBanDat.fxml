@@ -79,7 +79,7 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <Button layoutX="367.0" layoutY="129.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="73.0" styleClass="button-chitiet" text="Chi tiết" />
+      <Button layoutX="367.0" layoutY="129.0" mnemonicParsing="false" onAction="#chiTietBanDat" prefHeight="31.0" prefWidth="73.0" styleClass="button-chitiet" text="Chi tiết" />
       <StackPane layoutX="248.0" layoutY="131.0" prefHeight="26.0" prefWidth="110.0" styleClass="pane-background">
          <children>
             <Label fx:id="lblDaThanhToan" alignment="CENTER" prefHeight="19.0" prefWidth="92.0" text="Đã thanh toán" visible="false">

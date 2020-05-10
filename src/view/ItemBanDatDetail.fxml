@@ -4,14 +4,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="539.0" prefWidth="807.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane prefHeight="539.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ItemTTBanDatDetailController">
    <children>
       <Pane prefHeight="140.0" prefWidth="806.0">
          <children>
@@ -40,17 +40,17 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="554.0" layoutY="50.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#6f6d6d">
+            <Label fx:id="lblNgayDat" layoutX="554.0" layoutY="50.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#6f6d6d">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label layoutX="598.0" layoutY="51.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#6f6d6d">
+            <Label fx:id="lblThangDat" layoutX="598.0" layoutY="51.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#6f6d6d">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="598.0" layoutY="70.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
+            <Label fx:id="lblNamDat" layoutX="598.0" layoutY="70.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
                <font>
                   <Font size="14.0" />
                </font>
@@ -61,37 +61,37 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="654.0" layoutY="51.0" prefHeight="53.0" prefWidth="44.0" text="30" textFill="#6f6d6d">
+            <Label fx:id="lblNgayPhucVu" layoutX="654.0" layoutY="51.0" prefHeight="53.0" prefWidth="44.0" text="30" textFill="#6f6d6d">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label layoutX="698.0" layoutY="52.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#6f6d6d">
+            <Label fx:id="lblThangPhucVu" layoutX="698.0" layoutY="52.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#6f6d6d">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="698.0" layoutY="71.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
+            <Label fx:id="lblNamPhucVu" layoutX="698.0" layoutY="71.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="207.0" layoutY="13.0" prefHeight="27.0" prefWidth="95.0" text="KH001">
+            <Label fx:id="lblMaKH" layoutX="207.0" layoutY="13.0" prefHeight="27.0" prefWidth="95.0" text="KH001">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="127.0" layoutY="42.0" prefHeight="27.0" prefWidth="374.0" text="Nguyễn Văn A">
+            <Label fx:id="lblTenKH" layoutX="127.0" layoutY="42.0" prefHeight="27.0" prefWidth="374.0" text="Nguyễn Văn A">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="125.0" layoutY="107.0" prefHeight="27.0" prefWidth="146.0" text="81273481234">
+            <Label fx:id="lblSoCMND" layoutX="125.0" layoutY="107.0" prefHeight="27.0" prefWidth="146.0" text="81273481234">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="127.0" layoutY="76.0" prefHeight="27.0" prefWidth="344.0" text="12 abc, quận 3, Thành phố Hồ Chí Minh">
+            <Label fx:id="lblDiaChiKH" layoutX="127.0" layoutY="76.0" prefHeight="27.0" prefWidth="344.0" text="12 abc, quận 3, Thành phố Hồ Chí Minh">
                <font>
                   <Font size="18.0" />
                </font>
@@ -99,13 +99,13 @@
          </children>
       </Pane>
       <Separator layoutX="35.0" layoutY="137.0" prefHeight="16.0" prefWidth="743.0" />
-      <Pane layoutX="35.0" layoutY="177.0" prefHeight="129.0" prefWidth="743.0" />
+      <Pane fx:id="txtTTBanAn" layoutX="35.0" layoutY="177.0" prefHeight="129.0" prefWidth="374.0" />
       <Label layoutX="45.0" layoutY="153.0" text="Thông tin bàn">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Pane layoutX="32.0" layoutY="341.0" prefHeight="129.0" prefWidth="743.0" />
+      <Pane fx:id="txtTTMonAn" layoutX="32.0" layoutY="341.0" prefHeight="129.0" prefWidth="374.0" />
       <Label layoutX="47.0" layoutY="316.0" text="Thông tin món ăn">
          <font>
             <Font size="16.0" />
@@ -113,33 +113,9 @@
       </Label>
       <Pane layoutY="480.0" prefHeight="59.0" prefWidth="807.0" style="-fx-background-color: #aba7a7;">
          <children>
-            <Label layoutX="44.0" layoutY="25.0" text="Tổng tiền:" textFill="#1552d7">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="135.0" layoutY="25.0" text="10000 Đ" textFill="#1552d7">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
             <StackPane layoutX="579.0" layoutY="14.0" prefHeight="43.0" prefWidth="214.0">
                <children>
-                  <HBox prefHeight="23.0" prefWidth="214.0" spacing="10.0">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="126.0" text="Thanh toán">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="CHECK" size="15" />
-                           </graphic>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="67.0" text="Hủy">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="CLOSE" size="15" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
-                  <Label text="Đã hủy" textFill="#c61c1c" visible="false">
+                  <Label fx:id="lblDaHuy" text="Đã hủy" textFill="#c61c1c" visible="false">
                      <graphic>
                         <FontAwesomeIconView fill="#ab1212" glyphName="TIMES_CIRCLE" size="18" />
                      </graphic>
@@ -147,7 +123,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label text="Đã thanh toán" textFill="#22781b" visible="false">
+                  <Label fx:id="lblDaThanhToan" text="Đã thanh toán" textFill="#22781b" visible="false">
                      <graphic>
                         <FontAwesomeIconView fill="#22781b" glyphName="CHECK_SQUARE_ALT" size="18" />
                      </graphic>
@@ -155,9 +131,58 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
+                  <HBox alignment="TOP_CENTER" prefHeight="43.0" prefWidth="188.0" spacing="10.0" />
                </children>
             </StackPane>
          </children>
       </Pane>
+      <Label layoutX="443.0" layoutY="178.0" text="Tổng tiền:" textFill="#1552d7">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTongTien" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="582.0" layoutY="178.0" prefHeight="27.0" prefWidth="190.0" text="10000 Đ" textAlignment="RIGHT" textFill="#1552d7">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="443.0" layoutY="228.0" prefHeight="59.0" prefWidth="135.0" text="Tiền khách hàng thanh toán:" textFill="#1552d7" wrapText="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="443.0" layoutY="303.0" prefHeight="25.0" prefWidth="135.0" text="Tiền thối lại:" textFill="#1552d7" wrapText="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTienThoiLai" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="591.0" layoutY="303.0" prefHeight="27.0" prefWidth="181.0" text="10000 Đ" textFill="#1552d7">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="578.0" layoutY="238.0" onAction="#setTienKhachDua" prefHeight="39.0" prefWidth="181.0" promptText="Nhập số tièn khách đưa vào đây" text="15000">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <Label layoutX="759.0" layoutY="244.0" text="Đ" textFill="#1552d7">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnHuyBan" layoutX="566.0" layoutY="406.0" mnemonicParsing="false" onAction="#huyBan" prefHeight="36.0" prefWidth="95.0" text="Hủy bàn">
+         <graphic>
+            <FontAwesomeIconView glyphName="CLOSE" size="15" />
+         </graphic>
+      </Button>
+      <Button fx:id="btnThanhToan" layoutX="488.0" layoutY="341.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="53.0" prefWidth="251.0" text="Thanh toán">
+         <graphic>
+            <FontAwesomeIconView glyphName="CHECK" size="15" />
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -36,6 +36,8 @@ public class HomeManagerController implements Initializable {
 	private AnchorPane banAn;
 	@FXML
 	private AnchorPane monAn;
+	
+	public static Stage primaryStage;
 
 	public void navigationBar(ActionEvent e) {
 		if (e.getSource() == btnBanDatManager) {

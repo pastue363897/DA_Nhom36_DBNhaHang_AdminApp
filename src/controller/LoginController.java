@@ -50,6 +50,7 @@ public class LoginController {
 				stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng");
 				Scene scene = new Scene(root);
 				stage.setScene(scene);
+				HomeManagerController.primaryStage = stage;
 				stage.show();
 			} catch (IOException e) {
 				e.printStackTrace();
