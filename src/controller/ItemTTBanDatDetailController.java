@@ -2,7 +2,9 @@ package controller;
 
 import java.net.URL;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import org.hibernate.HibernateException;
@@ -175,7 +177,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 			return;
     	}
     	try {
-	    	ChiTietThanhToan ct = new ChiTietThanhToan(ttBanDat.getMaBD(), ttBanDat.getTongTien(), ttBanDat.getTongTien() + tienThoi , tienThoi, Date.valueOf(LocalDate.now()));
+	    	ChiTietThanhToan ct = new ChiTietThanhToan(ttBanDat.getMaBD(), ttBanDat.getTongTien(), ttBanDat.getTongTien() + tienThoi , tienThoi, Timestamp.valueOf(LocalDateTime.now()));
 	    	ChiTietThanhToanDAO ctttDao = new ChiTietThanhToanDAO();
 	    	String idCTTT = ctttDao.save(ct);
 	    	
