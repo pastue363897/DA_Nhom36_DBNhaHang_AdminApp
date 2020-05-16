@@ -11,11 +11,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import database.BanAnDAO;
-import database.HoaDonDAO;
-import database.TTBanDatDAO;
+import database.HoaDonBanDatDAO;
 import entites.BanAn;
-import entites.HoaDon;
-import entites.TTBanDat;
+import entites.HoaDonBanDat;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,22 +34,20 @@ public class BanDatManagerController implements Initializable{
       loadAllBanDat();
   }
   public void loadAllBanDat() {
-    List<TTBanDat> list = new TTBanDatDAO().getDSTTBanDat();
+    List<HoaDonBanDat> list = new HoaDonBanDatDAO().getDSTTBanDat();
     loadBanDat(list);
   }
-  public void loadBanDat(List<TTBanDat> list) {
-    HoaDonDAO hdDao = new HoaDonDAO();
+  public void loadBanDat(List<HoaDonBanDat> list) {
     dsBanDat.getChildren().clear();
     Node node;
     FXMLLoader fx;
-    for (TTBanDat b : list) {
+    for (HoaDonBanDat b : list) {
       try {
         fx = new FXMLLoader(getClass().getResource("/view/ItemBanDat.fxml"));
         node = fx.load();
         node.applyCss();
         ItemTTBanDatController ict = fx.getController();
-        HoaDon hd = hdDao.get(b.getMaBD());
-        ict.loadData(b,hd);
+        ict.loadData(b);
         ict.setBanDatMGCT(this);
         dsBanDat.getChildren().add(node);
         

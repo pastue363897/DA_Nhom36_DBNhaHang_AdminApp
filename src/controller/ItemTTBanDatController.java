@@ -9,10 +9,8 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
-import database.HoaDonDAO;
-import database.TTBanDatDAO;
-import entites.HoaDon;
-import entites.TTBanDat;
+import database.HoaDonBanDatDAO;
+import entites.HoaDonBanDat;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,9 +36,9 @@ public class ItemTTBanDatController {
 	private Label lblDaThanhToan, lblDaHuy, lblChuaThanhToan;
 
 	private BanDatManagerController banDatMGCT;
-	private TTBanDat ttBanDat;
+	private HoaDonBanDat ttBanDat;
 
-	public void loadData(TTBanDat b, HoaDon hd) {
+	public void loadData(HoaDonBanDat b) {
 		lblDateDat.setText(stringDate(b.getNgayDatBan().getDate()));
 		lblMonthDat.setText(stringMonth(b.getNgayDatBan().getMonth() + 1));
 		lblYearDat.setText(String.valueOf(b.getNgayDatBan().getYear() + 1900));
@@ -49,17 +47,20 @@ public class ItemTTBanDatController {
 		lblYearPhucVu.setText(String.valueOf(b.getNgayPhucVu().getYear() + 1900));
 		lblHoTenKhachHang.setText(b.getKhachHang().getHoTen());
 		lblKySoBanAn.setText(b.getBanAn().getKySoBA());
-		lblTongTien.setText(String.valueOf(b.tinhTongTien()) + " Đ");
-		showStatus(b,hd);
+		if(b.isDaThanhToan())
+			lblTongTien.setText(String.valueOf(b.getTongTien()) + " Đ");
+		else
+			lblTongTien.setText(String.valueOf(b.tinhTongTien()) + " Đ");
+		showStatus(b);
 		ttBanDat = b;
 	}
 
-	public void showStatus(TTBanDat b, HoaDon hd) {
+	public void showStatus(HoaDonBanDat b) {
 		if (b.isDaHuy()) {
 			lblDaThanhToan.setVisible(false);
 			lblDaHuy.setVisible(true);
 			lblChuaThanhToan.setVisible(false);
-		} else if (hd != null) {
+		} else if (b.isDaThanhToan()) {
 			lblDaThanhToan.setVisible(true);
 			lblDaHuy.setVisible(false);
 			lblChuaThanhToan.setVisible(false);
@@ -144,7 +145,7 @@ public class ItemTTBanDatController {
 			root.applyCss();
 			ItemTTBanDatDetailController ctr = fx.getController();
 			ctr.setBanDatMGCT(new BanDatManagerController());
-			ctr.loadData(new TTBanDatDAO().getTTBanDat(ttBanDat.getMaBD()), new HoaDonDAO().get(ttBanDat.getMaBD()));
+			ctr.loadData(new HoaDonBanDatDAO().getTTBanDat(ttBanDat.getMaBD()));
 			
 			Stage stage = new Stage();
 			stage.setResizable(false);

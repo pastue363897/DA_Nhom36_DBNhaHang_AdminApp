@@ -87,7 +87,7 @@
       <fx:include fx:id="monAn" source="MonAnManager.fxml" />
       <MenuBar layoutY="-2.0" prefHeight="32.0" prefWidth="1273.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Đặt bàn">
+          <Menu mnemonicParsing="false" text="Đặt bàn" visible="false">
             <items>
                   <MenuItem mnemonicParsing="false" text="Đặt bàn" />
               <MenuItem mnemonicParsing="false" text="Danh sách món ăn" />
@@ -98,7 +98,7 @@
                   <MenuItem mnemonicParsing="false" text="Tìm bàn" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Quản lý tài khoản">
+          <Menu mnemonicParsing="false" text="Quản lý tài khoản" visible="false">
             <items>
                   <MenuItem mnemonicParsing="false" text="Đăng ký người dùng" />
               <MenuItem mnemonicParsing="false" text="Quản lý tài khoản" />
