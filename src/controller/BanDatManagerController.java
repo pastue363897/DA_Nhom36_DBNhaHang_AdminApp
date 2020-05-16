@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import database.BanAnDAO;
+import database.HoaDonDAO;
 import database.TTBanDatDAO;
 import entites.BanAn;
+import entites.HoaDon;
 import entites.TTBanDat;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,10 +36,11 @@ public class BanDatManagerController implements Initializable{
       loadAllBanDat();
   }
   public void loadAllBanDat() {
-    List<TTBanDat> list = new TTBanDatDAO().getAll();
+    List<TTBanDat> list = new TTBanDatDAO().getDSTTBanDat();
     loadBanDat(list);
   }
   public void loadBanDat(List<TTBanDat> list) {
+    HoaDonDAO hdDao = new HoaDonDAO();
     dsBanDat.getChildren().clear();
     Node node;
     FXMLLoader fx;
@@ -47,7 +50,8 @@ public class BanDatManagerController implements Initializable{
         node = fx.load();
         node.applyCss();
         ItemTTBanDatController ict = fx.getController();
-        ict.loadData(b);
+        HoaDon hd = hdDao.get(b.getMaBD());
+        ict.loadData(b,hd);
         ict.setBanDatMGCT(this);
         dsBanDat.getChildren().add(node);
         

@@ -144,7 +144,7 @@ public class MonAnManagerController implements Initializable {
 			long giaTien = Long.parseLong(giaTienString);
 
 			String newDataPath = "images/mon-an/" + chosenHinhAnh.getName();
-			MonAn monAn = new MonAn(idMonAnUpdate, tenMonAn, moTa, soLuongNguoi, newDataPath, giaTien, false, false);
+			MonAn monAn = new MonAn(idMonAnUpdate, tenMonAn, moTa, soLuongNguoi, newDataPath, giaTien, false);
 			new MonAnDAO().suaMonAn(monAn);
 
 			if (!FilenameUtils.getName(currentHinhAnh).equals(chosenHinhAnh.getName())) {

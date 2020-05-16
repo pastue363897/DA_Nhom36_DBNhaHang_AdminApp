@@ -9,9 +9,9 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
-import database.ChiTietThanhToanDAO;
+import database.HoaDonDAO;
 import database.TTBanDatDAO;
-import entites.ChiTietThanhToan;
+import entites.HoaDon;
 import entites.TTBanDat;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +40,7 @@ public class ItemTTBanDatController {
 	private BanDatManagerController banDatMGCT;
 	private TTBanDat ttBanDat;
 
-	public void loadData(TTBanDat b) {
+	public void loadData(TTBanDat b, HoaDon hd) {
 		lblDateDat.setText(stringDate(b.getNgayDatBan().getDate()));
 		lblMonthDat.setText(stringMonth(b.getNgayDatBan().getMonth() + 1));
 		lblYearDat.setText(String.valueOf(b.getNgayDatBan().getYear() + 1900));
@@ -49,17 +49,17 @@ public class ItemTTBanDatController {
 		lblYearPhucVu.setText(String.valueOf(b.getNgayPhucVu().getYear() + 1900));
 		lblHoTenKhachHang.setText(b.getKhachHang().getHoTen());
 		lblKySoBanAn.setText(b.getBanAn().getKySoBA());
-		lblTongTien.setText(String.valueOf(b.getTongTien()) + " Đ");
-		showStatus(b);
+		lblTongTien.setText(String.valueOf(b.tinhTongTien()) + " Đ");
+		showStatus(b,hd);
 		ttBanDat = b;
 	}
 
-	public void showStatus(TTBanDat b) {
+	public void showStatus(TTBanDat b, HoaDon hd) {
 		if (b.isDaHuy()) {
 			lblDaThanhToan.setVisible(false);
 			lblDaHuy.setVisible(true);
 			lblChuaThanhToan.setVisible(false);
-		} else if (b.isDaThanhToan()) {
+		} else if (hd != null) {
 			lblDaThanhToan.setVisible(true);
 			lblDaHuy.setVisible(false);
 			lblChuaThanhToan.setVisible(false);
@@ -144,7 +144,7 @@ public class ItemTTBanDatController {
 			root.applyCss();
 			ItemTTBanDatDetailController ctr = fx.getController();
 			ctr.setBanDatMGCT(new BanDatManagerController());
-			ctr.loadData(new TTBanDatDAO().get(ttBanDat.getMaBD()));
+			ctr.loadData(new TTBanDatDAO().getTTBanDat(ttBanDat.getMaBD()), new HoaDonDAO().get(ttBanDat.getMaBD()));
 			
 			Stage stage = new Stage();
 			stage.setResizable(false);

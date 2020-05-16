@@ -60,7 +60,7 @@ public class ItemBanAnController implements Initializable {
 		lblKySoBA.setText(b.getKySoBA().toUpperCase());
 		lblMoTaBA.setText(b.getMotaBA());
 		lblSoLuongGheBA.setText(String.valueOf(b.getSoLuongGhe()));
-		lblGiaTienBA.setText(String.valueOf(b.getGiaTien()) + " Đ");
+		lblGiaTienBA.setText(String.valueOf(b.getPhuGia()) + " Đ");
 		Image image = new Image("file:" + PrimaryConf.CUSTOM_FILE_PATH_HEAD + b.getHinhAnh(), 200, 150, false, true);
 		hinhAnhBanAn.setImage(image);
 		ttBanAn = b;
@@ -74,7 +74,7 @@ public class ItemBanAnController implements Initializable {
 		banAnMGCT.getTxtKySoBanAn().setText(ttBanAn.getKySoBA());
 		banAnMGCT.getTxtMoTaBA().setText(ttBanAn.getMotaBA());
 		banAnMGCT.getTxtSoLuongGheBA().setText(String.valueOf(ttBanAn.getSoLuongGhe()));
-		banAnMGCT.getTxtGiaTienBA().setText(String.valueOf(ttBanAn.getGiaTien()));
+		banAnMGCT.getTxtGiaTienBA().setText(String.valueOf(ttBanAn.getPhuGia()));
 		File chosenHinhAnh = new File(PrimaryConf.CUSTOM_FILE_PATH_HEAD + ttBanAn.getHinhAnh());
 		banAnMGCT.getImvHinhAnhBA().setImage(
 				new Image("file:" + PrimaryConf.CUSTOM_FILE_PATH_HEAD + ttBanAn.getHinhAnh(), 200, 165, false, true));

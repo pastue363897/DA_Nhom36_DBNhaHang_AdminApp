@@ -4,6 +4,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="696.0" prefWidth="1273.0" stylesheets="@../css/style-manager.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeManagerController">
+<AnchorPane prefHeight="720.0" prefWidth="1273.0" stylesheets="@../css/style-manager.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeManagerController">
    <children>
-      <VBox prefHeight="692.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="692.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="20.0">
          <children>
             <Pane prefHeight="151.0" prefWidth="375.0">
                <children>
@@ -82,5 +85,57 @@
       <fx:include fx:id="banDat" source="BanDatManager.fxml" />
       <fx:include fx:id="banAn" source="BanAnManager.fxml" />
       <fx:include fx:id="monAn" source="MonAnManager.fxml" />
+      <MenuBar layoutY="-2.0" prefHeight="32.0" prefWidth="1273.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Đặt bàn">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Đặt bàn" />
+              <MenuItem mnemonicParsing="false" text="Danh sách món ăn" />
+                  <MenuItem mnemonicParsing="false" text="Thông tin chi tiết món ăn" />
+                  <MenuItem mnemonicParsing="false" text="Chọn món" />
+                  <MenuItem mnemonicParsing="false" text="Tìm kiếm món ăn" />
+                  <MenuItem mnemonicParsing="false" text="Tìm thông tin bàn" />
+                  <MenuItem mnemonicParsing="false" text="Tìm bàn" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Quản lý tài khoản">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Đăng ký người dùng" />
+              <MenuItem mnemonicParsing="false" text="Quản lý tài khoản" />
+                  <MenuItem mnemonicParsing="false" text="Cập nhật tài khoản" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Quản lỳ bàn đặt">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Thêm bàn đặt" />
+              <MenuItem mnemonicParsing="false" text="Hủy bàn đặt" />
+                  <MenuItem mnemonicParsing="false" text="Tìm kiếm bàn đặt" />
+                  <MenuItem mnemonicParsing="false" text="Xem chi tiết" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Quản lý bàn ăn">
+              <items>
+                  <MenuItem mnemonicParsing="false" text="Thêm bàn ăn" />
+                <MenuItem mnemonicParsing="false" text="Hủy bàn ăn" />
+                  <MenuItem mnemonicParsing="false" text="Tìm kiếm bàn ăn" />
+                  <MenuItem mnemonicParsing="false" text="Sửa bàn ăn" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Quản lý món ăn">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Thêm món ăn" />
+                  <MenuItem mnemonicParsing="false" text="Hủy món ăn" />
+                  <MenuItem mnemonicParsing="false" text="Tìm kiếm món ăn" />
+                  <MenuItem mnemonicParsing="false" text="Sửa món ăn" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Quản lý khách hàng">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Quản lý khách hàng" />
+                  <MenuItem mnemonicParsing="false" text="Xem danh sách khách hàng" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

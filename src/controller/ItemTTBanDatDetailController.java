@@ -9,9 +9,9 @@ import java.util.ResourceBundle;
 
 import org.hibernate.HibernateException;
 
-import database.ChiTietThanhToanDAO;
+import database.HoaDonDAO;
 import database.TTBanDatDAO;
-import entites.ChiTietThanhToan;
+import entites.HoaDon;
 import entites.TTBanDat;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -86,7 +86,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 
 	private BanDatManagerController banDatMGCT;
 	private TTBanDat ttBanDat;
-	private ChiTietThanhToan chiTietThanhToan;
+	private HoaDon hoaDon;
 
 	public BanDatManagerController getBanDatMGCT() {
 		return banDatMGCT;
@@ -104,12 +104,12 @@ public class ItemTTBanDatDetailController implements Initializable {
 		this.ttBanDat = ttBanDat;
 	}
 	
-	public ChiTietThanhToan getChiTietThanhToan() {
-		return chiTietThanhToan;
+	public HoaDon getChiTietThanhToan() {
+		return hoaDon;
 	}
 
-	public void setChiTietThanhToan(ChiTietThanhToan chiTietThanhToan) {
-		this.chiTietThanhToan = chiTietThanhToan;
+	public void setChiTietThanhToan(HoaDon hoaDon) {
+		this.hoaDon = hoaDon;
 	}
 
 	@FXML
@@ -131,15 +131,16 @@ public class ItemTTBanDatDetailController implements Initializable {
 		});
 	}
 
-	public void loadData(TTBanDat bd) {
+	public void loadData(TTBanDat bd, HoaDon hd) {
 		ttBanDat = bd;
-		if(bd.isDaThanhToan())
-			chiTietThanhToan = bd.getChiTietThanhToan();
-		lblMaKH.setText(ttBanDat.getKhachHang().getMaKH());
+		hoaDon = hd;
+		lblMaKH.setText(ttBanDat.getKhachHang().getTaiKhoan().getMaTK());
 		lblTenKH.setText(ttBanDat.getKhachHang().getHoTen());
 		lblDiaChiKH.setText(ttBanDat.getKhachHang().getDiaChi());
 		lblSoCMND.setText(ttBanDat.getKhachHang().getCmnd());
-		lblTongTien.setText(String.valueOf(ttBanDat.getTongTien()) + " Đ");
+		lblTongTien.setText(String.valueOf(ttBanDat.tinhTongTien()) + " Đ");
+		if(hd != null)
+		  lblTongTien.setText(String.valueOf(hd.getTongTien()) + " Đ");
 		lblNgayDat.setText(stringDate(ttBanDat.getNgayDatBan().getDate()));
 		lblThangDat.setText(stringMonth(ttBanDat.getNgayDatBan().getMonth() + 1));
 		lblNamDat.setText(String.valueOf(ttBanDat.getNgayDatBan().getYear() + 1900));
@@ -177,14 +178,11 @@ public class ItemTTBanDatDetailController implements Initializable {
 			return;
     	}
     	try {
-	    	ChiTietThanhToan ct = new ChiTietThanhToan(ttBanDat.getMaBD(), ttBanDat.getTongTien(), ttBanDat.getTongTien() + tienThoi , tienThoi, Timestamp.valueOf(LocalDateTime.now()));
-	    	ChiTietThanhToanDAO ctttDao = new ChiTietThanhToanDAO();
-	    	String idCTTT = ctttDao.save(ct);
-	    	
-	    	TTBanDatDAO ttBDDao = new TTBanDatDAO();
-	    	ttBanDat.setDaThanhToan(true);
-	    	ttBanDat.setChiTietThanhToan(ctttDao.get(idCTTT));
-	    	ttBDDao.update(ttBanDat);
+	    	HoaDon ct = new HoaDon(ttBanDat, ttBanDat.tinhTongTien(), ttBanDat.tinhTongTien() + tienThoi , tienThoi, Timestamp.valueOf(LocalDateTime.now()));
+	    	HoaDonDAO ctttDao = new HoaDonDAO();
+	    	boolean f = ctttDao.themHoaDon(ct);
+	    	if(!f)
+	    	  throw new Exception("Cannot save");
 	    	
 	    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Thanh toán thành công");
@@ -196,6 +194,12 @@ public class ItemTTBanDatDetailController implements Initializable {
     		alert.setTitle("Thanh toán thất bại");
     		alert.setContentText("Có lỗi xảy ra, kiểm tra lại");
     		alert.show();
+    	}
+    	catch(Exception ex2) {
+    	  Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Thanh toán thất bại");
+        alert.setContentText("Có lỗi xảy ra, kiểm tra lại");
+        alert.show();
     	}
     	Stage frame = (Stage) btnThanhToan.getScene().getWindow();
     	frame.close();
@@ -260,7 +264,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 	private long tinhTienThoi() {
 		try {
 			long value = Long.parseLong(txtTienKhachDua.getText());
-			long charge = value - ttBanDat.getTongTien();
+			long charge = value - ttBanDat.tinhTongTien();
 			if (charge < 0) {
 				lblTienThoiLai.setText("Tiền đưa không đủ");
 				return -1;
@@ -279,10 +283,10 @@ public class ItemTTBanDatDetailController implements Initializable {
 	}
 	
 	public void updateTrangThai() {
-		if(ttBanDat.isDaThanhToan()) {
-			txtTienKhachDua.setText(String.valueOf(chiTietThanhToan.getTienDaDua()));
+		if(hoaDon != null) {
+			txtTienKhachDua.setText(String.valueOf(hoaDon.getTienDaDua()));
 			txtTienKhachDua.setEditable(false);
-			lblTienThoiLai.setText(String.valueOf(chiTietThanhToan.getTienThoiLai())+" Đ");
+			lblTienThoiLai.setText(String.valueOf(hoaDon.getTienThoiLai())+" Đ");
 			btnThanhToan.setVisible(false);
 			btnHuyBan.setVisible(false);
 			lblDaThanhToan.setVisible(true);

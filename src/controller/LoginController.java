@@ -29,7 +29,7 @@ public class LoginController {
 
 	@FXML
 	void signIn(ActionEvent event) {
-		// dang nhap ko password de debug: nhap username: DEBUG_LOGIN_1F59AC46 rui sign in
+		// dang nhap ko password de debug: nhap username: DEBUG_LOGIN rui sign in
 		String username = txtUserName.getText();
 		String password = txtPassWord.getText();
 		AdminDAO adminDao = new AdminDAO();
