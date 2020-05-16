@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class HomeManagerController implements Initializable {
@@ -27,6 +28,8 @@ public class HomeManagerController implements Initializable {
 	private Button btnBanAnManager;
 	@FXML
 	private Button btnMonAnManager;
+	@FXML
+	private Button btnDatBanKhachVangLai;
 	@FXML
 	private Button btnSignOut;
 
@@ -52,6 +55,25 @@ public class HomeManagerController implements Initializable {
 			banDat.setVisible(false);
 			banAn.setVisible(false);
 			monAn.setVisible(true);
+		}
+	}
+	
+	public void datBanKhachVangLai(ActionEvent e) {
+		Parent root;
+		try {
+			root = FXMLLoader.load(getClass().getResource("/view/DatBanKhachVangLaiManager.fxml"));
+			Stage stage = new Stage();
+			stage.setResizable(false);
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner(HomeManagerController.primaryStage);
+			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Đặt bàn cho khách vãng lai");
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.sizeToScene();
+			stage.centerOnScreen();
+			stage.show();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 

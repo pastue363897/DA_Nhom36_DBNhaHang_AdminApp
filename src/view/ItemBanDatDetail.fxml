@@ -161,7 +161,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="578.0" layoutY="238.0" onAction="#setTienKhachDua" prefHeight="39.0" prefWidth="181.0" promptText="Nhập số tièn khách đưa vào đây" text="15000">
+      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="578.0" layoutY="238.0" prefHeight="39.0" prefWidth="181.0" promptText="Nhập số tièn khách đưa vào đây" text="15000">
          <font>
             <Font size="18.0" />
          </font>
