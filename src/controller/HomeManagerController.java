@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -39,6 +40,38 @@ public class HomeManagerController implements Initializable {
 	private AnchorPane banAn;
 	@FXML
 	private AnchorPane monAn;
+	@FXML
+    private MenuItem menuDatBanVangLai;
+	@FXML
+    private MenuItem menuThemBanDat;
+    @FXML
+    private MenuItem menuHuyBanDat;
+    @FXML
+    private MenuItem menuTimKiemBanDat;
+    @FXML
+    private MenuItem menuXemChiTiet;
+    @FXML
+    private MenuItem menuThemBanAn;
+    @FXML
+    private MenuItem menuHuyBanAn;
+    @FXML
+    private MenuItem menuTimKiemBanAn;
+    @FXML
+    private MenuItem menuSuaBanAn;
+    @FXML
+    private MenuItem menuThemMonAn;
+    @FXML
+    private MenuItem menuHuyMonAn;
+    @FXML
+    private MenuItem menuTimKiemMonAn;
+    @FXML
+    private MenuItem menuSuaMonAn;
+    @FXML
+    private MenuItem menuQuanLyKhachHang;
+    @FXML
+    private MenuItem menuXemDanhSachKhachHang;
+    @FXML
+    private MenuItem menuTKDTBanDatTheoNgay;
 	
 	public static Stage primaryStage;
 
@@ -100,4 +133,57 @@ public class HomeManagerController implements Initializable {
 		banAn.setVisible(false);
 		monAn.setVisible(false);
 	}
+	
+	@FXML
+    void menuQLBanAn(ActionEvent event) {
+		banDat.setVisible(false);
+		banAn.setVisible(true);
+		monAn.setVisible(false);
+    }
+
+    @FXML
+    void menuQLBanDat(ActionEvent event) {
+    	if(event.getSource() == menuDatBanVangLai) {
+    		datBanKhachVangLai(null);
+    	}
+    	else {
+	    	banDat.setVisible(true);
+			banAn.setVisible(false);
+			monAn.setVisible(false);
+    	}
+    }
+
+    @FXML
+    void menuQLKhachHang(ActionEvent event) {
+
+    }
+
+    @FXML
+    void menuQLMonAn(ActionEvent event) {
+    	banDat.setVisible(false);
+		banAn.setVisible(false);
+		monAn.setVisible(true);
+    }
+
+    @FXML
+    void menuThongKe(ActionEvent event) {
+    	if(event.getSource() == menuTKDTBanDatTheoNgay) {
+    		Parent root;
+    		try {
+    			root = FXMLLoader.load(getClass().getResource("/view/ThongKeDoanhThuTheoNgay.fxml"));
+    			Stage stage = new Stage();
+    			stage.setResizable(false);
+    			stage.initModality(Modality.WINDOW_MODAL);
+    			stage.initOwner(HomeManagerController.primaryStage);
+    			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Đặt bàn cho khách vãng lai");
+    			Scene scene = new Scene(root);
+    			stage.setScene(scene);
+    			stage.sizeToScene();
+    			stage.centerOnScreen();
+    			stage.show();
+    		} catch (IOException e1) {
+    			e1.printStackTrace();
+    		}
+    	}
+    }
 }

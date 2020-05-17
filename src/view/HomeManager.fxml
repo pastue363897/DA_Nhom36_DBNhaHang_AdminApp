@@ -68,8 +68,7 @@
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
-            
+            </Button>     
             <Button fx:id="btnDatBanKhachVangLai" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#datBanKhachVangLai" prefHeight="62.0" prefWidth="300.0" stylesheets="@../css/style-left.css" text="Đặt bàn cho khách vãng lai" textFill="WHITE" wrapText="true">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="BOOK" size="32" />
@@ -119,33 +118,39 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Quản lỳ bàn đặt">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Thêm bàn đặt" />
-              <MenuItem mnemonicParsing="false" text="Hủy bàn đặt" />
-                  <MenuItem mnemonicParsing="false" text="Tìm kiếm bàn đặt" />
-                  <MenuItem mnemonicParsing="false" text="Xem chi tiết" />
+            	<MenuItem fx:id="menuDatBanVangLai" mnemonicParsing="false" onAction="#menuQLBanDat" text="Đặt bàn cho khách vãng lai" />
+                  <MenuItem fx:id="menuThemBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Thêm bàn đặt" />
+              <MenuItem fx:id="menuHuyBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Hủy bàn đặt" />
+                  <MenuItem fx:id="menuTimKiemBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Tìm kiếm bàn đặt" />
+                  <MenuItem fx:id="menuXemChiTiet" mnemonicParsing="false" onAction="#menuQLBanDat" text="Xem chi tiết" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Quản lý bàn ăn">
               <items>
-                  <MenuItem mnemonicParsing="false" text="Thêm bàn ăn" />
-                <MenuItem mnemonicParsing="false" text="Hủy bàn ăn" />
-                  <MenuItem mnemonicParsing="false" text="Tìm kiếm bàn ăn" />
-                  <MenuItem mnemonicParsing="false" text="Sửa bàn ăn" />
+                  <MenuItem fx:id="menuThemBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Thêm bàn ăn" />
+                <MenuItem fx:id="menuHuyBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Hủy bàn ăn" />
+                  <MenuItem fx:id="menuTimKiemBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Tìm kiếm bàn ăn" />
+                  <MenuItem fx:id="menuSuaBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Sửa bàn ăn" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Quản lý món ăn">
               <items>
-                <MenuItem mnemonicParsing="false" text="Thêm món ăn" />
-                  <MenuItem mnemonicParsing="false" text="Hủy món ăn" />
-                  <MenuItem mnemonicParsing="false" text="Tìm kiếm món ăn" />
-                  <MenuItem mnemonicParsing="false" text="Sửa món ăn" />
+                <MenuItem fx:id="menuThemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Thêm món ăn" />
+                  <MenuItem fx:id="menuHuyMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Hủy món ăn" />
+                  <MenuItem fx:id="menuTimKiemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Tìm kiếm món ăn" />
+                  <MenuItem fx:id="menuSuaMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Sửa món ăn" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Quản lý khách hàng">
               <items>
-                <MenuItem mnemonicParsing="false" text="Quản lý khách hàng" />
-                  <MenuItem mnemonicParsing="false" text="Xem danh sách khách hàng" />
+                <MenuItem fx:id="menuQuanLyKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Quản lý khách hàng" />
+                  <MenuItem fx:id="menuXemDanhSachKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Xem danh sách khách hàng" />
               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Thống kê">
+               <items>
+                  <MenuItem fx:id="menuTKDTBanDatTheoNgay" mnemonicParsing="false" onAction="#menuThongKe" text="Thống kê doanh thu bàn đặt theo ngày" />
+               </items>
             </Menu>
         </menus>
       </MenuBar>

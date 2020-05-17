@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="610.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ThongKeDoanhThuTheoNgayController">
+   <children>
+      <Label layoutX="30.0" layoutY="68.0" prefHeight="17.0" prefWidth="118.0" text="Từ ngày" />
+      <Label layoutX="30.0" layoutY="107.0" text="Đến ngày" />
+      <CheckBox fx:id="cbCoTaiKhoan" layoutX="299.0" layoutY="68.0" mnemonicParsing="false" onAction="#coTaiKhoanChange" text="Chỉ tính bàn được đặt bởi khách hàng có tài khoản" />
+      <Label layoutX="29.0" layoutY="143.0" text="Hay tìm các bàn được đặt:" visible="false" />
+      <Label layoutX="803.0" layoutY="145.0" text="Tổng doanh thu (giai đoạn được chọn)" />
+      <Label fx:id="lblTongDoanhThu" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1006.0" layoutY="139.0" prefHeight="27.0" prefWidth="156.0" text="500000 Đ" />
+      <Label layoutX="803.0" layoutY="257.0" text="Bàn đặt có doanh thu cao nhất" />
+      <Label fx:id="lblDoanhThuCaoNhat" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1006.0" layoutY="257.0" prefHeight="17.0" prefWidth="156.0" text="100000 Đ" textAlignment="RIGHT" />
+      <Label layoutX="803.0" layoutY="291.0" text="Bàn đặt có doanh thu thấp nhất" />
+      <Label fx:id="lblDoanhThuThapNhat" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1006.0" layoutY="287.0" prefHeight="27.0" prefWidth="156.0" text="100000 Đ" />
+      <Button fx:id="btnDong" layoutX="924.0" layoutY="355.0" mnemonicParsing="false" onAction="#dongGiaoDien" prefHeight="52.0" prefWidth="142.0" text="Đóng" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="30.0" layoutY="18.0" text="Thống kê doanh thu đặt bàn theo ngày">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="lvHoaDon" layoutX="26.0" layoutY="172.0" prefHeight="412.0" prefWidth="741.0">
+        <columns>
+          <TableColumn fx:id="maBD" prefWidth="82.0" text="Mã đặt bàn" />
+            <TableColumn fx:id="tenKH" prefWidth="165.0" text="Tên khách hàng " />
+            <TableColumn fx:id="soCMND" prefWidth="109.0" text="Số CMND" />
+            <TableColumn fx:id="kySoBA" minWidth="0.0" prefWidth="94.0" text="Ký số bàn" />
+            <TableColumn fx:id="ngayThanhToan" prefWidth="130.0" text="Ngày thanh toán" />
+            <TableColumn fx:id="tongTien" prefWidth="143.0" text="Tổng tiền" />
+        </columns>
+      </TableView>
+      <TextField fx:id="txtBanAnSearch" layoutX="237.0" layoutY="141.0" prefHeight="25.0" prefWidth="171.0" visible="false" />
+      <Button fx:id="btnTimBanDat" layoutX="415.0" layoutY="142.0" mnemonicParsing="false" onAction="#timBanDat" text="Tìm" visible="false" />
+      <Button fx:id="btnReset" layoutX="459.0" layoutY="142.0" mnemonicParsing="false" onAction="#resetDSBanDat" text="Xóa danh sách" visible="false" />
+      <DatePicker fx:id="dpTuNgay" layoutX="99.0" layoutY="64.0" />
+      <DatePicker fx:id="dpDenNgay" layoutX="99.0" layoutY="103.0" />
+      <Label layoutX="803.0" layoutY="172.0" prefHeight="39.0" prefWidth="205.0" text="Doanh thu từ khách hàng có tài khoản (giai đoạn được chọn)" wrapText="true" />
+      <Label layoutX="803.0" layoutY="211.0" prefHeight="39.0" prefWidth="205.0" text="Doanh thu từ khách hàng vãng lai (giai đoạn được chọn)" wrapText="true" />
+      <Button fx:id="btnThongKe" layoutX="299.0" layoutY="103.0" mnemonicParsing="false" onAction="#thongKeDoanhThu" text="Thống kê doanh thu" />
+      <Separator layoutX="784.0" layoutY="24.0" orientation="VERTICAL" prefHeight="569.0" prefWidth="3.0" />
+      <Label fx:id="lblDoanhThuVangLai" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1006.0" layoutY="217.0" prefHeight="27.0" prefWidth="156.0" text="100000 Đ" />
+      <Label fx:id="lblDoanhThuKhachHang" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1006.0" layoutY="178.0" prefHeight="27.0" prefWidth="156.0" text="100000 Đ" />
+   </children>
+</AnchorPane>
