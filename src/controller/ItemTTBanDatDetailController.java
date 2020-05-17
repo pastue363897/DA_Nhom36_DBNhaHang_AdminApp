@@ -5,24 +5,37 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.hibernate.HibernateException;
 
+import database.CTHoaDonBanDatDAO;
 import database.HoaDonBanDatDAO;
+import entites.CTHoaDonBanDat;
 import entites.HoaDonBanDat;
+import entites.MonAn;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class ItemTTBanDatDetailController implements Initializable {
 	@FXML
@@ -56,10 +69,22 @@ public class ItemTTBanDatDetailController implements Initializable {
 	private Label lblDiaChiKH;
 
 	@FXML
-	private Pane txtTTBanAn;
+    private TextArea txtBanAn;
 
-	@FXML
-	private Pane txtTTMonAn;
+    @FXML
+    private TableView<CTHoaDonBanDat> lvMonAn;
+
+    @FXML
+    private TableColumn<CTHoaDonBanDat, String> tenMon;
+
+    @FXML
+    private TableColumn<CTHoaDonBanDat, Integer> soLuong;
+
+    @FXML
+    private TableColumn<CTHoaDonBanDat, Long> donGia;
+
+    @FXML
+    private TableColumn<String, Long> tongGia;
 
 	@FXML
 	private Label lblDaHuy;
@@ -84,6 +109,9 @@ public class ItemTTBanDatDetailController implements Initializable {
 
 	private BanDatManagerController banDatMGCT;
 	private HoaDonBanDat ttBanDat;
+	
+	private List<CTHoaDonBanDat> dsMonAn;
+    private ObservableList<CTHoaDonBanDat> dsOBMonAn;
 
 	public BanDatManagerController getBanDatMGCT() {
 		return banDatMGCT;
@@ -117,6 +145,15 @@ public class ItemTTBanDatDetailController implements Initializable {
 				tinhTienThoi();
 			}
 		});
+		
+		tenMon.setCellValueFactory(new Callback<CellDataFeatures<CTHoaDonBanDat, String>, ObservableValue<String>>() {
+			@Override
+			public ObservableValue<String> call(CellDataFeatures<CTHoaDonBanDat, String> param) {
+				return new SimpleStringProperty(param.getValue().getMonAn().getTenMA());
+			}
+		});
+		soLuong.setCellValueFactory(new PropertyValueFactory<CTHoaDonBanDat, Integer>("soLuong"));
+		donGia.setCellValueFactory(new PropertyValueFactory<CTHoaDonBanDat, Long>("donGia"));
 	}
 
 	public void loadData(HoaDonBanDat bd) {
@@ -135,6 +172,14 @@ public class ItemTTBanDatDetailController implements Initializable {
 		lblNgayPhucVu.setText(stringDate(ttBanDat.getNgayPhucVu().getDate()));
 		lblThangPhucVu.setText(stringMonth(ttBanDat.getNgayPhucVu().getMonth() + 1));
 		lblNamPhucVu.setText(String.valueOf(ttBanDat.getNgayPhucVu().getYear() + 1900));
+		dsMonAn = ttBanDat.getDsMonAn();
+		dsOBMonAn = FXCollections.observableArrayList(dsMonAn);
+		lvMonAn.setItems(dsOBMonAn);
+		lvMonAn.refresh();
+		txtBanAn.setText("* Ký số bàn: "+ttBanDat.getBanAn().getKySoBA()+"\n");
+		txtBanAn.appendText("* Số lượng ghế: "+ttBanDat.getBanAn().getSoLuongGhe()+"\n");
+		txtBanAn.appendText("* Mô tả bàn: "+ttBanDat.getBanAn().getMotaBA()+"\n");
+		txtBanAn.appendText("* Giá phụ thu: "+ttBanDat.getBanAn().getPhuGia());
 		tinhTienThoi();
 		updateTrangThai();
 	}
