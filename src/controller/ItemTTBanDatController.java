@@ -9,6 +9,7 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
+import application.PrimaryConf;
 import database.HoaDonBanDatDAO;
 import entites.HoaDonBanDat;
 import javafx.event.ActionEvent;
@@ -18,6 +19,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -34,11 +37,16 @@ public class ItemTTBanDatController {
 	private Label lblTongTien;
 	@FXML
 	private Label lblDaThanhToan, lblDaHuy, lblChuaThanhToan;
+	@FXML
+	private ImageView imvBanAn;
 
 	private BanDatManagerController banDatMGCT;
 	private HoaDonBanDat ttBanDat;
 
 	public void loadData(HoaDonBanDat b) {
+	  Image image = new Image("file:" + PrimaryConf.CUSTOM_FILE_PATH_HEAD + b.getBanAn().getHinhAnh(), 200, 165, false,
+        true);
+    imvBanAn.setImage(image);
 		lblDateDat.setText(stringDate(b.getNgayDatBan().getDate()));
 		lblMonthDat.setText(stringMonth(b.getNgayDatBan().getMonth() + 1));
 		lblYearDat.setText(String.valueOf(b.getNgayDatBan().getYear() + 1900));
