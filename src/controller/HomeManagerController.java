@@ -67,7 +67,7 @@ public class HomeManagerController implements Initializable {
     @FXML
     private MenuItem menuSuaMonAn;
     @FXML
-    private MenuItem menuQuanLyKhachHang;
+    private MenuItem menuTaoKhachHang;
     @FXML
     private MenuItem menuXemDanhSachKhachHang;
     @FXML
@@ -155,7 +155,43 @@ public class HomeManagerController implements Initializable {
 
     @FXML
     void menuQLKhachHang(ActionEvent event) {
-
+    	if(event.getSource() == menuXemDanhSachKhachHang) {
+    		Parent root;
+    		try {
+    			root = FXMLLoader.load(getClass().getResource("/view/QuanLyKhachHangManager.fxml"));
+    			Stage stage = new Stage();
+    			stage.setResizable(false);
+    			stage.initModality(Modality.WINDOW_MODAL);
+    			stage.initOwner(HomeManagerController.primaryStage);
+    			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Quản lý khách hàng");
+    			Scene scene = new Scene(root);
+    			stage.setScene(scene);
+    			stage.sizeToScene();
+    			stage.centerOnScreen();
+    			stage.show();
+    			QuanLyKhachHangController.primaryStage = stage;
+    		} catch (IOException e1) {
+    			e1.printStackTrace();
+    		}
+    	}
+    	else if(event.getSource() == menuTaoKhachHang) {
+    		Parent root;
+    		try {
+    			root = FXMLLoader.load(getClass().getResource("/view/TaoThongTinKhachHangManager.fxml"));
+    			Stage stage = new Stage();
+    			stage.setResizable(false);
+    			stage.initModality(Modality.WINDOW_MODAL);
+    			stage.initOwner(HomeManagerController.primaryStage);
+    			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Thêm khách hàng mới");
+    			Scene scene = new Scene(root);
+    			stage.setScene(scene);
+    			stage.sizeToScene();
+    			stage.centerOnScreen();
+    			stage.show();
+    		} catch (IOException e1) {
+    			e1.printStackTrace();
+    		}
+    	}
     }
 
     @FXML

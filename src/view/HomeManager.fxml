@@ -143,7 +143,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Quản lý khách hàng">
               <items>
-                <MenuItem fx:id="menuQuanLyKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Quản lý khách hàng" />
+                <MenuItem fx:id="menuTaoKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Thêm khách hàng mới" />
                   <MenuItem fx:id="menuXemDanhSachKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Xem danh sách khách hàng" />
               </items>
             </Menu>
