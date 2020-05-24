@@ -14,26 +14,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class HomeManagerController implements Initializable {
-	@FXML
-	private Button btnBanDatManager;
-	@FXML
-	private Button btnBanAnManager;
-	@FXML
-	private Button btnMonAnManager;
-	@FXML
-	private Button btnDatBanKhachVangLai;
-	@FXML
-	private Button btnSignOut;
 
+  @FXML
+  private Label lblMenuThoat;
 	@FXML
 	private AnchorPane banDat;
 	@FXML
@@ -75,22 +70,6 @@ public class HomeManagerController implements Initializable {
 	
 	public static Stage primaryStage;
 
-	public void navigationBar(ActionEvent e) {
-		if (e.getSource() == btnBanDatManager) {
-			banDat.setVisible(true);
-			banAn.setVisible(false);
-			monAn.setVisible(false);
-		} else if (e.getSource() == btnBanAnManager) {
-			banDat.setVisible(false);
-			banAn.setVisible(true);
-			monAn.setVisible(false);
-		} else if (e.getSource() == btnMonAnManager) {
-			banDat.setVisible(false);
-			banAn.setVisible(false);
-			monAn.setVisible(true);
-		}
-	}
-	
 	public void datBanKhachVangLai(ActionEvent e) {
 		Parent root;
 		try {
@@ -110,8 +89,8 @@ public class HomeManagerController implements Initializable {
 		}
 	}
 
-	public void signOut(ActionEvent e) {
-		Stage current = (Stage) btnSignOut.getScene().getWindow();
+	public void signOut(MouseEvent e) {
+		Stage current = (Stage) lblMenuThoat.getScene().getWindow();
 		current.close();
 		Parent root;
 		try {
@@ -119,7 +98,10 @@ public class HomeManagerController implements Initializable {
 			Stage stage = new Stage();
 			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng");
 			Scene scene = new Scene(root);
+			stage.setWidth(700);
+			stage.setHeight(485);
 			stage.setScene(scene);
+			stage.setResizable(false);
 			stage.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();

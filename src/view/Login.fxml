@@ -39,7 +39,7 @@
                      <children>
                         <Pane prefHeight="450.0" prefWidth="398.0" styleClass="pane-blur-sign-in">
                            <children>
-                              <Label layoutX="63.0" layoutY="90.0" prefHeight="43.0" prefWidth="92.0" style="-fx-font-weight: bold;" text="Sign In" textFill="#0093e8">
+                              <Label layoutX="63.0" layoutY="90.0" prefHeight="43.0" prefWidth="130.0" style="-fx-font-weight: bold;" text="Đăng nhập" textFill="#0093e8">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -56,7 +56,7 @@
                               <Font size="18.0" />
                            </font>
                         </PasswordField>
-                        <Button fx:id="btnSignin" layoutX="148.0" layoutY="285.0" mnemonicParsing="false" onAction="#signIn" prefHeight="39.0" prefWidth="103.0" styleClass="button-sign-in" text="Sign in" />
+                        <Button fx:id="btnSignin" layoutX="143.0" layoutY="285.0" mnemonicParsing="false" onAction="#signIn" prefHeight="39.0" prefWidth="113.0" styleClass="button-sign-in" text="Đăng nhập" />
                      </children>
                   </Pane>
                </children>

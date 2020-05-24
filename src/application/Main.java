@@ -21,7 +21,10 @@ public class Main extends Application {
       Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
       primaryStage.setTitle("Hệ thống quản lý đặt bàn nhà hàng");
       Scene scene = new Scene(root);
+      primaryStage.setWidth(700);
+      primaryStage.setHeight(485);
       primaryStage.setScene(scene);
+      primaryStage.setResizable(false);
       primaryStage.show();
     } catch (IOException e) {
       e.printStackTrace();
