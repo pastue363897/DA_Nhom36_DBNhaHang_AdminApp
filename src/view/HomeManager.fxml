@@ -34,10 +34,8 @@
           <Menu mnemonicParsing="false" text="Quản lỳ bàn đặt">
             <items>
             	<MenuItem fx:id="menuDatBanVangLai" mnemonicParsing="false" onAction="#menuQLBanDat" text="Đặt bàn cho khách vãng lai" />
-                  <MenuItem fx:id="menuThemBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Thêm bàn đặt" />
               <MenuItem fx:id="menuHuyBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Hủy bàn đặt" />
                   <MenuItem fx:id="menuTimKiemBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Tìm kiếm bàn đặt" />
-                  <MenuItem fx:id="menuXemChiTiet" mnemonicParsing="false" onAction="#menuQLBanDat" text="Xem chi tiết" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Quản lý bàn ăn">

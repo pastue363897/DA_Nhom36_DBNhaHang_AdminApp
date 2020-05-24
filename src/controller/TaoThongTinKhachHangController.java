@@ -77,7 +77,7 @@ public class TaoThongTinKhachHangController implements Initializable {
 			alert.show();
 			return;
     	}
-    	else if(!txtTenKH.getText().matches("^\\p{L}{1,7}(\\p{L}{1,7}){0,5}$")) {
+    	else if(!txtTenKH.getText().matches("^\\p{L}{1,7}( \\p{L}{1,7}){0,5}$")) {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Lỗi thêm khách hàng");
 			alert.setContentText("Tên không hợp lệ");

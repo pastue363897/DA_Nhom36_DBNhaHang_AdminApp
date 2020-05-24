@@ -138,6 +138,8 @@ public class DatBanKhachVangLaiController implements Initializable {
     @FXML
     private Button btnShowAllBan;
     
+    private BanDatManagerController banDatMGCT;
+    
     private List<BanAn> dsBanAnTimThay;
     private ObservableList<BanAn> dsOBBanAnTimThay;
     private List<MonAn> dsMonAnTimThay;
@@ -147,6 +149,13 @@ public class DatBanKhachVangLaiController implements Initializable {
     
     private long tempTongTien;
     
+    public BanDatManagerController getBanDatMGCT() {
+		return banDatMGCT;
+	}
+
+	public void setBanDatMGCT(BanDatManagerController banDatMGCT) {
+		this.banDatMGCT = banDatMGCT;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -243,6 +252,7 @@ public class DatBanKhachVangLaiController implements Initializable {
 
     @FXML
     void dongGiaoDien(ActionEvent event) {
+    	banDatMGCT.loadAllBanDat();
     	Stage currentStage = (Stage) btnHuy.getScene().getWindow();
     	currentStage.close();
     }
@@ -327,7 +337,8 @@ public class DatBanKhachVangLaiController implements Initializable {
     	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Thành công");
 		alert.setContentText("Bàn đã được đặt và thông tin thanh toán đã được lưu");
-		alert.show();
+		alert.showAndWait();
+		banDatMGCT.loadAllBanDat();
 		Stage currentStage = (Stage) btnHuy.getScene().getWindow();
     	currentStage.close();
 		return;

@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,6 +28,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -39,11 +44,29 @@ public class MonAnManagerController implements Initializable {
 
 	private String idMonAnUpdate;
 	@FXML
-	private TextField txtTenMonAn, txtSoLuongNguoiMA, txtGiaTienMA;
+	private TextField txtTenMonAn, txtSoLuongNguoiMA, txtGiaTienMA, txtNguyenLieu;
 	@FXML
 	private TextArea txtMoTaMA;
 	@FXML
 	private ImageView imvHinhAnhMA;
+	@FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab tabThem;
+    @FXML
+    private Tab tabTimKiem;
+    @FXML
+    private TextField txtTenMon;
+    @FXML
+    private TextField txtSoNguoi;
+    @FXML
+    private Button btnTimMonAn;
+    @FXML
+    private TextField txtGia;
+    @FXML
+    private CheckBox cbDaHuy;
+    @FXML
+    private Button btnShowAll;
 
 	@FXML
 	private FlowPane dsMonAn;
@@ -89,6 +112,26 @@ public class MonAnManagerController implements Initializable {
 		this.currentHinhAnh = currentHinhAnh;
 	}
 
+	public TextField getTxtNguyenLieu() {
+		return txtNguyenLieu;
+	}
+
+	public void setTxtNguyenLieu(TextField txtNguyenLieu) {
+		this.txtNguyenLieu = txtNguyenLieu;
+	}
+
+	public TabPane getTabPane() {
+		return tabPane;
+	}
+
+	public Tab getTabThem() {
+		return tabThem;
+	}
+
+	public Tab getTabTimKiem() {
+		return tabTimKiem;
+	}
+
 	public void themMonAn(ActionEvent e) {
 		String tenMonAn = txtTenMonAn.getText();
 		String soLuongNguoiString = txtSoLuongNguoiMA.getText();
@@ -100,6 +143,7 @@ public class MonAnManagerController implements Initializable {
 
 			String dataPath = "images/mon-an/" + chosenHinhAnh.getName();
 			MonAn monAn = new MonAn(tenMonAn, moTa, soLuongNguoi, dataPath, giaTien);
+			monAn.setNguyenLieu(txtNguyenLieu.getText());
 			String id = new MonAnDAO().addMonAn(monAn);
 
 			String imageSavePath = PrimaryConf.CUSTOM_FILE_PATH_HEAD + "images/mon-an/" + id
@@ -145,6 +189,7 @@ public class MonAnManagerController implements Initializable {
 
 			String newDataPath = "images/mon-an/" + chosenHinhAnh.getName();
 			MonAn monAn = new MonAn(idMonAnUpdate, tenMonAn, moTa, soLuongNguoi, newDataPath, giaTien, false);
+			monAn.setNguyenLieu(txtNguyenLieu.getText());
 			new MonAnDAO().suaMonAn(monAn);
 
 			if (!FilenameUtils.getName(currentHinhAnh).equals(chosenHinhAnh.getName())) {
@@ -227,6 +272,45 @@ public class MonAnManagerController implements Initializable {
 				ex.printStackTrace();
 			}
 		}
+	}
+	
+	@FXML
+    void showAll(ActionEvent event) {
+		loadAllMonAn();
+    }
+	
+	Integer tryParseInt(String value) {
+		try {
+			Integer out = Integer.parseInt(value);
+			return out;
+		}
+		catch (NumberFormatException ex) {
+			return null;
+		}
+	}
+	
+	Long tryParseLong(String value) {
+		try {
+			Long out = Long.parseLong(value);
+			return out;
+		}
+		catch (NumberFormatException ex) {
+			return null;
+		}
+	}
+	
+	@FXML
+    void timMonAn(ActionEvent event) {
+		String monTim = txtTenMon.getText().trim();
+		String soNguoiTim = txtSoNguoi.getText().trim();
+		String giaTim = txtGia.getText().trim();
+		Integer soNguoiTimInt = tryParseInt(soNguoiTim);
+		Long giaTimLong = tryParseLong(giaTim);
+		MonAnDAO monAnDao = new MonAnDAO();
+		List<MonAn> f = monAnDao.timMonAn(monTim, giaTimLong == null ? -1 : giaTimLong.longValue(), soNguoiTimInt == null ? -1 : soNguoiTimInt.intValue());
+		if (f == null)
+			f = new ArrayList<MonAn>();
+		loadMonAn(f);
 	}
 
 	public void xoaInput() {

@@ -75,6 +75,7 @@ public class ItemMonAnController implements Initializable {
 		monAnMGCT.getTxtMoTaMA().setText(ttMonAn.getMoTaMA());
 		monAnMGCT.getTxtSoLuongNguoiMA().setText(String.valueOf(ttMonAn.getSoLuongNguoi()));
 		monAnMGCT.getTxtGiaTienMA().setText(String.valueOf(ttMonAn.getGiaTien()));
+		monAnMGCT.getTxtNguyenLieu().setText(ttMonAn.getNguyenLieu());
 		File chosenHinhAnh = new File(PrimaryConf.CUSTOM_FILE_PATH_HEAD + ttMonAn.getHinhAnhMA());
 		monAnMGCT.getImvHinhAnhMA().setImage(
 				new Image("file:" + PrimaryConf.CUSTOM_FILE_PATH_HEAD + ttMonAn.getHinhAnhMA(), 200, 165, false, true));

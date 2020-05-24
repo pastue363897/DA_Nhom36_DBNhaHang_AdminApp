@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,6 +28,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -50,6 +53,22 @@ public class BanAnManagerController implements Initializable {
 	private TextField txtGiaTienBA;
 	@FXML
 	private TextArea txtMoTaBA;
+	@FXML
+	private Tab tabThem;
+	@FXML
+	private Tab tabTimKiem;
+	@FXML
+    private TabPane tabPane;
+	@FXML
+    private TextField txtKySo;
+    @FXML
+    private Button btnTimBanAn;
+    @FXML
+    private TextArea txtMoTa;
+    @FXML
+    private TextField txtSoGhe;
+    @FXML
+    private Button btnShowAll;
 
 	@FXML
 	private FlowPane dsBanAn;
@@ -93,6 +112,18 @@ public class BanAnManagerController implements Initializable {
 
 	public void setCurrentHinhAnh(String currentHinhAnh) {
 		this.currentHinhAnh = currentHinhAnh;
+	}
+
+	public Tab getTabThem() {
+		return tabThem;
+	}
+
+	public Tab getTabTimKiem() {
+		return tabTimKiem;
+	}
+
+	public TabPane getTabPane() {
+		return tabPane;
 	}
 
 	@FXML
@@ -247,6 +278,34 @@ public class BanAnManagerController implements Initializable {
 			}
 		}
 	}
+	
+    @FXML
+    void showAll(ActionEvent event) {
+    	loadAllBanAn();
+    }
+    
+    Integer tryParseInt(String value) {
+		try {
+			Integer out = Integer.parseInt(value);
+			return out;
+		}
+		catch (NumberFormatException ex) {
+			return null;
+		}
+	}
+    
+    @FXML
+    void timBanAn(ActionEvent event) {
+    	String kySo = txtKySo.getText();
+    	String moTa = txtMoTa.getText();
+    	String soGhe = txtSoGhe.getText();
+    	Integer soGheInt = tryParseInt(soGhe);
+    	BanAnDAO banAnDao = new BanAnDAO();
+    	List<BanAn> lst = banAnDao.timBanAn(moTa, kySo, soGheInt == null ? -1 : soGheInt.intValue());
+    	if(lst == null)
+    		lst = new ArrayList<BanAn>();
+    	loadBanAn(lst);
+    }
 
 	public void chooseImage(MouseEvent event) {
 		FileChooser fileChooser = new FileChooser();

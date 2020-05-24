@@ -30,17 +30,19 @@ public class HomeManagerController implements Initializable {
   @FXML
   private Label lblMenuThoat;
 	@FXML
-	private AnchorPane banDat;
+	private Parent banDat;
 	@FXML
-	private AnchorPane banAn;
+	private BanDatManagerController banDatController;
 	@FXML
-	private AnchorPane monAn;
+	private Parent banAn;
+	@FXML
+	private BanAnManagerController banAnController;
+	@FXML
+	private Parent monAn;
+	@FXML
+	private MonAnManagerController monAnController;
 	@FXML
     private MenuItem menuDatBanVangLai;
-	@FXML
-    private MenuItem menuThemBanDat;
-    @FXML
-    private MenuItem menuHuyBanDat;
     @FXML
     private MenuItem menuTimKiemBanDat;
     @FXML
@@ -73,13 +75,16 @@ public class HomeManagerController implements Initializable {
 	public void datBanKhachVangLai(ActionEvent e) {
 		Parent root;
 		try {
-			root = FXMLLoader.load(getClass().getResource("/view/DatBanKhachVangLaiManager.fxml"));
+			FXMLLoader fx = new FXMLLoader(getClass().getResource("/view/DatBanKhachVangLaiManager.fxml"));
+			root = fx.load();
 			Stage stage = new Stage();
 			stage.setResizable(false);
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner(HomeManagerController.primaryStage);
 			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Đặt bàn cho khách vãng lai");
 			Scene scene = new Scene(root);
+			DatBanKhachVangLaiController it = fx.getController();
+			it.setBanDatMGCT(banDatController);
 			stage.setScene(scene);
 			stage.sizeToScene();
 			stage.centerOnScreen();
@@ -118,9 +123,14 @@ public class HomeManagerController implements Initializable {
 	
 	@FXML
     void menuQLBanAn(ActionEvent event) {
+		if(event.getSource() == menuThemBanAn || event.getSource() == menuSuaBanAn)
+			banAnController.getTabPane().getSelectionModel().select(banAnController.getTabThem());
+		else if(event.getSource() == menuTimKiemBanAn)
+			banAnController.getTabPane().getSelectionModel().select(banAnController.getTabTimKiem());
 		banDat.setVisible(false);
 		banAn.setVisible(true);
 		monAn.setVisible(false);
+		
     }
 
     @FXML
@@ -129,6 +139,7 @@ public class HomeManagerController implements Initializable {
     		datBanKhachVangLai(null);
     	}
     	else {
+    		banDatController.loadAllBanDat();
 	    	banDat.setVisible(true);
 			banAn.setVisible(false);
 			monAn.setVisible(false);
@@ -178,6 +189,10 @@ public class HomeManagerController implements Initializable {
 
     @FXML
     void menuQLMonAn(ActionEvent event) {
+    	if(event.getSource() == menuThemMonAn || event.getSource() == menuSuaMonAn)
+			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabThem());
+		else if(event.getSource() == menuTimKiemMonAn)
+			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabTimKiem());
     	banDat.setVisible(false);
 		banAn.setVisible(false);
 		monAn.setVisible(true);

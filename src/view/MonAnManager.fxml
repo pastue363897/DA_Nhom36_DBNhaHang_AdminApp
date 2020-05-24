@@ -26,9 +26,9 @@
         <items>
           <AnchorPane maxWidth="512.0" minWidth="256.0" prefHeight="718.0" prefWidth="256.0">
                <children>
-                  <TabPane prefHeight="718.0" prefWidth="256.0" style="-fx-background-color: #7156DD;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TabPane fx:id="tabPane" prefHeight="718.0" prefWidth="256.0" style="-fx-background-color: #7156DD;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <tabs>
-                        <Tab closable="false" text="Thêm &amp; Sửa">
+                        <Tab fx:id="tabThem" closable="false" text="Thêm &amp; Sửa">
                            <content>
                               <AnchorPane>
                                  <children>
@@ -63,7 +63,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="15.0" layoutY="318.0" prefHeight="48.0" prefWidth="202.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="39.0">
+                                    <TextField fx:id="txtNquyenLieu" layoutX="15.0" layoutY="318.0" prefHeight="48.0" prefWidth="202.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="39.0">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -122,23 +122,23 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab closable="false" text="Tìm kiếm">
+                        <Tab fx:id="tabTimKiem" closable="false" text="Tìm kiếm">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                                    <TextField layoutX="15.0" layoutY="65.0" prefHeight="46.0" prefWidth="228.0" style="-fx-border-color: #3156DD;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="13.0">
+                                                    <TextField fx:id="txtTenMon" layoutX="15.0" layoutY="65.0" prefHeight="46.0" prefWidth="228.0" style="-fx-border-color: #3156DD;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="13.0">
                                                         <font>
                                                             <Font size="18.0" />
                                                         </font>
                                                     </TextField>
-                                    <TextField layoutX="20.0" layoutY="170.0" prefHeight="40.0" prefWidth="75.0" />
+                                    <TextField fx:id="txtSoNguoi" layoutX="20.0" layoutY="170.0" prefHeight="40.0" prefWidth="75.0" />
                                     <Label layoutX="20.0" layoutY="30.0" text="Tên hoặc mô tả" textFill="WHITE">
                                        <font>
                                           <Font size="18.0" />
                                        </font></Label>
                                     <TilePane alignment="CENTER" layoutY="298.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                        <children>
-                                          <Button mnemonicParsing="false" style="-fx-background-color: #3F2B63;" text="Tìm kiếm" textFill="WHITE">
+                                          <Button fx:id="btnTimMonAn" mnemonicParsing="false" onAction="#timMonAn" style="-fx-background-color: #3F2B63;" text="Tìm kiếm" textFill="WHITE">
                                              <graphic>
                                                                 <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" size="23" />
                                              </graphic>
@@ -156,12 +156,20 @@
                                        <font>
                                           <Font size="18.0" />
                                        </font></Label>
-                                    <TextField layoutX="137.0" layoutY="169.0" prefHeight="41.0" prefWidth="107.0" />
-                                    <CheckBox layoutX="22.0" layoutY="245.0" mnemonicParsing="false" text="Đã hủy" textFill="WHITE">
+                                    <TextField fx:id="txtGia" layoutX="137.0" layoutY="169.0" prefHeight="41.0" prefWidth="107.0" />
+                                    <CheckBox fx:id="cbDaHuy" layoutX="22.0" layoutY="245.0" mnemonicParsing="false" text="Đã hủy" textFill="WHITE">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </CheckBox>
+                                    <Button fx:id="btnShowAll" layoutX="62.0" layoutY="357.0" mnemonicParsing="false" onAction="#showAll" style="-fx-background-color: #3F2B63;" text="Hiện tất cả" textFill="WHITE">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="ROTATE_LEFT" size="23" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
                                  </children></AnchorPane>
                           </content>
                         </Tab>

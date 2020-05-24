@@ -237,6 +237,7 @@ public class ItemTTBanDatDetailController implements Initializable {
         alert.show();
     	}
     	Stage frame = (Stage) btnThanhToan.getScene().getWindow();
+    	banDatMGCT.loadAllBanDat();
     	frame.close();
     }
 
