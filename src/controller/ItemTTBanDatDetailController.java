@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -22,7 +23,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -34,6 +38,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -106,12 +111,17 @@ public class ItemTTBanDatDetailController implements Initializable {
 
 	@FXML
 	private Button btnThanhToan;
+	
+	@FXML
+	private Button btnThemMonHoaDon;
 
 	private BanDatManagerController banDatMGCT;
 	private HoaDonBanDat ttBanDat;
 	
 	private List<CTHoaDonBanDat> dsMonAn;
     private ObservableList<CTHoaDonBanDat> dsOBMonAn;
+    
+    public static Stage primaryStage;
 
 	public BanDatManagerController getBanDatMGCT() {
 		return banDatMGCT;
@@ -335,6 +345,38 @@ public class ItemTTBanDatDetailController implements Initializable {
 			btnThanhToan.setVisible(false);
 			btnHuyBan.setVisible(false);
 			lblDaHuy.setVisible(true);
+			btnThemMonHoaDon.setVisible(false);
 		}
 	}
+	
+    @FXML
+    void themMonHoaDon(ActionEvent event) {
+    	if(Date.valueOf(LocalDate.now()).after(ttBanDat.getNgayThanhToan())) {
+    		Alert alert = new Alert(Alert.AlertType.ERROR);
+    		alert.setTitle("Lỗi không được phép");
+    		alert.setContentText("Bây giờ đã qua khỏi ngày thanh toán, không thể đặt thêm món nữa");
+    		alert.showAndWait();
+    		return;
+    	}
+    	Parent root;
+    	FXMLLoader fx = new FXMLLoader(getClass().getResource("/view/ThemMonBanDatManager.fxml"));
+    	try {
+			root = fx.load();
+			ThemMonBanDatController it = fx.getController();
+			it.setHoaDonHienTai(ttBanDat);
+			it.setBanDatDetailController(this);
+			Stage stage = new Stage();
+			stage.setResizable(false);
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner(ItemTTBanDatDetailController.primaryStage);
+			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Thêm món mới cho bàn hiện tại");
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.sizeToScene();
+			stage.centerOnScreen();
+			stage.showAndWait();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+    }
 }

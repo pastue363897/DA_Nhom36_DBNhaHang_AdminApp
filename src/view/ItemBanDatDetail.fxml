@@ -181,14 +181,22 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnHuyBan" layoutX="566.0" layoutY="406.0" mnemonicParsing="false" onAction="#huyBan" prefHeight="36.0" prefWidth="95.0" text="Hủy bàn">
+      <Button fx:id="btnHuyBan" layoutX="566.0" layoutY="432.0" mnemonicParsing="false" onAction="#huyBan" prefHeight="36.0" prefWidth="95.0" text="Hủy bàn">
          <graphic>
             <FontAwesomeIconView glyphName="CLOSE" size="15" />
          </graphic>
       </Button>
-      <Button fx:id="btnThanhToan" layoutX="488.0" layoutY="341.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="53.0" prefWidth="251.0" text="Thanh toán">
+      <Button fx:id="btnThanhToan" layoutX="488.0" layoutY="341.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="39.0" prefWidth="251.0" text="Thanh toán">
          <graphic>
             <FontAwesomeIconView glyphName="CHECK" size="15" />
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnThemMonHoaDon" layoutX="488.0" layoutY="385.0" mnemonicParsing="false" onAction="#themMonHoaDon" prefHeight="39.0" prefWidth="251.0" text="Đặt thêm món">
+         <graphic>
+            <FontAwesomeIconView glyphName="SIGN_IN" size="15" />
          </graphic>
          <font>
             <Font size="18.0" />

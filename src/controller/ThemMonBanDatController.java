@@ -40,26 +40,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import net.bytebuddy.utility.RandomString;
 
-public class DatBanKhachVangLaiController implements Initializable {
-
-    @FXML
-    private TextField txtTenKhachHang;
-
-    @FXML
-    private TextField txtDiaChi;
-
-    @FXML
-    private TextField txtSoCMND;
-
-    @FXML
-    private TextField txtSoDT;
-
-    @FXML
-    private CheckBox cbCoTaiKhoan;
-
-    @FXML
-    private TextField txtMaKH;
-
+public class ThemMonBanDatController implements Initializable {
     @FXML
     private Button btnThemMonAn;
 
@@ -80,22 +61,6 @@ public class DatBanKhachVangLaiController implements Initializable {
 
     @FXML
     private Button btnHuy;
-
-    @FXML
-    private TableView<BanAn> lvBanAn;
-
-    @FXML
-    private TableColumn<BanAn, String> kySoBA;
-
-    @FXML
-    private TableColumn<BanAn, Integer> soGhe;
-
-    @FXML
-    private TableColumn<BanAn, String> moTaBA;
-
-    @FXML
-    private TableColumn<BanAn, Long> phuGia;
-
     @FXML
     private TableView<MonAn> lvMonAnDangBan;
     
@@ -131,39 +96,36 @@ public class DatBanKhachVangLaiController implements Initializable {
 
     @FXML
     private TextField txtBanAnSearch;
-
-    @FXML
-    private Button btnTimBan;
-
-    @FXML
-    private Button btnShowAllBan;
     
-    private BanDatManagerController banDatMGCT;
+    private ItemTTBanDatDetailController banDatDetailController;
     
-    private List<BanAn> dsBanAnTimThay;
-    private ObservableList<BanAn> dsOBBanAnTimThay;
     private List<MonAn> dsMonAnTimThay;
     private ObservableList<MonAn> dsOBMonAnTimThay;
     private List<CTHoaDonBanDat> dsMonAnDaChon;
     private ObservableList<CTHoaDonBanDat> dsOBMonAnDaChon;
     
-    private long tempTongTien;
+    private HoaDonBanDat hoaDonHienTai;
     
-    public BanDatManagerController getBanDatMGCT() {
-		return banDatMGCT;
+    public HoaDonBanDat getHoaDonHienTai() {
+		return hoaDonHienTai;
 	}
 
-	public void setBanDatMGCT(BanDatManagerController banDatMGCT) {
-		this.banDatMGCT = banDatMGCT;
+	public void setHoaDonHienTai(HoaDonBanDat hoaDonHienTai) {
+		this.hoaDonHienTai = hoaDonHienTai;
+	}
+
+	private long tempTongTien;
+
+	public ItemTTBanDatDetailController getBanDatDetailController() {
+		return banDatDetailController;
+	}
+
+	public void setBanDatDetailController(ItemTTBanDatDetailController banDatDetailController) {
+		this.banDatDetailController = banDatDetailController;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		kySoBA.setCellValueFactory(new PropertyValueFactory<BanAn, String>("kySoBA"));
-		soGhe.setCellValueFactory(new PropertyValueFactory<BanAn, Integer>("soLuongGhe"));
-		moTaBA.setCellValueFactory(new PropertyValueFactory<BanAn, String>("motaBA"));
-		phuGia.setCellValueFactory(new PropertyValueFactory<BanAn, Long>("phuGia"));
-		
 		tenMon.setCellValueFactory(new PropertyValueFactory<MonAn, String>("tenMA"));
 		soLuongNguoi.setCellValueFactory(new PropertyValueFactory<MonAn, Integer>("soLuongNguoi"));
 		donGia.setCellValueFactory(new PropertyValueFactory<MonAn, Long>("giaTien"));
@@ -178,9 +140,7 @@ public class DatBanKhachVangLaiController implements Initializable {
 		donGiaMua.setCellValueFactory(new PropertyValueFactory<CTHoaDonBanDat, Long>("donGia"));
 		
 		dsMonAnDaChon = new ArrayList<CTHoaDonBanDat>();
-		dsBanAnTimThay = new ArrayList<BanAn>();
 		dsMonAnTimThay = new ArrayList<MonAn>();
-		dsOBBanAnTimThay = FXCollections.observableArrayList(dsBanAnTimThay);
 		dsOBMonAnTimThay = FXCollections.observableArrayList(dsMonAnTimThay);
 		dsOBMonAnDaChon = FXCollections.observableArrayList(dsMonAnDaChon);
 		
@@ -193,35 +153,6 @@ public class DatBanKhachVangLaiController implements Initializable {
 				}
 				tinhTienThoi();
 			}
-		});
-		txtSoDT.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue.length() > 10) {
-					String s = newValue.substring(0, 10);
-					txtSoDT.setText(s);
-				}
-			}
-		});
-		txtSoCMND.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue.length() > 12) {
-					String s = newValue.substring(0, 12);
-					txtSoCMND.setText(s);
-				}
-			}
-		});
-		txtMaKH.setDisable(true);
-		
-		lvBanAn.setRowFactory(x -> {
-			TableRow<BanAn> row = new TableRow<>();
-			row.setOnMouseClicked(event -> {
-				if(!row.isEmpty()) {
-					tinhTongTien();
-				}
-			});
-			return row;
 		});
 		
 		lvMonAnDangBan.setRowFactory(x -> {
@@ -248,43 +179,16 @@ public class DatBanKhachVangLaiController implements Initializable {
 	}
 
     @FXML
-    void coTaiKhoanChange(ActionEvent event) {
-    	if(cbCoTaiKhoan.isSelected()) {
-    		swapKhachHangInput(true);
-    		
-    	}
-    	else {
-    		txtMaKH.setText("");
-    		swapKhachHangInput(false);
-    	}
-    }
-    
-    void swapKhachHangInput(boolean dungMaKH) {
-    	txtMaKH.setDisable(!dungMaKH);
-		txtTenKhachHang.setDisable(dungMaKH);
-		txtSoCMND.setDisable(dungMaKH);
-		txtSoDT.setDisable(dungMaKH);
-		txtDiaChi.setDisable(dungMaKH);
-		
-    }
-
-    @FXML
     void dongGiaoDien(ActionEvent event) {
-    	banDatMGCT.loadAllBanDat();
+    	hoaDonHienTai = new HoaDonBanDatDAO().getTTBanDat(hoaDonHienTai.getMaBD());
+    	banDatDetailController.loadData(hoaDonHienTai);
     	Stage currentStage = (Stage) btnHuy.getScene().getWindow();
     	currentStage.close();
     }
 
     @FXML
     void showAll(ActionEvent event) {
-    	if(event.getSource() == btnShowAllBan) {
-    		BanAnDAO banAnDao = new BanAnDAO();
-    		dsBanAnTimThay = banAnDao.getAll();
-    		dsOBBanAnTimThay = FXCollections.observableArrayList(dsBanAnTimThay);
-    		lvBanAn.setItems(dsOBBanAnTimThay);
-    		lvBanAn.refresh();
-    	}
-    	else if (event.getSource() == btnShowAllMon) {
+    	if (event.getSource() == btnShowAllMon) {
     		MonAnDAO monAnDao = new MonAnDAO();
     		dsMonAnTimThay = monAnDao.getAll();
     		dsOBMonAnTimThay = FXCollections.observableArrayList(dsMonAnTimThay);
@@ -298,35 +202,14 @@ public class DatBanKhachVangLaiController implements Initializable {
     	CustomerDAO cusDao = new CustomerDAO();
     	Customer cus = null;
     	long test = tinhTongTien();
-    	if(test == -1 || test == -2) {
-    		Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Lỗi thanh toán");
-			alert.setContentText("Số tiền khách đưa không hợp lệ");
-			alert.show();
-			return;
-    	}
-    	if(cbCoTaiKhoan.isSelected()) {
-    		cus = cusDao.get(txtMaKH.getText());
-    		if(cus == null) {
-    			Alert alert = new Alert(Alert.AlertType.ERROR);
-    			alert.setTitle("Lỗi thanh toán");
-    			alert.setContentText("Không tìm thấy khách hàng");
-    			alert.show();
-    			return;
-    		}
-    	}
-    	else {
-    		Account acc = new Account();
-    		acc.setUsername("generated_"+ new RandomString(15).nextString());
-    		cus = new Customer(txtTenKhachHang.getText(), txtDiaChi.getText(), txtSoCMND.getText(), txtSoDT.getText(), "", acc);
-    	}
-    	HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
-    	if(lvBanAn.getSelectionModel().getSelectedItem() == null) {
-    		Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Lỗi thanh toán");
-			alert.setContentText("Chưa chọn bàn ăn");
-			alert.show();
-			return;
+    	if(hoaDonHienTai.isDaThanhToan()) {
+	    	if(test == -1 || test == -2) {
+	    		Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Lỗi");
+				alert.setContentText("Vì bàn đã thanh toán, hãy nhập số tiền khách đưa thêm hợp lệ");
+				alert.show();
+				return;
+	    	}
     	}
     	if(lvMonAnDaChon.getItems().isEmpty()) {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -335,28 +218,35 @@ public class DatBanKhachVangLaiController implements Initializable {
 			alert.show();
 			return;
     	}
-    	HoaDonBanDat hoaDon = new HoaDonBanDat(cus, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), lvBanAn.getSelectionModel().getSelectedItem());
-    	for(CTHoaDonBanDat x : dsMonAnDaChon) {
-    		x.setTtBanDat(hoaDon);
-    	}
     	CTHoaDonBanDatDAO cthdDao = new CTHoaDonBanDatDAO();
-    	hoaDon.setDaThanhToan(true);
-    	hoaDon.setTongTien(tempTongTien);
-    	hoaDon.setTienDaDua(tempTongTien + test);
-    	hoaDon.setNgayThanhToan(Timestamp.valueOf(LocalDateTime.now()));
-    	hoaDon.setDaHuy(false);
-    	hoaDon.setDsMonAn(dsMonAnDaChon);
-    	if(!cbCoTaiKhoan.isSelected())
-    		cusDao.addVLCustomer(cus);
-    	hoaDonDao.addBanDatVL(hoaDon);
+    	List<CTHoaDonBanDat> hienTai = hoaDonHienTai.getDsMonAn();
     	for(CTHoaDonBanDat x : dsMonAnDaChon) {
-    		cthdDao.addCTHoaDonBanDat(x);
+    		boolean existed = false;
+    		for(CTHoaDonBanDat y : hienTai) {
+    			if(x.getMonAn().getMaMA().equals(y.getMonAn().getMaMA())) {
+    				y.setSoLuong(y.getSoLuong() + x.getSoLuong());
+    				existed = true;
+    				cthdDao.update(y);
+    				break;
+    			}
+    		}
+    		if(!existed) {
+    			x.setTtBanDat(hoaDonHienTai);
+    			cthdDao.addCTHoaDonBanDat(x);
+    		}
     	}
+    	hoaDonHienTai.setTongTien(hoaDonHienTai.getTongTien() + tempTongTien);
+    	if(hoaDonHienTai.isDaThanhToan()) {
+    		hoaDonHienTai.setTienDaDua(hoaDonHienTai.getTienDaDua() + tinhTienThoi() + tempTongTien);
+    	}
+    	HoaDonBanDatDAO banDatDao = new HoaDonBanDatDAO();
+    	banDatDao.update(hoaDonHienTai);
     	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Thành công");
 		alert.setContentText("Bàn đã được đặt và thông tin thanh toán đã được lưu");
 		alert.showAndWait();
-		banDatMGCT.loadAllBanDat();
+		hoaDonHienTai = new HoaDonBanDatDAO().getTTBanDat(hoaDonHienTai.getMaBD());
+		banDatDetailController.loadData(hoaDonHienTai);
 		Stage currentStage = (Stage) btnHuy.getScene().getWindow();
     	currentStage.close();
 		return;
@@ -394,15 +284,6 @@ public class DatBanKhachVangLaiController implements Initializable {
     @FXML
     void themMonVaoDS(ActionEvent event) {
     	themMon();
-    }
-
-    @FXML
-    void timBan(ActionEvent event) {
-    	BanAnDAO banAnDao = new BanAnDAO();
-    	dsBanAnTimThay = banAnDao.timBanAn(txtBanAnSearch.getText());
-    	dsOBBanAnTimThay = FXCollections.observableArrayList(dsBanAnTimThay);
-    	lvBanAn.setItems(dsOBBanAnTimThay);
-		lvBanAn.refresh();
     }
 
     @FXML
@@ -460,10 +341,7 @@ public class DatBanKhachVangLaiController implements Initializable {
     }
     
     long tinhTongTien() {
-    	if(lvBanAn.getSelectionModel().getSelectedItem() == null)
-    		tempTongTien = 0;
-    	else
-    		tempTongTien = lvBanAn.getSelectionModel().getSelectedItem().getPhuGia();
+    	tempTongTien = 0;
     	for(CTHoaDonBanDat x : dsMonAnDaChon) {
     		tempTongTien += x.getDonGia() * x.getSoLuong();
     	}

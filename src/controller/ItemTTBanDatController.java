@@ -164,7 +164,9 @@ public class ItemTTBanDatController {
 			stage.setScene(scene);
 			stage.sizeToScene();
 			stage.centerOnScreen();
-			stage.show();
+			ItemTTBanDatDetailController.primaryStage = stage;
+			stage.showAndWait();
+			banDatMGCT.loadAllBanDat();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
