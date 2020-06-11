@@ -50,25 +50,19 @@ public class HomeManagerController implements Initializable {
     @FXML
     private MenuItem menuThemBanAn;
     @FXML
-    private MenuItem menuHuyBanAn;
-    @FXML
     private MenuItem menuTimKiemBanAn;
-    @FXML
-    private MenuItem menuSuaBanAn;
     @FXML
     private MenuItem menuThemMonAn;
     @FXML
-    private MenuItem menuHuyMonAn;
-    @FXML
     private MenuItem menuTimKiemMonAn;
-    @FXML
-    private MenuItem menuSuaMonAn;
     @FXML
     private MenuItem menuTaoKhachHang;
     @FXML
     private MenuItem menuXemDanhSachKhachHang;
     @FXML
     private MenuItem menuTKDTBanDatTheoNgay;
+    @FXML
+    private MenuItem menuTKMonAn;
 	
 	public static Stage primaryStage;
 
@@ -123,7 +117,7 @@ public class HomeManagerController implements Initializable {
 	
 	@FXML
     void menuQLBanAn(ActionEvent event) {
-		if(event.getSource() == menuThemBanAn || event.getSource() == menuSuaBanAn)
+		if(event.getSource() == menuThemBanAn)
 			banAnController.getTabPane().getSelectionModel().select(banAnController.getTabThem());
 		else if(event.getSource() == menuTimKiemBanAn)
 			banAnController.getTabPane().getSelectionModel().select(banAnController.getTabTimKiem());
@@ -189,7 +183,7 @@ public class HomeManagerController implements Initializable {
 
     @FXML
     void menuQLMonAn(ActionEvent event) {
-    	if(event.getSource() == menuThemMonAn || event.getSource() == menuSuaMonAn)
+    	if(event.getSource() == menuThemMonAn)
 			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabThem());
 		else if(event.getSource() == menuTimKiemMonAn)
 			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabTimKiem());
@@ -208,7 +202,25 @@ public class HomeManagerController implements Initializable {
     			stage.setResizable(false);
     			stage.initModality(Modality.WINDOW_MODAL);
     			stage.initOwner(HomeManagerController.primaryStage);
-    			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Đặt bàn cho khách vãng lai");
+    			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Thống kê doanh thu theo ngày");
+    			Scene scene = new Scene(root);
+    			stage.setScene(scene);
+    			stage.sizeToScene();
+    			stage.centerOnScreen();
+    			stage.show();
+    		} catch (IOException e1) {
+    			e1.printStackTrace();
+    		}
+    	}
+    	else if(event.getSource() == menuTKMonAn) {
+    		Parent root;
+    		try {
+    			root = FXMLLoader.load(getClass().getResource("/view/ThongKeMonAn.fxml"));
+    			Stage stage = new Stage();
+    			stage.setResizable(false);
+    			stage.initModality(Modality.WINDOW_MODAL);
+    			stage.initOwner(HomeManagerController.primaryStage);
+    			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Thống kê về các món ăn");
     			Scene scene = new Scene(root);
     			stage.setScene(scene);
     			stage.sizeToScene();

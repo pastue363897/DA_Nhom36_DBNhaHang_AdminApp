@@ -40,18 +40,14 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Quản lý bàn ăn">
               <items>
-                  <MenuItem fx:id="menuThemBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Thêm bàn ăn" />
-                <MenuItem fx:id="menuHuyBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Hủy bàn ăn" />
+                  <MenuItem fx:id="menuThemBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Thêm, hủy hay sửa bàn ăn" />
                   <MenuItem fx:id="menuTimKiemBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Tìm kiếm bàn ăn" />
-                  <MenuItem fx:id="menuSuaBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Sửa bàn ăn" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Quản lý món ăn">
               <items>
-                <MenuItem fx:id="menuThemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Thêm món ăn" />
-                  <MenuItem fx:id="menuHuyMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Hủy món ăn" />
+                <MenuItem fx:id="menuThemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Thêm, hủy hay sửa món ăn" />
                   <MenuItem fx:id="menuTimKiemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Tìm kiếm món ăn" />
-                  <MenuItem fx:id="menuSuaMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Sửa món ăn" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Quản lý khách hàng">
@@ -63,6 +59,7 @@
             <Menu mnemonicParsing="false" text="Thống kê">
                <items>
                   <MenuItem fx:id="menuTKDTBanDatTheoNgay" mnemonicParsing="false" onAction="#menuThongKe" text="Thống kê doanh thu bàn đặt theo ngày" />
+                  <MenuItem fx:id="menuTKMonAn" mnemonicParsing="false" onAction="#menuThongKe" text="Thống kê về các món ăn" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false">

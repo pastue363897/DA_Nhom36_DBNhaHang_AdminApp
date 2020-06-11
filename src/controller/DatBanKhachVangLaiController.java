@@ -279,7 +279,7 @@ public class DatBanKhachVangLaiController implements Initializable {
     void showAll(ActionEvent event) {
     	if(event.getSource() == btnShowAllBan) {
     		BanAnDAO banAnDao = new BanAnDAO();
-    		dsBanAnTimThay = banAnDao.getAll();
+    		dsBanAnTimThay = banAnDao.timBanAnDatDuoc();
     		dsOBBanAnTimThay = FXCollections.observableArrayList(dsBanAnTimThay);
     		lvBanAn.setItems(dsOBBanAnTimThay);
     		lvBanAn.refresh();
@@ -399,7 +399,7 @@ public class DatBanKhachVangLaiController implements Initializable {
     @FXML
     void timBan(ActionEvent event) {
     	BanAnDAO banAnDao = new BanAnDAO();
-    	dsBanAnTimThay = banAnDao.timBanAn(txtBanAnSearch.getText());
+    	dsBanAnTimThay = banAnDao.timBanAnDatDuoc(txtBanAnSearch.getText());
     	dsOBBanAnTimThay = FXCollections.observableArrayList(dsBanAnTimThay);
     	lvBanAn.setItems(dsOBBanAnTimThay);
 		lvBanAn.refresh();
@@ -417,14 +417,23 @@ public class DatBanKhachVangLaiController implements Initializable {
     void xoaMon() {
     	CTHoaDonBanDat ma = lvMonAnDaChon.getSelectionModel().getSelectedItem();
     	if (ma != null) {
+    		boolean het = false;
 	    	int index = 0;
 	    	for (CTHoaDonBanDat x : dsMonAnDaChon) {
 	    		if (x.getMonAn().getMaMA().equals(ma.getMonAn().getMaMA())) {
-	    			break;
+	    			if(x.getSoLuong() >= 2) {
+	    				x.setSoLuong(x.getSoLuong()-1);
+	    				break;
+	    			}
+	    			else {
+	    				het = true; break;
+	    			}
+	    				
 	    		}
 	    		index++;
 	    	}
-	    	dsMonAnDaChon.remove(index);
+	    	if(het)
+	    		dsMonAnDaChon.remove(index);
 	    	dsOBMonAnDaChon = FXCollections.observableArrayList(dsMonAnDaChon);
 	    	lvMonAnDaChon.setItems(dsOBMonAnDaChon);
 	    	lvMonAnDaChon.refresh();
