@@ -11,11 +11,10 @@ import java.util.ResourceBundle;
 
 import org.hibernate.HibernateException;
 
-import database.CTHoaDonBanDatDAO;
+import application.PrimaryConf;
 import database.HoaDonBanDatDAO;
 import entites.CTHoaDonBanDat;
 import entites.HoaDonBanDat;
-import entites.MonAn;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,13 +30,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -114,6 +113,9 @@ public class ItemTTBanDatDetailController implements Initializable {
 	
 	@FXML
 	private Button btnThemMonHoaDon;
+	
+	@FXML
+    private Button btnInHoaDon;
 
 	private BanDatManagerController banDatMGCT;
 	private HoaDonBanDat ttBanDat;
@@ -346,6 +348,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 			btnHuyBan.setVisible(false);
 			lblDaHuy.setVisible(true);
 			btnThemMonHoaDon.setVisible(false);
+			btnInHoaDon.setVisible(false);
 		}
 	}
 	
@@ -378,5 +381,75 @@ public class ItemTTBanDatDetailController implements Initializable {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+    }
+    
+    void inHoaDon(HoaDonBanDat hoaDon) {	
+    	String stringHoaDon = "";
+		for(int i = 0; i < 73; i++) {
+			stringHoaDon += "*";
+		}
+		stringHoaDon += "\n";
+		
+		int beforeName = (73 - PrimaryConf.RESTAURANT_NAME.length()) / 2;
+		int afterName = 73 - beforeName - PrimaryConf.RESTAURANT_NAME.length();
+		for(int i = 0; i < beforeName; i++) {
+			stringHoaDon += " ";
+		}
+		stringHoaDon += PrimaryConf.RESTAURANT_NAME;
+		for(int i = 0; i < afterName; i++) {
+			stringHoaDon += " ";
+		}
+		stringHoaDon += "\n";
+		
+		for(int i = 0; i < 73; i++) {
+			stringHoaDon += "*";
+		}
+		stringHoaDon += "\n";
+		stringHoaDon += "Ngày giờ thanh toán: "+hoaDon.getNgayThanhToan().toLocalDateTime().toString()+"\n";
+		stringHoaDon += "Ký số bàn: " + hoaDon.getBanAn().getKySoBA() + "\n";
+		stringHoaDon += "Số chỗ: " + hoaDon.getBanAn().getSoLuongGhe() + "\n";
+		stringHoaDon += "Phụ giá: " + hoaDon.getBanAn().getPhuGia() + "\n";
+		for(int i = 0; i < 73; i++) {
+			stringHoaDon += "*";
+		}
+		stringHoaDon += "\n";
+		stringHoaDon += "STT   Tên                            Đơn giá    Số lượng        Tổng tiền\n";
+		int xTT = 1;
+		for(CTHoaDonBanDat ma : hoaDon.getDsMonAn()) {
+			stringHoaDon +=
+					String.format("%-5d %-26s %9d Đ %11d %14d Đ\n", xTT++, ma.getMonAn().getTenMA(), ma.getDonGia(),
+							ma.getSoLuong(), ma.getDonGia() * ma.getSoLuong());
+		}
+		for(int i = 0; i < 73; i++) {
+			stringHoaDon += "*";
+		}
+		stringHoaDon += "\n";
+		stringHoaDon += String.format("                                             Tổng tiền: %15d Đ\n", hoaDon.getTongTien());
+		stringHoaDon += String.format("                                        Tiền khách đưa: %15d Đ\n", hoaDon.getTienDaDua());
+		stringHoaDon += String.format("                                         Tiền thối lại: %15d Đ\n", hoaDon.getTienDaDua() - hoaDon.getTongTien());
+		
+		javafx.print.PrinterJob psjob = javafx.print.PrinterJob.createPrinterJob();
+		Text textToPrint = new Text(stringHoaDon);
+		textToPrint.setFont(new javafx.scene.text.Font("Courier New", 11));
+		TextFlow d = new TextFlow(textToPrint);
+		boolean ok = psjob.showPrintDialog(btnInHoaDon.getScene().getWindow());
+		if(ok) {
+			boolean success = psjob.printPage(d);
+	        if (success)
+	        	psjob.endJob();
+	        else {
+	        	Alert alert = new Alert(Alert.AlertType.ERROR);
+    			alert.setTitle("Lỗi");
+    			alert.setContentText("Không thể in hóa đơn, giao diện sẽ đóng lại. Bạn có thể thử in lại trong xem chi tiết bàn đặt.");
+    			alert.showAndWait();
+	        }
+		}
+    }
+
+    @FXML
+    void inHoaDon(ActionEvent event) {
+    	if(event.getSource() == btnInHoaDon) {
+    		inHoaDon(ttBanDat);
+    	}
     }
 }

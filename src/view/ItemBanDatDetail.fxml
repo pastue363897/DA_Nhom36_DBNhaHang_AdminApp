@@ -156,37 +156,37 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="443.0" layoutY="228.0" prefHeight="59.0" prefWidth="135.0" text="Tiền khách hàng thanh toán:" textFill="#1552d7" wrapText="true">
+      <Label layoutX="443.0" layoutY="204.0" prefHeight="59.0" prefWidth="135.0" text="Tiền khách hàng thanh toán:" textFill="#1552d7" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="443.0" layoutY="303.0" prefHeight="25.0" prefWidth="135.0" text="Tiền thối lại:" textFill="#1552d7" wrapText="true">
+      <Label layoutX="443.0" layoutY="263.0" prefHeight="25.0" prefWidth="135.0" text="Tiền thối lại:" textFill="#1552d7" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTienThoiLai" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="591.0" layoutY="303.0" prefHeight="27.0" prefWidth="181.0" text="10000 Đ" textFill="#1552d7">
+      <Label fx:id="lblTienThoiLai" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="591.0" layoutY="263.0" prefHeight="27.0" prefWidth="181.0" text="10000 Đ" textFill="#1552d7">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="578.0" layoutY="238.0" prefHeight="39.0" prefWidth="181.0" promptText="Nhập số tièn khách đưa vào đây" text="15000">
+      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="578.0" layoutY="214.0" prefHeight="39.0" prefWidth="181.0" promptText="Nhập số tièn khách đưa vào đây" text="15000">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="759.0" layoutY="244.0" text="Đ" textFill="#1552d7">
+      <Label layoutX="759.0" layoutY="220.0" text="Đ" textFill="#1552d7">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnHuyBan" layoutX="566.0" layoutY="432.0" mnemonicParsing="false" onAction="#huyBan" prefHeight="36.0" prefWidth="95.0" text="Hủy bàn">
+      <Button fx:id="btnHuyBan" layoutX="564.0" layoutY="434.0" mnemonicParsing="false" onAction="#huyBan" prefHeight="36.0" prefWidth="100.0" text="Hủy bàn">
          <graphic>
             <FontAwesomeIconView glyphName="CLOSE" size="15" />
          </graphic>
       </Button>
-      <Button fx:id="btnThanhToan" layoutX="488.0" layoutY="341.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="39.0" prefWidth="251.0" text="Thanh toán">
+      <Button fx:id="btnThanhToan" layoutX="488.0" layoutY="299.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="39.0" prefWidth="251.0" text="Thanh toán">
          <graphic>
             <FontAwesomeIconView glyphName="CHECK" size="15" />
          </graphic>
@@ -194,9 +194,17 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btnThemMonHoaDon" layoutX="488.0" layoutY="385.0" mnemonicParsing="false" onAction="#themMonHoaDon" prefHeight="39.0" prefWidth="251.0" text="Đặt thêm món">
+      <Button fx:id="btnThemMonHoaDon" layoutX="488.0" layoutY="343.0" mnemonicParsing="false" onAction="#themMonHoaDon" prefHeight="39.0" prefWidth="251.0" text="Đặt thêm món">
          <graphic>
             <FontAwesomeIconView glyphName="SIGN_IN" size="15" />
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnInHoaDon" layoutX="488.0" layoutY="389.0" mnemonicParsing="false" onAction="#inHoaDon" prefHeight="39.0" prefWidth="251.0" text="In hóa đơn">
+         <graphic>
+            <FontAwesomeIconView glyphName="PRINT" size="15" />
          </graphic>
          <font>
             <Font size="18.0" />
