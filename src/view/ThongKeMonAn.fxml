@@ -77,5 +77,6 @@
       <TextField fx:id="txtDonGia" editable="false" layoutX="567.0" layoutY="446.0" />
       <Label layoutX="722.0" layoutY="449.0" text="Đ" />
       <TextArea fx:id="txtXuHuongAuto" editable="false" layoutX="766.0" layoutY="275.0" prefHeight="68.0" prefWidth="485.0" wrapText="true" />
+      <Button fx:id="btnXuatExcel" layoutX="938.0" layoutY="647.0" mnemonicParsing="false" onAction="#xuatFileExcel" prefHeight="25.0" prefWidth="205.0" text="Xuất báo cáo ra file Excel" />
    </children>
 </AnchorPane>

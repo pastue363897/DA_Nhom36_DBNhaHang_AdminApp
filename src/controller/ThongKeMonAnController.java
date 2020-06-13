@@ -1,10 +1,27 @@
 package controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import application.PrimaryConf;
 import database.CTHoaDonBanDatDAO;
@@ -18,6 +35,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -30,6 +48,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -70,6 +89,9 @@ public class ThongKeMonAnController implements Initializable {
 
     @FXML
     private Button btnThongKe;
+    
+    @FXML
+    private Button btnXuatExcel;
 
     @FXML
     private Label lblSoBanDatMon;
@@ -153,7 +175,6 @@ public class ThongKeMonAnController implements Initializable {
 		colSoPhanDD.setCellValueFactory(new Callback<CellDataFeatures<MonAn, Long>, ObservableValue<Long>>() {
 			@Override
 			public ObservableValue<Long> call(CellDataFeatures<MonAn, Long> param) {
-				System.out.println("CELL1 "+lvMonAn.getItems().indexOf(param.getValue()));
 				return new ReadOnlyObjectWrapper<Long>((Long)thongKeData.get(lvMonAn.getItems().indexOf(param.getValue())).get(0));
 			}
 		});
@@ -161,7 +182,6 @@ public class ThongKeMonAnController implements Initializable {
 		colTongDoanhThu.setCellValueFactory(new Callback<CellDataFeatures<MonAn, Long>, ObservableValue<Long>>() {
 			@Override
 			public ObservableValue<Long> call(CellDataFeatures<MonAn, Long> param) {
-				System.out.println("CELL2 "+lvMonAn.getItems().indexOf(param.getValue()));
 				return new ReadOnlyObjectWrapper<Long>((Long)thongKeData.get(lvMonAn.getItems().indexOf(param.getValue())).get(1));
 			}
 		});
@@ -311,8 +331,218 @@ public class ThongKeMonAnController implements Initializable {
     	btnThongKe.setDisable(false);
     }
     
-    void tinhThongSo(MonAn ma)
-    {
+    @FXML
+    void xuatFileExcel(ActionEvent event) {
+    	if(dsMonAn.isEmpty()) {
+    		Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Lỗi");
+			alert.setContentText("Không có món ăn nào để thống kê");
+			alert.show();
+			return;
+    	}
+    	else {
+    		XSSFWorkbook outputWorkbook = new XSSFWorkbook();
+    		XSSFSheet mainSheet = outputWorkbook.createSheet("Doanh thu các món ăn");
+    		int colNum = 0;
+    		int rowNum = 0;
+    		// row 1
+    		XSSFRow row = mainSheet.createRow(rowNum++);
+    		XSSFCell cellRow = row.createCell(colNum++);
+    		cellRow.setCellValue("THỐNG KÊ DOANH THU CÁC MÓN ĂN");
+    		mainSheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 9));
+    		
+    		XSSFCellStyle cellStyleTitle = outputWorkbook.createCellStyle();
+    		cellStyleTitle.setAlignment(HorizontalAlignment.CENTER);
+    		cellStyleTitle.setVerticalAlignment(VerticalAlignment.CENTER);
+    		XSSFFont cellFont = outputWorkbook.createFont();
+    		cellFont.setFontName("Arial");
+    		cellFont.setFontHeightInPoints((short) 16);
+    		cellFont.setBold(true);
+    		cellStyleTitle.setFont(cellFont);
+    		cellRow.setCellStyle(cellStyleTitle);
+    		((Row)row).setHeightInPoints(30);
+    		
+    		XSSFCellStyle cellStyleHeader = outputWorkbook.createCellStyle();
+    		cellStyleHeader.setAlignment(HorizontalAlignment.CENTER);
+    		cellStyleHeader.setVerticalAlignment(VerticalAlignment.CENTER);
+    		XSSFFont cellFontHeader = outputWorkbook.createFont();
+    		cellFontHeader.setFontName("Arial");
+    		cellFontHeader.setFontHeightInPoints((short) 9);
+    		cellFontHeader.setBold(true);
+    		cellStyleHeader.setFont(cellFontHeader);
+    		
+    		XSSFCellStyle cellStyleContent = outputWorkbook.createCellStyle();
+    		XSSFFont cellFontContent = outputWorkbook.createFont();
+    		cellFontContent.setFontName("Arial");
+    		cellFontContent.setFontHeightInPoints((short) 9);
+    		cellFontContent.setBold(false);
+    		cellStyleContent.setFont(cellFontContent);
+    		
+    		System.out.println("Count "+outputWorkbook.getNumCellStyles());
+    		// row 2: 
+    		row = mainSheet.createRow(rowNum++);
+    		colNum = 0;
+    		cellRow = row.createCell(colNum++);
+    		cellRow.setCellValue("Ngày giờ thống kê: ");
+    		cellRow.setCellStyle(cellStyleContent);
+    		colNum++;
+    		cellRow = row.createCell(colNum++);
+    		cellRow.setCellValue(String.format(LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/MM/yyyy"))));
+    		cellRow.setCellStyle(cellStyleContent);
+    		mainSheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 1));
+    		mainSheet.addMergedRegion(new CellRangeAddress(1, 1, 2, 4));
+    		// row 3:
+    		row = mainSheet.createRow(rowNum++);
+    		String headers[] = {"STT", "Mã món ăn", "Tên món ăn", "Số người/phần", "Đơn giá hiện tại", "Doanh thu của món",
+    				"Số phần được đặt", "Số bàn đặt món này","Số phần được đặt và doanh thu theo giai đoạn","","","","","","","","Xu hướng"
+    		};
+    		colNum = 0;
+    		for(String hd : headers) {
+        		cellRow = row.createCell(colNum++);
+        		cellRow.setCellValue(hd);
+    		}
+    		for (int ks = 0; ks <= 7; ks++) {
+    			mainSheet.addMergedRegion(new CellRangeAddress(2, 4, ks, ks));
+    			cellRow = mainSheet.getRow(2).getCell(ks);
+	    		cellRow.setCellStyle(cellStyleHeader);
+    		}
+    		mainSheet.addMergedRegion(new CellRangeAddress(2, 2, 8, 15));
+    		cellRow = mainSheet.getRow(2).getCell(8);
+    		cellRow.setCellStyle(cellStyleHeader);
+    		mainSheet.addMergedRegion(new CellRangeAddress(2, 4, 16, 16));
+    		cellRow = mainSheet.getRow(2).getCell(16);
+    		cellRow.setCellStyle(cellStyleHeader);
+    		// row 4:
+    		row = mainSheet.createRow(rowNum++);
+    		String headers2[] = {"","","","","","","","","Trong 28-22 ngày trước", "", "Trong 21-15 ngày trước", "",
+    				"Trong 14-8 ngày trước", "", "7 ngày gần đây", ""};
+    		colNum = 0;
+    		for(String hd : headers2) {
+        		cellRow = row.createCell(colNum++);
+        		cellRow.setCellValue(hd);
+    		}
+    		for (int ks = 8; ks <= 15; ks+=2) {
+	    		mainSheet.addMergedRegion(new CellRangeAddress(3, 3, ks, ks+1));
+	    		cellRow = mainSheet.getRow(3).getCell(ks);
+	    		cellRow.setCellStyle(cellStyleHeader);
+    		}
+    		// row 5:
+    		row = mainSheet.createRow(rowNum++);
+    		String headers3[] = {"","","","","","","","","Số phần", "Doanh thu", "Số phần", "Doanh thu",
+    				"Số phần", "Doanh", "Số phần", "Doanh thu"};
+    		colNum = 0;
+    		for(String hd : headers3) {
+        		cellRow = row.createCell(colNum++);
+        		cellRow.setCellValue(hd);
+        		cellRow.setCellStyle(cellStyleHeader);
+    		}
+    		// row 6-end:
+    		int stt = 1;
+    		for(MonAn ma : dsMonAn) {
+    			row = mainSheet.createRow(rowNum++);
+    			colNum = 0;
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(stt++);
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getMaMA());
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getTenMA());
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getSoLuongNguoi());
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getGiaTien());
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(1));
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(0));
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(2));
+    			cellRow.setCellStyle(cellStyleContent);
+    			for(int fs = 9; fs >= 3; fs-=2) {
+    				cellRow = row.createCell(colNum++);
+        			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(fs));
+        			cellRow.setCellStyle(cellStyleContent);
+        			cellRow = row.createCell(colNum++);
+        			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(fs+1));
+        			cellRow.setCellStyle(cellStyleContent);
+    			}
+    			cellRow = row.createCell(colNum++);
+    			String trend = "";
+    			LocalDate oldest = (LocalDate)thongKeData.get(stt-2).get(11);
+				if(oldest.isBefore(LocalDate.now().minusDays(7))) {
+					Long d7 = (Long)thongKeData.get(stt-2).get(3);
+					Long d14 = (Long)thongKeData.get(stt-2).get(5);
+					if(d7 > d14) {
+						if(d7 * 1.0 / d14 > 1.1)
+							trend = "Món ăn đang có xu hướng được đặt nhiều hơn";
+						else
+							trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
+					}
+					else if((Long)thongKeData.get(stt-2).get(3) < (Long)thongKeData.get(stt-2).get(5)) {
+						if(d14 * 1.0 / d7 > 1.1)
+							trend = "Món ăn đang có xu hướng được ít đi";
+						else
+							trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
+					}
+					else if((Long)thongKeData.get(stt-2).get(3) == (Long)thongKeData.get(stt-2).get(5)) {
+						trend = "Món ăn đang có xu hướng được đặt ít đi";
+					}
+				}
+				else {
+					trend = "Món ăn không được đặt lần nào từ ngày thứ 8 đổ về trước, không xác định xu hướng được";
+				}
+    			cellRow.setCellValue(trend);
+    			cellRow.setCellStyle(cellStyleContent);
+    		}
+    		
+    		for(int i = 0; i <= 16; i++) {
+    			mainSheet.autoSizeColumn(i, true);
+    		}
+    		
+    		FileChooser fileChooser = new FileChooser();
+    		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel 2007 or newer files (*.xlsx)", "*.xlsx");
+    		fileChooser.getExtensionFilters().add(extFilter);
+    		File outputExcelFile = fileChooser.showSaveDialog(btnXuatExcel.getScene().getWindow());
+    		if(outputExcelFile != null) {
+    			FileOutputStream outStream;
+				try {
+					outStream = new FileOutputStream(outputExcelFile);
+					outputWorkbook.write(outStream);
+					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					alert.setTitle("Thông báo");
+					alert.setContentText("Xuất ra file excel thành công");
+					alert.showAndWait();
+					outStream.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Lỗi");
+					alert.setContentText("Không thể lưu file excel, hãy thử lại.");
+					alert.showAndWait();
+				} catch (IOException e) {
+					e.printStackTrace();
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Lỗi");
+					alert.setContentText("Không thể lưu file excel, hãy thử lại.");
+					alert.showAndWait();
+				}
+    		}
+    		try {
+				outputWorkbook.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
+    
+    void tinhThongSo(MonAn ma) {
     	txtMaMA.setText(ma.getMaMA());
     	txtTenMA.setText(ma.getTenMA());
     	txtSoNguoi.setText(String.valueOf(ma.getSoLuongNguoi()));
