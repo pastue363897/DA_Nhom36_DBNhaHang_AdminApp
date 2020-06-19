@@ -9,8 +9,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
@@ -157,7 +161,7 @@ public class ThongKeMonAnController implements Initializable {
 	 * 9 - 10 số phần 28 và doanh thu 28
 	 * 11 ngày đặt cũ nhất
 	 */
-	private List<List<Object>> thongKeData;
+	private Map<String, List<Object>> thongKeData;
 	
 	private String textBtnThongKe;
 	
@@ -165,60 +169,54 @@ public class ThongKeMonAnController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		textBtnThongKe = btnThongKe.getText();
 		colThuHang.setCellValueFactory(new PropertyValueFactory<MonAn, String>("maMA"));
-		colThuHang.setSortable(false);
 		colTenMA.setCellValueFactory(new PropertyValueFactory<MonAn, String>("tenMA"));
-		colTenMA.setSortable(false);
 		colSoNguoi.setCellValueFactory(new PropertyValueFactory<MonAn, Integer>("soLuongNguoi"));
-		colSoNguoi.setSortable(false);
 		colDonGia.setCellValueFactory(new PropertyValueFactory<MonAn, Long>("giaTien"));
-		colDonGia.setSortable(false);
 		colSoPhanDD.setCellValueFactory(new Callback<CellDataFeatures<MonAn, Long>, ObservableValue<Long>>() {
 			@Override
 			public ObservableValue<Long> call(CellDataFeatures<MonAn, Long> param) {
-				return new ReadOnlyObjectWrapper<Long>((Long)thongKeData.get(lvMonAn.getItems().indexOf(param.getValue())).get(0));
+				return new ReadOnlyObjectWrapper<Long>((Long)thongKeData.get(param.getValue().getMaMA()).get(0));
 			}
 		});
-		colSoPhanDD.setSortable(false);
 		colTongDoanhThu.setCellValueFactory(new Callback<CellDataFeatures<MonAn, Long>, ObservableValue<Long>>() {
 			@Override
 			public ObservableValue<Long> call(CellDataFeatures<MonAn, Long> param) {
-				return new ReadOnlyObjectWrapper<Long>((Long)thongKeData.get(lvMonAn.getItems().indexOf(param.getValue())).get(1));
+				return new ReadOnlyObjectWrapper<Long>((Long)thongKeData.get(param.getValue().getMaMA()).get(1));
 			}
 		});
-		colTongDoanhThu.setSortable(false);
 		
 		lvMonAn.setRowFactory(x -> {
 			TableRow<MonAn> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if(!row.isEmpty()) {
-					lblSoPhanDD.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(0)));
-					lblTongDoanhThu.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(1)) + " Đ");
-					lblSoBanDatMon.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(2)));
-					lblSoPhanDD7.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(3)));
-					lblDoanhThuMon7.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(4)) + " Đ");
-					lblSoPhanDD14.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(5)));
-					lblDoanhThuMon14.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(6)) + " Đ");
-					lblSoPhanDD21.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(7)));
-					lblDoanhThuMon21.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(8)) + " Đ");
-					lblSoPhanDD28.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(9)));
-					lblDoanhThuMon28.setText(String.valueOf((Long)thongKeData.get(row.getIndex()).get(10)) + " Đ");
-					LocalDate oldest = (LocalDate)thongKeData.get(row.getIndex()).get(11);
+					lblSoPhanDD.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(0)));
+					lblTongDoanhThu.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(1)) + " Đ");
+					lblSoBanDatMon.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(2)));
+					lblSoPhanDD7.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(3)));
+					lblDoanhThuMon7.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(4)) + " Đ");
+					lblSoPhanDD14.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(5)));
+					lblDoanhThuMon14.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(6)) + " Đ");
+					lblSoPhanDD21.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(7)));
+					lblDoanhThuMon21.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(8)) + " Đ");
+					lblSoPhanDD28.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(9)));
+					lblDoanhThuMon28.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(10)) + " Đ");
+					LocalDate oldest = (LocalDate)thongKeData.get(row.getItem().getMaMA()).get(11);
 					if(oldest.isBefore(LocalDate.now().minusDays(7))) {
-						Long d7 = (Long)thongKeData.get(row.getIndex()).get(3);
-						Long d14 = (Long)thongKeData.get(row.getIndex()).get(5);
+						Long d7 = (Long)thongKeData.get(row.getItem().getMaMA()).get(3);
+						Long d14 = (Long)thongKeData.get(row.getItem().getMaMA()).get(5);
 						if(d7 > d14) {
 							if(d7 * 1.0 / d14 > 1.1)
 								txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt nhiều hơn");
 							else
 								txtXuHuongAuto.setText("Món ăn đang có xu hướng ổn định về số lần đặt");
 						}
-						else if((Long)thongKeData.get(row.getIndex()).get(3) < (Long)thongKeData.get(row.getIndex()).get(5)) {
+						else if((Long)thongKeData.get(row.getItem().getMaMA()).get(3) < (Long)thongKeData.get(row.getItem().getMaMA()).get(5)) {
 							if(d14 * 1.0 / d7 > 1.1)
 								txtXuHuongAuto.setText("Món ăn đang có xu hướng được ít đi");
 							else
 								txtXuHuongAuto.setText("Món ăn đang có xu hướng ổn định về số lần đặt");
 						}
-						else if((Long)thongKeData.get(row.getIndex()).get(3) == (Long)thongKeData.get(row.getIndex()).get(5)) {
+						else if((Long)thongKeData.get(row.getItem().getMaMA()).get(3) == (Long)thongKeData.get(row.getItem().getMaMA()).get(5)) {
 							txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt ít đi");
 						}
 					}
@@ -254,76 +252,65 @@ public class ThongKeMonAnController implements Initializable {
     	dsMonAn = monAnDao.getDSMonAn();
     	CTHoaDonBanDatDAO cthdDao = new CTHoaDonBanDatDAO();
     	dsCTHD = cthdDao.getDSCTTBanDatDaThanhToan();
-    	thongKeData = new ArrayList<List<Object>>();
+    	thongKeData = new TreeMap<String, List<Object>>();
     	thongKeData.clear();
-    	if(dsCTHD.size() >= 1) {
-	    	String currentMaMA = dsCTHD.get(0).getMonAn().getMaMA();
-	    	String currentMaBD = "";
+    	for(MonAn ma : dsMonAn) {
+    		String currentMaMA = ma.getMaMA();
 	    	ArrayList<Object> firstOb = new ArrayList<Object>();
 	    	for(int i = 0; i < 11; i++)
 	    		firstOb.add((long)0);
 	    	firstOb.add(LocalDate.now());
-	    	thongKeData.add(firstOb);
-	    	int indexNew = 0;
+	    	thongKeData.put(currentMaMA, firstOb);
+    	}
+    	if(dsCTHD.size() >= 1) {
+	    	//int indexNew = 0;
 	    	LocalDate now = LocalDate.now();
 	    	LocalDate back7 = now.minusDays(7);
 	    	LocalDate back14 = back7.minusDays(7);
 	    	LocalDate back21 = back14.minusDays(7);
 	    	LocalDate back28 = back21.minusDays(7);
-	    	for(int i = 0; i < dsCTHD.size(); i++)
-	    	{
+	    	String currentMaBD = dsCTHD.get(0).getTtBanDat().getMaBD();
+	    	for(int i = 0; i < dsCTHD.size(); i++) 	{
 	    		CTHoaDonBanDat curr = dsCTHD.get(i);
-	    		if(currentMaMA.equals(curr.getMonAn().getMaMA()))
-	    		{
-	    			List<Object> c = thongKeData.get(indexNew);
-		    		System.out.println("BEFORE "+c.get(0) + " " + c.get(1));
-	    			thongKeData.get(indexNew).set(0, (long)thongKeData.get(indexNew).get(0) + curr.getSoLuong());
-	    			thongKeData.get(indexNew).set(1, (long)thongKeData.get(indexNew).get(1) + curr.getDonGia() * curr.getSoLuong());
-	    			List<Object> d = thongKeData.get(indexNew);
-		    		System.out.println(d.get(0) + " " + d.get(1));
-	    			if(!curr.getTtBanDat().getMaBD().equals(currentMaBD)) {
-	    				thongKeData.get(indexNew).set(2, (long)thongKeData.get(indexNew).get(2) + 1);
-	    				currentMaBD = curr.getTtBanDat().getMaBD();
-	    			}
-	    			LocalDate ngayTT = curr.getTtBanDat().getNgayThanhToan().toLocalDateTime().toLocalDate();
-	    			if(ngayTT.isBefore((LocalDate)thongKeData.get(indexNew).get(11))) {
-	    				thongKeData.get(indexNew).set(11, ngayTT);
-	    			}
-	    			if(ngayTT.isAfter(back7) && (ngayTT.isBefore(now) || ngayTT.isEqual(now))) {
-	    				thongKeData.get(indexNew).set(3, (long)thongKeData.get(indexNew).get(3) + curr.getSoLuong());
-		    			thongKeData.get(indexNew).set(4, (long)thongKeData.get(indexNew).get(4) + curr.getDonGia() * curr.getSoLuong());
-	    			}
-	    			else if(ngayTT.isAfter(back14) && (ngayTT.isBefore(back7) || ngayTT.isEqual(back7))) {
-	    				thongKeData.get(indexNew).set(5, (long)thongKeData.get(indexNew).get(5) + curr.getSoLuong());
-		    			thongKeData.get(indexNew).set(6, (long)thongKeData.get(indexNew).get(6) + curr.getDonGia() * curr.getSoLuong());
-	    			}
-	    			else if(ngayTT.isAfter(back21) && (ngayTT.isBefore(back14) || ngayTT.isEqual(back14))) {
-	    				thongKeData.get(indexNew).set(7, (long)thongKeData.get(indexNew).get(7) + curr.getSoLuong());
-		    			thongKeData.get(indexNew).set(8, (long)thongKeData.get(indexNew).get(8) + curr.getDonGia() * curr.getSoLuong());
-	    			}
-	    			else if(ngayTT.isAfter(back28) && (ngayTT.isBefore(back21) || ngayTT.isEqual(back21))) {
-	    				thongKeData.get(indexNew).set(9, (long)thongKeData.get(indexNew).get(9) + curr.getSoLuong());
-		    			thongKeData.get(indexNew).set(10, (long)thongKeData.get(indexNew).get(10) + curr.getDonGia() * curr.getSoLuong());
-	    			}
-	    		}
-	    		else
-	    		{
-	    			indexNew++;
-	    			currentMaMA = curr.getMonAn().getMaMA();
-	    			i--;
-	    			ArrayList<Object> firstOb2 = new ArrayList<Object>();
-	    	    	for(int a = 0; a < 11; a++)
-	    	    		firstOb2.add((long)0);
-	    	    	firstOb2.add(LocalDate.now());
-	    	    	thongKeData.add(firstOb2);
-	    			continue;
-	    		}
-	    	}
-	    	for(int i = 0; i < thongKeData.size(); i++) {
-	    		List<Object> d = thongKeData.get(i);
-	    		System.out.println(d.get(0) + " " + d.get(1));
+	    		String currentMaMA = curr.getMonAn().getMaMA();
+	    		//System.out.println("BEFORE "+c.get(0) + " " + c.get(1));
+    			thongKeData.get(currentMaMA).set(0, (long)thongKeData.get(currentMaMA).get(0) + curr.getSoLuong());
+    			thongKeData.get(currentMaMA).set(1, (long)thongKeData.get(currentMaMA).get(1) + curr.getDonGia() * curr.getSoLuong());
+	    		//System.out.println(d.get(0) + " " + d.get(1));
+    			if(!curr.getTtBanDat().getMaBD().equals(currentMaBD)) {
+    				thongKeData.get(currentMaMA).set(2, (long)thongKeData.get(currentMaMA).get(2) + 1);
+    				currentMaBD = curr.getTtBanDat().getMaBD();
+    			}
+    			LocalDate ngayTT = curr.getTtBanDat().getNgayThanhToan().toLocalDateTime().toLocalDate();
+    			if(ngayTT.isBefore((LocalDate)thongKeData.get(currentMaMA).get(11))) {
+    				thongKeData.get(currentMaMA).set(11, ngayTT);
+    			}
+    			if(ngayTT.isAfter(back7) && (ngayTT.isBefore(now) || ngayTT.isEqual(now))) {
+    				thongKeData.get(currentMaMA).set(3, (long)thongKeData.get(currentMaMA).get(3) + curr.getSoLuong());
+	    			thongKeData.get(currentMaMA).set(4, (long)thongKeData.get(currentMaMA).get(4) + curr.getDonGia() * curr.getSoLuong());
+    			}
+    			else if(ngayTT.isAfter(back14) && (ngayTT.isBefore(back7) || ngayTT.isEqual(back7))) {
+    				thongKeData.get(currentMaMA).set(5, (long)thongKeData.get(currentMaMA).get(5) + curr.getSoLuong());
+	    			thongKeData.get(currentMaMA).set(6, (long)thongKeData.get(currentMaMA).get(6) + curr.getDonGia() * curr.getSoLuong());
+    			}
+    			else if(ngayTT.isAfter(back21) && (ngayTT.isBefore(back14) || ngayTT.isEqual(back14))) {
+    				thongKeData.get(currentMaMA).set(7, (long)thongKeData.get(currentMaMA).get(7) + curr.getSoLuong());
+	    			thongKeData.get(currentMaMA).set(8, (long)thongKeData.get(currentMaMA).get(8) + curr.getDonGia() * curr.getSoLuong());
+    			}
+    			else if(ngayTT.isAfter(back28) && (ngayTT.isBefore(back21) || ngayTT.isEqual(back21))) {
+    				thongKeData.get(currentMaMA).set(9, (long)thongKeData.get(currentMaMA).get(9) + curr.getSoLuong());
+	    			thongKeData.get(currentMaMA).set(10, (long)thongKeData.get(currentMaMA).get(10) + curr.getDonGia() * curr.getSoLuong());
+    			}
 	    	}
     	}
+    	Collections.sort(dsMonAn, new Comparator<MonAn>() {
+
+			@Override
+			public int compare(MonAn o1, MonAn o2) {
+				return (int)((Long)thongKeData.get(o2.getMaMA()).get(1) - (Long)thongKeData.get(o1.getMaMA()).get(1));
+			}
+    		
+    	});
     	dsOBMonAn = FXCollections.observableArrayList(dsMonAn);
     	lvMonAn.setItems(dsOBMonAn);
     	
@@ -429,7 +416,7 @@ public class ThongKeMonAnController implements Initializable {
     		// row 5:
     		row = mainSheet.createRow(rowNum++);
     		String headers3[] = {"","","","","","","","","Số phần", "Doanh thu", "Số phần", "Doanh thu",
-    				"Số phần", "Doanh", "Số phần", "Doanh thu"};
+    				"Số phần", "Doanh thu", "Số phần", "Doanh thu"};
     		colNum = 0;
     		for(String hd : headers3) {
         		cellRow = row.createCell(colNum++);
@@ -457,41 +444,41 @@ public class ThongKeMonAnController implements Initializable {
     			cellRow.setCellValue(ma.getGiaTien());
     			cellRow.setCellStyle(cellStyleContent);
     			cellRow = row.createCell(colNum++);
-    			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(1));
+    			cellRow.setCellValue((Long)thongKeData.get(ma.getMaMA()).get(1));
     			cellRow.setCellStyle(cellStyleContent);
     			cellRow = row.createCell(colNum++);
-    			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(0));
+    			cellRow.setCellValue((Long)thongKeData.get(ma.getMaMA()).get(0));
     			cellRow.setCellStyle(cellStyleContent);
     			cellRow = row.createCell(colNum++);
-    			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(2));
+    			cellRow.setCellValue((Long)thongKeData.get(ma.getMaMA()).get(2));
     			cellRow.setCellStyle(cellStyleContent);
     			for(int fs = 9; fs >= 3; fs-=2) {
     				cellRow = row.createCell(colNum++);
-        			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(fs));
+        			cellRow.setCellValue((Long)thongKeData.get(ma.getMaMA()).get(fs));
         			cellRow.setCellStyle(cellStyleContent);
         			cellRow = row.createCell(colNum++);
-        			cellRow.setCellValue((Long)thongKeData.get(stt-2).get(fs+1));
+        			cellRow.setCellValue((Long)thongKeData.get(ma.getMaMA()).get(fs+1));
         			cellRow.setCellStyle(cellStyleContent);
     			}
     			cellRow = row.createCell(colNum++);
     			String trend = "";
-    			LocalDate oldest = (LocalDate)thongKeData.get(stt-2).get(11);
+    			LocalDate oldest = (LocalDate)thongKeData.get(ma.getMaMA()).get(11);
 				if(oldest.isBefore(LocalDate.now().minusDays(7))) {
-					Long d7 = (Long)thongKeData.get(stt-2).get(3);
-					Long d14 = (Long)thongKeData.get(stt-2).get(5);
+					Long d7 = (Long)thongKeData.get(ma.getMaMA()).get(3);
+					Long d14 = (Long)thongKeData.get(ma.getMaMA()).get(5);
 					if(d7 > d14) {
 						if(d7 * 1.0 / d14 > 1.1)
 							trend = "Món ăn đang có xu hướng được đặt nhiều hơn";
 						else
 							trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
 					}
-					else if((Long)thongKeData.get(stt-2).get(3) < (Long)thongKeData.get(stt-2).get(5)) {
+					else if((Long)thongKeData.get(ma.getMaMA()).get(3) < (Long)thongKeData.get(ma.getMaMA()).get(5)) {
 						if(d14 * 1.0 / d7 > 1.1)
 							trend = "Món ăn đang có xu hướng được ít đi";
 						else
 							trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
 					}
-					else if((Long)thongKeData.get(stt-2).get(3) == (Long)thongKeData.get(stt-2).get(5)) {
+					else if((Long)thongKeData.get(ma.getMaMA()).get(3) == (Long)thongKeData.get(ma.getMaMA()).get(5)) {
 						trend = "Món ăn đang có xu hướng được đặt ít đi";
 					}
 				}
@@ -515,11 +502,12 @@ public class ThongKeMonAnController implements Initializable {
 				try {
 					outStream = new FileOutputStream(outputExcelFile);
 					outputWorkbook.write(outStream);
+					outStream.close();
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
 					alert.setTitle("Thông báo");
 					alert.setContentText("Xuất ra file excel thành công");
 					alert.showAndWait();
-					outStream.close();
+					
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 					Alert alert = new Alert(Alert.AlertType.ERROR);
