@@ -1,7 +1,6 @@
 package controller;
 
 import java.net.URL;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,9 +9,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import database.HoaDonBanDatDAO;
-import entites.BanAn;
-import entites.CTHoaDonBanDat;
-import entites.Customer;
 import entites.HoaDonBanDat;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -27,9 +23,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;

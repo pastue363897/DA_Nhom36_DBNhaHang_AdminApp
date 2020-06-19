@@ -7,7 +7,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import application.PrimaryConf;
 import database.HoaDonBanDatDAO;
@@ -17,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +41,7 @@ public class ItemTTBanDatController {
 	private BanDatManagerController banDatMGCT;
 	private HoaDonBanDat ttBanDat;
 
+	@SuppressWarnings("deprecation")
 	public void loadData(HoaDonBanDat b) {
 	  Image image = new Image("file:" + PrimaryConf.CUSTOM_FILE_PATH_HEAD + b.getBanAn().getHinhAnh(), 200, 165, false,
         true);

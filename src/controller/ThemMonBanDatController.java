@@ -1,21 +1,14 @@
 package controller;
 
 import java.net.URL;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import database.BanAnDAO;
 import database.CTHoaDonBanDatDAO;
-import database.CustomerDAO;
 import database.HoaDonBanDatDAO;
 import database.MonAnDAO;
-import entites.Account;
-import entites.BanAn;
 import entites.CTHoaDonBanDat;
-import entites.Customer;
 import entites.HoaDonBanDat;
 import entites.MonAn;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,7 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -38,7 +30,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import net.bytebuddy.utility.RandomString;
 
 public class ThemMonBanDatController implements Initializable {
     @FXML
@@ -199,8 +190,6 @@ public class ThemMonBanDatController implements Initializable {
 
     @FXML
     void thanhToan(ActionEvent event) {
-    	CustomerDAO cusDao = new CustomerDAO();
-    	Customer cus = null;
     	long test = tinhTongTien();
     	if(hoaDonHienTai.isDaThanhToan()) {
 	    	if(test == -1 || test == -2) {

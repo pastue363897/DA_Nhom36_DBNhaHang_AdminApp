@@ -76,6 +76,7 @@ public class BanAnManagerController implements Initializable {
 	private String chosenFileExtension = FilenameUtils.getExtension("./src/images/table-view.png");
 	private File chosenHinhAnh = new File("./src/images/table-view.png");
 	private String currentHinhAnh;
+	@SuppressWarnings("unused")
 	private static String hinhAnh = "/images/table-view.png";
 
 	public ImageView getImvHinhAnhBA() {

@@ -74,6 +74,7 @@ public class MonAnManagerController implements Initializable {
 	private String chosenFileExtension = FilenameUtils.getExtension("./src/images/food-view.png");
 	private File chosenHinhAnh = new File("./src/images/food-view.png");
 	private String currentHinhAnh;
+	@SuppressWarnings("unused")
 	private static String hinhAnh = "/images/food-view.png";
 
 	public void setIdMonAnUpdate(String idMonAnUpdate) {

@@ -168,6 +168,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 		donGia.setCellValueFactory(new PropertyValueFactory<CTHoaDonBanDat, Long>("donGia"));
 	}
 
+	@SuppressWarnings("deprecation")
 	public void loadData(HoaDonBanDat bd) {
 		ttBanDat = bd;
 		lblMaKH.setText(ttBanDat.getKhachHang().getTaiKhoan().getMaTK());
