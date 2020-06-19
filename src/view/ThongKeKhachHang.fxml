@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="686.0" prefWidth="1274.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ThongKeKhachHangController">
+   <children>
+      <Label layoutX="29.0" layoutY="143.0" text="Hay tìm các bàn được đặt:" visible="false" />
+      <Label layoutX="718.0" layoutY="42.0" text="Doanh thu từ khách hàng" />
+      <Label fx:id="lblDoanhThuKH" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1092.0" layoutY="42.0" prefHeight="7.0" prefWidth="156.0" text="999.999.999.999 Đ" />
+      <Label layoutX="719.0" layoutY="93.0" text="Số lần hủy bàn" />
+      <Label layoutX="720.0" layoutY="170.0" prefHeight="17.0" prefWidth="149.0" text="Món ăn gọi nhiều nhất" />
+      <Button fx:id="btnDong" layoutX="1082.0" layoutY="635.0" mnemonicParsing="false" onAction="#dongGiaoDien" prefHeight="25.0" prefWidth="94.0" text="Đóng" textAlignment="CENTER" wrapText="true" />
+      <Label layoutX="30.0" layoutY="18.0" text="Thống kê doanh thu theo khách hàng">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="lvKhachHang" layoutX="26.0" layoutY="52.0" prefHeight="581.0" prefWidth="662.0">
+        <columns>
+          <TableColumn fx:id="colMaKH" prefWidth="83.99996948242188" text="Mã KH" />
+            <TableColumn fx:id="colTenKH" prefWidth="161.00003051757812" text="Họ tên" />
+            <TableColumn fx:id="colSoCMND" prefWidth="116.0" text="Số CMND" />
+            <TableColumn fx:id="colSoDT" minWidth="0.0" prefWidth="119.0" text="Số ĐT" />
+            <TableColumn fx:id="colTongDoanhThu" prefWidth="166.0" text="Tổng doanh thu" />
+        </columns>
+      </TableView>
+      <Label layoutX="719.0" layoutY="68.0" prefHeight="17.0" prefWidth="205.0" text="Số lần đặt bàn và đã thanh toán" wrapText="true" />
+      <Label layoutX="719.0" layoutY="118.0" prefHeight="17.0" prefWidth="205.0" text="Ngày đặt bàn đã thanh toán gần nhất" wrapText="true" />
+      <Button fx:id="btnThongKe" layoutX="383.0" layoutY="19.0" mnemonicParsing="false" onAction="#thongKeKhachHang" prefHeight="25.0" prefWidth="238.0" text="Thống kê doanh thu theo khách hàng" />
+      <Separator layoutX="694.0" layoutY="24.0" orientation="VERTICAL" prefHeight="649.0" prefWidth="0.0" />
+      <Label fx:id="lblNgayGanNhat" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1091.0" layoutY="118.0" prefHeight="17.0" prefWidth="156.0" text="31/12/2020" />
+      <Label fx:id="lblSoLanDat" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1091.0" layoutY="68.0" prefHeight="17.0" prefWidth="156.0" text="999.999.999" />
+      <Separator layoutX="16.0" layoutY="635.0" prefHeight="7.0" prefWidth="679.0" />
+      <ImageView fx:id="imgHinhAnhMA" fitHeight="143.0" fitWidth="200.0" layoutX="730.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="729.0" layoutY="209.0" text="Mã món ăn" />
+      <Label layoutX="988.0" layoutY="209.0" text="Tên món ăn" />
+      <Label layoutX="729.0" layoutY="239.0" text="Số người / phần" />
+      <Label layoutX="946.0" layoutY="275.0" text="Nguyên liệu" />
+      <Label layoutX="732.0" layoutY="428.0" text="Mô tả món ăn" />
+      <TextField fx:id="txtMaMA" editable="false" layoutX="823.0" layoutY="205.0" prefHeight="25.0" prefWidth="121.0" />
+      <TextField fx:id="txtTenMA" editable="false" layoutX="1060.0" layoutY="205.0" prefHeight="25.0" prefWidth="188.0" />
+      <TextField fx:id="txtSoNguoi" editable="false" layoutX="823.0" layoutY="235.0" prefHeight="25.0" prefWidth="121.0" />
+      <TextArea fx:id="txtNguyenLieu" editable="false" layoutX="947.0" layoutY="297.0" prefHeight="119.0" prefWidth="300.0" wrapText="true" />
+      <TextArea fx:id="txtMoTaMA" editable="false" layoutX="732.0" layoutY="451.0" prefHeight="80.0" prefWidth="515.0" wrapText="true" />
+      <Label layoutX="988.0" layoutY="239.0" text="Đơn giá hiện tại" />
+      <TextField fx:id="txtDonGia" editable="false" layoutX="1086.0" layoutY="235.0" />
+      <Label layoutX="1238.0" layoutY="239.0" text="Đ" />
+      <Button fx:id="btnXuatExcel" layoutX="1026.0" layoutY="603.0" mnemonicParsing="false" onAction="#xuatFileExcel" prefHeight="25.0" prefWidth="205.0" text="Xuất báo cáo ra file Excel" />
+      <Label fx:id="lblSoLanHuy" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1091.0" layoutY="93.0" prefHeight="17.0" prefWidth="156.0" text="999.999.999" />
+      <CheckBox fx:id="cbChiConBan" layoutX="894.0" layoutY="169.0" mnemonicParsing="false" onAction="#chiConBanChange" text="Chỉ trong các món còn bán" />
+      <Button fx:id="btnXemChiTiet" layoutX="758.0" layoutY="603.0" mnemonicParsing="false" onAction="#xemChiTietKH" prefHeight="57.0" prefWidth="205.0" text="Xem chi tiết khách hàng này trong quản lý khách hàng" textAlignment="CENTER" visible="false" wrapText="true" />
+      <Label layoutX="29.0" layoutY="645.0" text="Tổng doanh thu" />
+      <Label fx:id="lblTongDoanhThu" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="151.0" layoutY="645.0" prefHeight="17.0" prefWidth="121.0" text="999.999.999.999 Đ" />
+      <Label layoutX="372.0" layoutY="645.0" text="Số lượng khách hàng" />
+      <Label fx:id="lblSoKhachHangUnique" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="502.0" layoutY="645.0" prefHeight="17.0" prefWidth="94.0" text="999999" />
+      <Label layoutX="720.0" layoutY="143.0" text="Doanh thu bàn gần nhất" />
+      <Label fx:id="lblDoanhThuKHGanNhat" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1092.0" layoutY="143.0" prefHeight="7.0" prefWidth="156.0" text="999.999.999.999 Đ" />
+      <Label fx:id="lblThongSoMonGanNhat" layoutX="733.0" layoutY="543.0" prefHeight="17.0" prefWidth="515.0" text="Đặt %d phần trong %d lần đặt bàn. Lần cuối đặt món này vào ngày dd/MM/yyyy" />
+   </children>
+</AnchorPane>

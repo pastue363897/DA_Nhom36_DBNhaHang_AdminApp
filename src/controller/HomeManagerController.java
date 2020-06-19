@@ -14,14 +14,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -63,6 +60,8 @@ public class HomeManagerController implements Initializable {
     private MenuItem menuTKDTBanDatTheoNgay;
     @FXML
     private MenuItem menuTKMonAn;
+    @FXML
+    private MenuItem menuTKKhachHang;
 	
 	public static Stage primaryStage;
 
@@ -221,6 +220,24 @@ public class HomeManagerController implements Initializable {
     			stage.initModality(Modality.WINDOW_MODAL);
     			stage.initOwner(HomeManagerController.primaryStage);
     			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Thống kê về các món ăn");
+    			Scene scene = new Scene(root);
+    			stage.setScene(scene);
+    			stage.sizeToScene();
+    			stage.centerOnScreen();
+    			stage.show();
+    		} catch (IOException e1) {
+    			e1.printStackTrace();
+    		}
+    	}
+    	else if(event.getSource() == menuTKKhachHang) {
+    		Parent root;
+    		try {
+    			root = FXMLLoader.load(getClass().getResource("/view/ThongKeKhachHang.fxml"));
+    			Stage stage = new Stage();
+    			stage.setResizable(false);
+    			stage.initModality(Modality.WINDOW_MODAL);
+    			stage.initOwner(HomeManagerController.primaryStage);
+    			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Thống kê các khách hàng theo doanh thu");
     			Scene scene = new Scene(root);
     			stage.setScene(scene);
     			stage.sizeToScene();

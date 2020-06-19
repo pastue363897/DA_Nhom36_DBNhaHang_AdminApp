@@ -60,6 +60,7 @@
                <items>
                   <MenuItem fx:id="menuTKDTBanDatTheoNgay" mnemonicParsing="false" onAction="#menuThongKe" text="Thống kê doanh thu bàn đặt theo ngày" />
                   <MenuItem fx:id="menuTKMonAn" mnemonicParsing="false" onAction="#menuThongKe" text="Thống kê về các món ăn" />
+                  <MenuItem fx:id="menuTKKhachHang" mnemonicParsing="false" onAction="#menuThongKe" text="Thống kê các khách hàng theo doanh thu" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false">
