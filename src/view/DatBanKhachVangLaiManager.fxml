@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -10,101 +11,110 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="610.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DatBanKhachVangLaiController">
+<AnchorPane prefHeight="610.0" prefWidth="1274.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DatBanKhachVangLaiController">
    <children>
       <Label layoutX="30.0" layoutY="68.0" prefHeight="17.0" prefWidth="118.0" text="Tên khách hàng" />
-      <TextField fx:id="txtTenKhachHang" layoutX="128.0" layoutY="64.0" />
+      <TextField fx:id="txtTenKhachHang" layoutX="128.0" layoutY="64.0" prefHeight="25.0" prefWidth="197.0" />
       <Label layoutX="30.0" layoutY="135.0" text="Địa chỉ" />
-      <TextField fx:id="txtDiaChi" layoutX="128.0" layoutY="131.0" prefHeight="25.0" prefWidth="385.0" />
-      <TextField fx:id="txtSoCMND" layoutX="364.0" layoutY="64.0" />
-      <TextField fx:id="txtSoDT" layoutX="128.0" layoutY="98.0" />
+      <TextField fx:id="txtDiaChi" layoutX="128.0" layoutY="131.0" prefHeight="25.0" prefWidth="439.0" />
+      <TextField fx:id="txtSoCMND" layoutX="417.0" layoutY="64.0" />
+      <TextField fx:id="txtSoDT" layoutX="128.0" layoutY="98.0" prefHeight="25.0" prefWidth="197.0" />
       <Label layoutX="30.0" layoutY="102.0" text="Số điện thoại" />
-      <Label layoutX="293.0" layoutY="68.0" text="Số CMND" />
-      <CheckBox fx:id="cbCoTaiKhoan" layoutX="30.0" layoutY="170.0" mnemonicParsing="false" onAction="#coTaiKhoanChange" prefHeight="17.0" prefWidth="262.0" text="Nếu người dùng có tài khoản khách hàng:" />
-      <TextField fx:id="txtMaKH" layoutX="364.0" layoutY="166.0" />
-      <Label layoutX="320.0" layoutY="170.0" text="Mã KH" />
+      <Label layoutX="346.0" layoutY="68.0" text="Số CMND" />
+      <CheckBox fx:id="cbCoTaiKhoan" layoutX="30.0" layoutY="170.0" mnemonicParsing="false" onAction="#coTaiKhoanChange" prefHeight="17.0" prefWidth="281.0" text="Nếu người dùng có tài khoản khách hàng:" />
+      <TextField fx:id="txtMaKH" layoutX="411.0" layoutY="166.0" prefHeight="25.0" prefWidth="156.0" />
+      <Label layoutX="359.0" layoutY="170.0" text="Mã KH" />
       <Label layoutX="26.0" layoutY="221.0" text="Chọn 1 bàn ăn trong danh sách này" />
-      <Separator layoutX="26.0" layoutY="205.0" prefHeight="5.0" prefWidth="517.0" />
-      <Separator layoutX="540.0" layoutY="31.0" orientation="VERTICAL" prefHeight="554.0" prefWidth="6.0" />
-      <Label layoutX="563.0" layoutY="31.0" text="Tìm kiếm món ăn" />
-      <Separator layoutX="867.0" layoutY="131.0" orientation="VERTICAL" prefHeight="200.0" />
-      <Label layoutX="878.0" layoutY="32.0" text="Các món đã chọn" />
-      <Button fx:id="btnThemMonAn" layoutX="592.0" layoutY="407.0" mnemonicParsing="false" onAction="#themMonVaoDS" prefHeight="25.0" prefWidth="244.0" text="Thêm vào danh sách món muốn đặt" />
-      <Button fx:id="btnXoaMonAn" layoutX="943.0" layoutY="407.0" mnemonicParsing="false" onAction="#xoaMonKhoiDS" prefHeight="25.0" prefWidth="171.0" text="Xóa món đang chọn" />
-      <Label layoutX="570.0" layoutY="470.0" text="Tổng tiền">
+      <Separator layoutX="26.0" layoutY="205.0" prefHeight="8.0" prefWidth="549.0" />
+      <Separator layoutX="575.0" layoutY="31.0" orientation="VERTICAL" prefHeight="554.0" prefWidth="6.0" />
+      <Label layoutX="586.0" layoutY="31.0" text="Tìm kiếm món ăn" />
+      <Label layoutX="948.0" layoutY="32.0" text="Các món đã chọn" />
+      <Button fx:id="btnThemMonAn" layoutX="615.0" layoutY="407.0" mnemonicParsing="false" onAction="#themMonVaoDS" prefHeight="25.0" prefWidth="244.0" text="Thêm vào danh sách món muốn đặt" />
+      <Button fx:id="btnXoaMonAn" layoutX="1017.0" layoutY="407.0" mnemonicParsing="false" onAction="#xoaMonKhoiDS" prefHeight="25.0" prefWidth="171.0" text="Xóa món đang chọn" />
+      <Label layoutX="593.0" layoutY="470.0" text="Tổng tiền">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTongTien" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="712.0" layoutY="470.0" prefHeight="27.0" prefWidth="156.0" text="500000 Đ">
+      <Label fx:id="lblTongTien" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="737.0" layoutY="470.0" prefHeight="27.0" prefWidth="171.0" text="500000 Đ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="570.0" layoutY="510.0" text="Tiền khách đưa">
+      <Label layoutX="593.0" layoutY="510.0" text="Tiền khách đưa">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="855.0" layoutY="510.0" text="Đ" textAlignment="RIGHT">
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="895.0" layoutY="510.0" text="Đ" textAlignment="RIGHT">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="705.0" layoutY="504.0" prefHeight="39.0" prefWidth="149.0">
+      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="738.0" layoutY="504.0" prefHeight="39.0" prefWidth="156.0">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="570.0" layoutY="550.0" text="Tiền thối lại">
+      <Label layoutX="593.0" layoutY="550.0" text="Tiền thối lại">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTienThoi" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="712.0" layoutY="550.0" prefHeight="27.0" prefWidth="156.0" text="100000 Đ">
+      <Label fx:id="lblTienThoi" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="736.0" layoutY="550.0" prefHeight="27.0" prefWidth="171.0" text="100000 Đ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnThanhToan" layoutX="920.0" layoutY="473.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="69.0" prefWidth="197.0" text="Thanh toán, lưu và in hóa đơn bàn đặt" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="btnThanhToan" layoutX="977.0" layoutY="473.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="69.0" prefWidth="197.0" text="Thanh toán, lưu và in hóa đơn bàn đặt" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="btnHuy" layoutX="984.0" layoutY="567.0" mnemonicParsing="false" onAction="#dongGiaoDien" prefHeight="25.0" prefWidth="70.0" text="Hủy" />
+      <Button fx:id="btnHuy" layoutX="1041.0" layoutY="567.0" mnemonicParsing="false" onAction="#dongGiaoDien" prefHeight="25.0" prefWidth="70.0" text="Hủy" />
       <Label layoutX="30.0" layoutY="18.0" text="Đặt bàn cho khách vãng lai">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="lvBanAn" layoutX="26.0" layoutY="252.0" prefHeight="332.0" prefWidth="503.0">
+      <TableView fx:id="lvBanAn" layoutX="27.0" layoutY="252.0" prefHeight="332.0" prefWidth="543.0">
         <columns>
-          <TableColumn fx:id="kySoBA" prefWidth="86.0" text="Ký số bàn ăn" />
-          <TableColumn fx:id="soGhe" prefWidth="64.0" text="Số ghế" />
-            <TableColumn fx:id="moTaBA" minWidth="0.0" prefWidth="257.0" text="Mô tả" />
-            <TableColumn fx:id="phuGia" prefWidth="92.0" text="Phụ giá" />
+          <TableColumn fx:id="kySoBA" prefWidth="93.0" text="Ký số bàn ăn" />
+          <TableColumn fx:id="soGhe" prefWidth="71.99996948242188" text="Số ghế" />
+            <TableColumn fx:id="moTaBA" minWidth="0.0" prefWidth="265.0000305175781" text="Mô tả" />
+            <TableColumn fx:id="phuGia" prefWidth="98.0" text="Phụ giá" />
         </columns>
       </TableView>
-      <TableView fx:id="lvMonAnDangBan" layoutX="563.0" layoutY="110.0" prefHeight="286.0" prefWidth="295.0">
+      <TableView fx:id="lvMonAnDangBan" layoutX="586.0" layoutY="95.0" prefHeight="301.0" prefWidth="307.0">
         <columns>
           <TableColumn fx:id="tenMon" prefWidth="100.0" text="Tên món" />
           <TableColumn fx:id="soLuongNguoi" prefWidth="106.0" text="Số lượng người" />
             <TableColumn fx:id="donGia" prefWidth="88.0" text="Đơn giá" />
         </columns>
       </TableView>
-      <TableView fx:id="lvMonAnDaChon" layoutX="877.0" layoutY="70.0" prefHeight="324.0" prefWidth="302.0">
+      <TableView fx:id="lvMonAnDaChon" layoutX="947.0" layoutY="63.0" prefHeight="332.0" prefWidth="307.0">
         <columns>
           <TableColumn fx:id="tenMonChon" prefWidth="129.0" text="Tên món" />
           <TableColumn fx:id="donGiaMua" prefWidth="90.0" text="Đơn giá" />
             <TableColumn fx:id="soLuongDat" prefWidth="79.0" text="Số lượng đặt" />
         </columns>
       </TableView>
-      <TextField fx:id="txtMonAnSearch" layoutX="563.0" layoutY="64.0" prefHeight="25.0" prefWidth="142.0" />
-      <Button fx:id="btnTimMon" layoutX="710.0" layoutY="64.0" mnemonicParsing="false" onAction="#timMon" prefHeight="25.0" prefWidth="53.0" text="Tìm" />
-      <Button fx:id="btnShowAllMon" layoutX="767.0" layoutY="64.0" mnemonicParsing="false" onAction="#showAll" prefHeight="25.0" prefWidth="92.0" text="Hiện tất cả" />
-      <TextField fx:id="txtBanAnSearch" layoutX="222.0" layoutY="219.0" prefHeight="25.0" prefWidth="156.0" />
-      <Button fx:id="btnTimBan" layoutX="382.0" layoutY="220.0" mnemonicParsing="false" onAction="#timBan" prefHeight="25.0" prefWidth="53.0" text="Tìm" />
-      <Button fx:id="btnShowAllBan" layoutX="437.0" layoutY="220.0" mnemonicParsing="false" onAction="#showAll" prefHeight="25.0" prefWidth="92.0" text="Hiện tất cả" />
-      <CheckBox fx:id="cbInHoaDon" layoutX="897.0" layoutY="445.0" mnemonicParsing="false" onAction="#coTaiKhoanChange" selected="true" text="In hóa đơn nếu thanh toán thành công" />
+      <TextField fx:id="txtMonAnSearch" layoutX="586.0" layoutY="64.0" prefHeight="25.0" prefWidth="156.0" />
+      <Button fx:id="btnTimMon" layoutX="746.0" layoutY="64.0" mnemonicParsing="false" onAction="#timMon" prefHeight="25.0" prefWidth="53.0" text="Tìm" />
+      <Button fx:id="btnShowAllMon" layoutX="801.0" layoutY="64.0" mnemonicParsing="false" onAction="#showAll" prefHeight="25.0" prefWidth="92.0" text="Hiện tất cả" />
+      <TextField fx:id="txtBanAnSearch" layoutX="222.0" layoutY="219.0" prefHeight="25.0" prefWidth="189.0" />
+      <Button fx:id="btnTimBan" layoutX="416.0" layoutY="219.0" mnemonicParsing="false" onAction="#timBan" prefHeight="25.0" prefWidth="53.0" text="Tìm" />
+      <Button fx:id="btnShowAllBan" layoutX="470.0" layoutY="219.0" mnemonicParsing="false" onAction="#showAll" prefHeight="25.0" prefWidth="100.0" text="Hiện tất cả" />
+      <CheckBox fx:id="cbInHoaDon" layoutX="954.0" layoutY="445.0" mnemonicParsing="false" onAction="#coTaiKhoanChange" selected="true" text="In hóa đơn nếu thanh toán thành công" />
+      <Button fx:id="btnAddMon" layoutX="900.0" layoutY="213.0" mnemonicParsing="false" onAction="#themMonVaoDS" prefHeight="27.0" prefWidth="41.0">
+         <graphic>
+            <FontAwesomeIconView glyphName="CHEVRON_RIGHT" />
+         </graphic>
+      </Button>
+      <Button fx:id="btnRemoveMon" layoutX="900.0" layoutY="249.0" mnemonicParsing="false" onAction="#xoaMonKhoiDS" prefHeight="27.0" prefWidth="41.0">
+         <graphic>
+            <FontAwesomeIconView glyphName="CHEVRON_LEFT" />
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
