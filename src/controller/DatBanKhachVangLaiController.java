@@ -144,6 +144,12 @@ public class DatBanKhachVangLaiController implements Initializable {
     @FXML
     private CheckBox cbInHoaDon;
     
+    @FXML
+    private Button btnAddMon;
+
+    @FXML
+    private Button btnRemoveMon;
+    
     private BanDatManagerController banDatMGCT;
     
     private List<BanAn> dsBanAnTimThay;
@@ -246,7 +252,7 @@ public class DatBanKhachVangLaiController implements Initializable {
 			TableRow<CTHoaDonBanDat> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if(!row.isEmpty() && event.getClickCount() == 2) {
-					xoaMon();
+					xoaMon(false);
 				}
 			});
 			return row;
@@ -489,14 +495,14 @@ public class DatBanKhachVangLaiController implements Initializable {
 		lvMonAnDangBan.refresh();
     }
     
-    void xoaMon() {
+    void xoaMon(boolean all) {
     	CTHoaDonBanDat ma = lvMonAnDaChon.getSelectionModel().getSelectedItem();
     	if (ma != null) {
     		boolean het = false;
 	    	int index = 0;
 	    	for (CTHoaDonBanDat x : dsMonAnDaChon) {
 	    		if (x.getMonAn().getMaMA().equals(ma.getMonAn().getMaMA())) {
-	    			if(x.getSoLuong() >= 2) {
+	    			if(x.getSoLuong() >= 2 && !all) {
 	    				x.setSoLuong(x.getSoLuong()-1);
 	    				break;
 	    			}
@@ -524,7 +530,10 @@ public class DatBanKhachVangLaiController implements Initializable {
 
     @FXML
     void xoaMonKhoiDS(ActionEvent event) {
-    	xoaMon();
+    	if(event.getSource() == btnRemoveMon)
+    		xoaMon(false);
+    	else
+    		xoaMon(true);
     }
     
     long tinhTienThoi() {
