@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -90,31 +91,52 @@ public class ItemMonAnController implements Initializable {
 		try {
 			MonAnDAO maDao = new MonAnDAO();
 			if (maDao.checkPreviouslyBooked(ttMonAn)) {
-				maDao.setIsDeleted(ttMonAn);
-			} else {
-				String path = PrimaryConf.CUSTOM_FILE_PATH_HEAD.concat(ttMonAn.getHinhAnhMA());
-				File file = new File(path);
-				if (!file.delete()) {
-					throw new Exception("Không xóa được file, không tiếp tục xóa bàn ăn");
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Món ăn đã từng được đặt ít nhất 1 lần, có xác nhận không bán món này nữa?", ButtonType.YES, ButtonType.NO);
+				alert.setTitle("Xác nhận?");
+				alert.showAndWait();
+				
+				if (alert.getResult() == ButtonType.YES) {
+					maDao.setIsDeleted(ttMonAn);
+					monAnMGCT.loadAllMonAn();
+					
+					Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+					alert2.setTitle("Hủy bán món ăn thành công");
+					alert2.setContentText("Đã hủy bán món ăn trong hệ thống");
+					alert2.show();
 				}
-				maDao.delete(ttMonAn);
+				
+			} else {
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Có thực sự xóa món ăn nàt?", ButtonType.YES, ButtonType.NO);
+				alert.setTitle("Xác nhận?");
+				alert.showAndWait();
+				
+				if (alert.getResult() == ButtonType.YES) {
+					String path = PrimaryConf.CUSTOM_FILE_PATH_HEAD.concat(ttMonAn.getHinhAnhMA());
+					File file = new File(path);
+					if (!file.delete()) {
+						throw new Exception("Không xóa được file, không tiếp tục xóa bàn ăn");
+					}
+					maDao.delete(ttMonAn);
+					
+					
+					Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+					alert2.setTitle("Xóa món ăn bàn thành công");
+					alert2.setContentText("Đã xóa món ăn trong hệ thống");
+					alert2.show();
+					monAnMGCT.loadAllMonAn();
+				}
 			}
-			monAnMGCT.loadAllMonAn();
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Xóa món ăn bàn thành công");
-			alert.setContentText("Đã xóa món ăn trong hệ thống");
-			alert.show();
 		} catch (HibernateException he) {
 			he.printStackTrace();
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Xóa món ăn thất bại");
-			alert.setContentText("Đã xảy ra sự cố hãy thử lại");
+			alert.setContentText("Đã xảy ra sự cố, hãy thử lại");
 			alert.show();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Xóa món ăn thất bại");
-			alert.setContentText("Đã xảy ra sự cố hãy thử lại");
+			alert.setContentText("Đã xảy ra sự cố, hãy thử lại");
 			alert.show();
 		}
 	}

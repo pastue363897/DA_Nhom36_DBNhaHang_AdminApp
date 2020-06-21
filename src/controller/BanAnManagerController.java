@@ -126,9 +126,72 @@ public class BanAnManagerController implements Initializable {
 	public TabPane getTabPane() {
 		return tabPane;
 	}
+	
+	boolean validateThongTin(boolean isEdit) {
+		String title = "Thêm bàn thất bại";
+		if(isEdit)
+			title = "Sửa bàn thất bại";
+		if(txtKySoBanAn.getText().trim().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle(title);
+			alert.setContentText("Ký số bàn ăn không được trống");
+			alert.showAndWait();
+			return false;
+		}
+		
+		if(txtGiaTienBA.getText().trim().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle(title);
+			alert.setContentText("Giá tiền không được bỏ trống");
+			alert.showAndWait();
+			return false;
+		}
+		else {
+			try {
+				int test = Integer.parseInt(txtGiaTienBA.getText());
+				if(test < 0 || test > 1000000000) {
+					throw new Exception();
+				}
+			}
+			catch(Exception ex) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle(title);
+				alert.setContentText("Giá tiền phải là số nguyên >= 0 và <= 1000000000");
+				alert.showAndWait();
+				return false;
+			}
+		}
+		
+		
+		if(txtSoLuongGheBA.getText().trim().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle(title);
+			alert.setContentText("Số lượng ghế không được bỏ trống");
+			alert.showAndWait();
+			return false;
+		}
+		else {
+			try {
+				int test = Integer.parseInt(txtSoLuongGheBA.getText());
+				if(test < 1 || test > 1000) {
+					throw new Exception();
+				}
+			}
+			catch(Exception ex) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle(title);
+				alert.setContentText("Số lượng ghế là số nguyên >= 1 và <= 1000");
+				alert.showAndWait();
+				return false;
+			}
+		}
+		return true;
+	}
 
 	@FXML
 	void themBanAn(ActionEvent e) {
+		if(!validateThongTin(false))
+			return;
 		String kySoBanAn = txtKySoBanAn.getText();
 		String soLuongNguoiString = "";
 		String giaTienString = "";
@@ -189,7 +252,7 @@ public class BanAnManagerController implements Initializable {
 			alert.setContentText("Đã xảy ra sự cố hãy thử lại");
 			alert.show();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Thêm bàn thất bại");
 			alert.setContentText("Đã xảy ra sự cố hãy thử lại");
@@ -199,6 +262,8 @@ public class BanAnManagerController implements Initializable {
 
 	@FXML
 	void suaBanAn(ActionEvent e) {
+		if(!validateThongTin(true))
+			return;
 		String kySoBanAn = txtKySoBanAn.getText();
 		String soLuongNguoiString = txtSoLuongGheBA.getText();
 		String giaTienString = txtGiaTienBA.getText();
@@ -256,7 +321,7 @@ public class BanAnManagerController implements Initializable {
 	}
 
 	public void loadAllBanAn() {
-		List<BanAn> list = new BanAnDAO().getAll();
+		List<BanAn> list = new BanAnDAO().timBanAn("", "", -1);
 		loadBanAn(list);
 	}
 

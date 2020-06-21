@@ -259,6 +259,8 @@ public class DatBanKhachVangLaiController implements Initializable {
 		});
 		
 		tinhTongTien();
+		showAllBan();
+		showAllMon();
 	}
 
     @FXML
@@ -288,22 +290,28 @@ public class DatBanKhachVangLaiController implements Initializable {
     	Stage currentStage = (Stage) btnHuy.getScene().getWindow();
     	currentStage.close();
     }
-
+    
+    void showAllBan() {
+    	BanAnDAO banAnDao = new BanAnDAO();
+		dsBanAnTimThay = banAnDao.timBanAnDatDuoc();
+		dsOBBanAnTimThay = FXCollections.observableArrayList(dsBanAnTimThay);
+		lvBanAn.setItems(dsOBBanAnTimThay);
+		lvBanAn.refresh();
+    }
+    void showAllMon() {
+    	MonAnDAO monAnDao = new MonAnDAO();
+		dsMonAnTimThay = monAnDao.getAll();
+		dsOBMonAnTimThay = FXCollections.observableArrayList(dsMonAnTimThay);
+		lvMonAnDangBan.setItems(dsOBMonAnTimThay);
+		lvMonAnDangBan.refresh();
+    }
     @FXML
     void showAll(ActionEvent event) {
     	if(event.getSource() == btnShowAllBan) {
-    		BanAnDAO banAnDao = new BanAnDAO();
-    		dsBanAnTimThay = banAnDao.timBanAnDatDuoc();
-    		dsOBBanAnTimThay = FXCollections.observableArrayList(dsBanAnTimThay);
-    		lvBanAn.setItems(dsOBBanAnTimThay);
-    		lvBanAn.refresh();
+    		showAllBan();
     	}
     	else if (event.getSource() == btnShowAllMon) {
-    		MonAnDAO monAnDao = new MonAnDAO();
-    		dsMonAnTimThay = monAnDao.getAll();
-    		dsOBMonAnTimThay = FXCollections.observableArrayList(dsMonAnTimThay);
-    		lvMonAnDangBan.setItems(dsOBMonAnTimThay);
-    		lvMonAnDangBan.refresh();
+    		showAllMon();
     	}
     }
 

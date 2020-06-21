@@ -8,6 +8,8 @@ package controller;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import org.apache.commons.io.FilenameUtils;
@@ -15,6 +17,7 @@ import org.hibernate.HibernateException;
 
 import application.PrimaryConf;
 import database.BanAnDAO;
+import database.HoaDonBanDatDAO;
 import entites.BanAn;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -22,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -85,31 +89,80 @@ public class ItemBanAnController implements Initializable {
 	}
 
 	public void huyBanAn(ActionEvent e) {
+		BanAnDAO banAnDao = new BanAnDAO();
+		HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
+		if(hoaDonDao.checkBanDaDat(ttBanAn.getMaBA(), Timestamp.valueOf(LocalDateTime.now()))) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Xóa bàn thất bại");
+			alert.setContentText("Bàn đang được đặt không xóa được");
+			alert.showAndWait();
+			return;
+		}
+		if(banAnDao.checkPreviouslyBooked(ttBanAn)) {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Bàn đã từng được đặt ít nhất 1 lần, có xác nhận không dùng bàn này nữa?", ButtonType.YES, ButtonType.NO);
+			alert.setTitle("Xác nhận?");
+			alert.showAndWait();
+			
+			if (alert.getResult() == ButtonType.YES) {
+				try {
+				    ttBanAn.setCoBan(false);
+				    BanAn f = new BanAnDAO().update(ttBanAn);
+				    if(f != null) {
+					    Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+						alert2.setTitle("Gỡ dùng bàn thành công");
+						alert2.setContentText("Bàn ăn đã gỡ dùng thành công");
+						alert2.show();
+						banAnMGCT.loadAllBanAn();
+				    }
+				    else {
+				    	Alert alert2 = new Alert(Alert.AlertType.ERROR);
+						alert2.setTitle("Xóa bàn thất bại");
+						alert2.setContentText("Đã xảy ra sự cố, hãy thử lại");
+						alert2.show();
+				    }
+				}
+			    catch(HibernateException ex1) {
+			    	Alert alert2 = new Alert(Alert.AlertType.ERROR);
+					alert2.setTitle("Xóa bàn thất bại");
+					alert2.setContentText("Đã xảy ra sự cố, hãy thử lại");
+					alert2.show();
+					return;
+			    }
+			}
+			banAnMGCT.loadAllBanAn();
+			return;
+		}
 		banAnMGCT.xoaInput();
 		try {
-			String path = PrimaryConf.CUSTOM_FILE_PATH_HEAD.concat(ttBanAn.getHinhAnh());
-			File file = new File(path);
-			if (!file.delete()) {
-				throw new Exception("Không xóa được file, không tiếp tục xóa bàn ăn");
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Có thực sự xóa bàn này?", ButtonType.YES, ButtonType.NO);
+			alert.setTitle("Xác nhận?");
+			alert.showAndWait();
+			
+			if (alert.getResult() == ButtonType.YES) {
+				String path = PrimaryConf.CUSTOM_FILE_PATH_HEAD.concat(ttBanAn.getHinhAnh());
+				File file = new File(path);
+				if (!file.delete()) {
+					throw new Exception("Không xóa được file, không tiếp tục xóa bàn ăn");
+				}
+				new BanAnDAO().delete(ttBanAn);
+	
+				Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+				alert2.setTitle("Xóa bàn thành công");
+				alert2.setContentText("Đã xóa bàn ăn trong hệ thống");
+				alert2.show();
+				banAnMGCT.loadAllBanAn();
 			}
-			new BanAnDAO().delete(ttBanAn);
-
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Xóa bàn thành công");
-			alert.setContentText("Đã xóa bàn ăn trong hệ thống");
-			alert.show();
-			banAnMGCT.loadAllBanAn();
 		} catch (HibernateException ex1) {
 			ex1.printStackTrace();
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Xóa bàn thất bại");
-			alert.setContentText("Đã xảy ra sự cố hãy thử lại");
+			alert.setContentText("Đã xảy ra sự cố, hãy thử lại");
 			alert.show();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Xóa bàn thất bại");
-			alert.setContentText("Đã xảy ra sự cố hãy thử lại");
+			alert.setContentText("Đã xảy ra sự cố, hãy thử lại");
 			alert.show();
 		}
 	}

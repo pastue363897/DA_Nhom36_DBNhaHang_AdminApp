@@ -132,8 +132,86 @@ public class MonAnManagerController implements Initializable {
 	public Tab getTabTimKiem() {
 		return tabTimKiem;
 	}
+	
+	boolean validateThongTin(boolean isEdit) {
+		String title = "Thêm món thất bại";
+		if(isEdit)
+			title = "Sửa món thất bại";
+		if(txtTenMonAn.getText().trim().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle(title);
+			alert.setContentText("Tên món ăn không được trống");
+			alert.showAndWait();
+			return false;
+		}
+		
+		if(txtNguyenLieu.getText().trim().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle(title);
+			alert.setContentText("Nguyên liệu món ăn không được trống");
+			alert.showAndWait();
+			return false;
+		}
+		
+		if(txtMoTaMA.getText().trim().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle(title);
+			alert.setContentText("Mô tả món ăn không được trống");
+			alert.showAndWait();
+			return false;
+		}
+		if(txtGiaTienMA.getText().trim().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle(title);
+			alert.setContentText("Giá tiền không được bỏ trống");
+			alert.showAndWait();
+			return false;
+		}
+		else {
+			try {
+				int test = Integer.parseInt(txtGiaTienMA.getText());
+				if(test < 0 || test > 1000000000) {
+					throw new Exception();
+				}
+			}
+			catch(Exception ex) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle(title);
+				alert.setContentText("Giá tiền phải là số nguyên >= 0 và <= 1000000000");
+				alert.showAndWait();
+				return false;
+			}
+		}
+		
+		
+		if(txtSoLuongNguoiMA.getText().trim().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle(title);
+			alert.setContentText("Số lượng người ăn không được bỏ trống");
+			alert.showAndWait();
+			return false;
+		}
+		else {
+			try {
+				int test = Integer.parseInt(txtSoLuongNguoiMA.getText());
+				if(test < 1 || test > 1000) {
+					throw new Exception();
+				}
+			}
+			catch(Exception ex) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle(title);
+				alert.setContentText("Số lượng ghế là số nguyên >= 1 và <= 1000");
+				alert.showAndWait();
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public void themMonAn(ActionEvent e) {
+		if(!validateThongTin(false))
+			return;
 		String tenMonAn = txtTenMonAn.getText();
 		String soLuongNguoiString = txtSoLuongNguoiMA.getText();
 		String giaTienString = txtGiaTienMA.getText();
@@ -180,6 +258,8 @@ public class MonAnManagerController implements Initializable {
 	}
 
 	public void suaMonAn(ActionEvent e) {
+		if(!validateThongTin(false))
+			return;
 		String tenMonAn = txtTenMonAn.getText();
 		String soLuongNguoiString = txtSoLuongNguoiMA.getText();
 		String giaTienString = txtGiaTienMA.getText();
@@ -251,7 +331,7 @@ public class MonAnManagerController implements Initializable {
 	}
 
 	public void loadAllMonAn() {
-		List<MonAn> list = new MonAnDAO().getAll();
+		List<MonAn> list = new MonAnDAO().getDSMonAn();
 		loadMonAn(list);
 	}
 
@@ -308,7 +388,11 @@ public class MonAnManagerController implements Initializable {
 		Integer soNguoiTimInt = tryParseInt(soNguoiTim);
 		Long giaTimLong = tryParseLong(giaTim);
 		MonAnDAO monAnDao = new MonAnDAO();
-		List<MonAn> f = monAnDao.timMonAn(monTim, giaTimLong == null ? -1 : giaTimLong.longValue(), soNguoiTimInt == null ? -1 : soNguoiTimInt.intValue());
+		List<MonAn> f = null;
+		if(!cbDaHuy.isSelected())
+			f = monAnDao.timMonAn(monTim, giaTimLong == null ? -1 : giaTimLong.longValue(), soNguoiTimInt == null ? -1 : soNguoiTimInt.intValue());
+		else
+			f = monAnDao.timMonAnDaHuy(monTim, giaTimLong == null ? -1 : giaTimLong.longValue(), soNguoiTimInt == null ? -1 : soNguoiTimInt.intValue());
 		if (f == null)
 			f = new ArrayList<MonAn>();
 		loadMonAn(f);

@@ -88,6 +88,12 @@ public class ThemMonBanDatController implements Initializable {
     @FXML
     private TextField txtBanAnSearch;
     
+    @FXML
+    private Button btnAddMon;
+
+    @FXML
+    private Button btnRemoveMon;
+    
     private ItemTTBanDatDetailController banDatDetailController;
     
     private List<MonAn> dsMonAnTimThay;
@@ -160,7 +166,7 @@ public class ThemMonBanDatController implements Initializable {
 			TableRow<CTHoaDonBanDat> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if(!row.isEmpty() && event.getClickCount() == 2) {
-					xoaMon();
+					xoaMon(false);
 				}
 			});
 			return row;
@@ -284,17 +290,26 @@ public class ThemMonBanDatController implements Initializable {
 		lvMonAnDangBan.refresh();
     }
     
-    void xoaMon() {
+    void xoaMon(boolean all) {
     	CTHoaDonBanDat ma = lvMonAnDaChon.getSelectionModel().getSelectedItem();
     	if (ma != null) {
+    		boolean het = false;
 	    	int index = 0;
 	    	for (CTHoaDonBanDat x : dsMonAnDaChon) {
 	    		if (x.getMonAn().getMaMA().equals(ma.getMonAn().getMaMA())) {
-	    			break;
+	    			if(x.getSoLuong() >= 2 && !all) {
+	    				x.setSoLuong(x.getSoLuong()-1);
+	    				break;
+	    			}
+	    			else {
+	    				het = true; break;
+	    			}
+	    				
 	    		}
 	    		index++;
 	    	}
-	    	dsMonAnDaChon.remove(index);
+	    	if(het)
+	    		dsMonAnDaChon.remove(index);
 	    	dsOBMonAnDaChon = FXCollections.observableArrayList(dsMonAnDaChon);
 	    	lvMonAnDaChon.setItems(dsOBMonAnDaChon);
 	    	lvMonAnDaChon.refresh();
@@ -310,7 +325,10 @@ public class ThemMonBanDatController implements Initializable {
 
     @FXML
     void xoaMonKhoiDS(ActionEvent event) {
-    	xoaMon();
+    	if(event.getSource() == btnRemoveMon)
+    		xoaMon(false);
+    	else
+    		xoaMon(true);
     }
     
     long tinhTienThoi() {

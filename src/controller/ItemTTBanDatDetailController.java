@@ -28,6 +28,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -116,6 +117,9 @@ public class ItemTTBanDatDetailController implements Initializable {
 	
 	@FXML
     private Button btnInHoaDon;
+	
+    @FXML
+    private CheckBox cbAutoInHoaDon;
 
 	private BanDatManagerController banDatMGCT;
 	private HoaDonBanDat ttBanDat;
@@ -142,7 +146,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 	}
 	@FXML
 	void huyBan(ActionEvent event) {
-
+		
 	}
 
 	@Override
@@ -230,12 +234,18 @@ public class ItemTTBanDatDetailController implements Initializable {
 	    	ttBanDat.setDaThanhToan(true);
 	    	
 	    	HoaDonBanDatDAO das = new HoaDonBanDatDAO();
-	    	das.update(ttBanDat);
+	    	ttBanDat = das.update(ttBanDat);
     		
 	    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Thanh toán thành công");
 			alert.setContentText("Thanh toán bàn đã đặt thành công");
 			alert.show();
+			
+			if(cbAutoInHoaDon.isSelected())
+				inHoaDon(ttBanDat);
+			Stage frame = (Stage) btnThanhToan.getScene().getWindow();
+	    	banDatMGCT.loadAllBanDat();
+	    	frame.close();
     	}
     	catch(HibernateException ex1) {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -245,13 +255,11 @@ public class ItemTTBanDatDetailController implements Initializable {
     	}
     	catch(Exception ex2) {
     	  Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Thanh toán thất bại");
-        alert.setContentText("Có lỗi xảy ra, kiểm tra lại");
-        alert.show();
+	      alert.setTitle("Thanh toán thất bại");
+	      alert.setContentText("Có lỗi xảy ra, kiểm tra lại");
+	      alert.show();
     	}
-    	Stage frame = (Stage) btnThanhToan.getScene().getWindow();
-    	banDatMGCT.loadAllBanDat();
-    	frame.close();
+    	
     }
 
 	public String stringMonth(int month) {
@@ -332,6 +340,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 	}
 	
 	public void updateTrangThai() {
+		btnInHoaDon.setVisible(false);
 		if(ttBanDat.isDaThanhToan()) {
 			txtTienKhachDua.setText(String.valueOf(ttBanDat.getTienDaDua()));
 			txtTienKhachDua.setEditable(false);
@@ -339,6 +348,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 			btnThanhToan.setVisible(false);
 			btnHuyBan.setVisible(false);
 			lblDaThanhToan.setVisible(true);
+			btnInHoaDon.setVisible(true);
 		}
 		else if(ttBanDat.isDaHuy()) {
 			txtTienKhachDua.setText("Không áp dụng");
@@ -348,19 +358,19 @@ public class ItemTTBanDatDetailController implements Initializable {
 			btnThanhToan.setVisible(false);
 			btnHuyBan.setVisible(false);
 			lblDaHuy.setVisible(true);
-			btnThemMonHoaDon.setVisible(false);
-			btnInHoaDon.setVisible(false);
 		}
 	}
 	
     @FXML
     void themMonHoaDon(ActionEvent event) {
-    	if(Date.valueOf(LocalDate.now()).after(ttBanDat.getNgayThanhToan())) {
-    		Alert alert = new Alert(Alert.AlertType.ERROR);
-    		alert.setTitle("Lỗi không được phép");
-    		alert.setContentText("Bây giờ đã qua khỏi ngày thanh toán, không thể đặt thêm món nữa");
-    		alert.showAndWait();
-    		return;
+    	if(ttBanDat.getNgayThanhToan() != null) {
+	    	if(Date.valueOf(LocalDate.now()).after(ttBanDat.getNgayThanhToan())) {
+	    		Alert alert = new Alert(Alert.AlertType.ERROR);
+	    		alert.setTitle("Lỗi không được phép");
+	    		alert.setContentText("Bây giờ đã qua khỏi ngày thanh toán, không thể đặt thêm món nữa");
+	    		alert.showAndWait();
+	    		return;
+	    	}
     	}
     	Parent root;
     	FXMLLoader fx = new FXMLLoader(getClass().getResource("/view/ThemMonBanDatManager.fxml"));

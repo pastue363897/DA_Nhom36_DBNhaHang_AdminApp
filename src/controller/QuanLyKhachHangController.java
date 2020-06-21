@@ -123,6 +123,8 @@ public class QuanLyKhachHangController implements Initializable {
 			});
 			return row;
 		});
+    	
+    	timKhachHang();
 	}
     
     @FXML
@@ -138,13 +140,17 @@ public class QuanLyKhachHangController implements Initializable {
 		txtEmail.setText("");
 		txtUsername.setText("");
     }
-
-    @FXML
-    void timKhachHang(ActionEvent event) {
+    
+    void timKhachHang() {
     	CustomerDAO customerDao = new CustomerDAO();
     	dsKhachHang = customerDao.timKhachHang(txtSearch.getText());
     	dsOBKhachHang = FXCollections.observableArrayList(dsKhachHang);
     	lvKhachHang.setItems(dsOBKhachHang);
+    }
+
+    @FXML
+    void timKhachHang(ActionEvent event) {
+    	timKhachHang();
     }
     
     @FXML

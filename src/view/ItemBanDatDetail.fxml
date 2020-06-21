@@ -2,6 +2,7 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -146,37 +147,37 @@
             </StackPane>
          </children>
       </Pane>
-      <Label layoutX="443.0" layoutY="178.0" text="Tổng tiền:" textFill="#1552d7">
+      <Label layoutX="443.0" layoutY="147.0" text="Tổng tiền:" textFill="#1552d7">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTongTien" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="582.0" layoutY="178.0" prefHeight="27.0" prefWidth="190.0" text="10000 Đ" textAlignment="RIGHT" textFill="#1552d7">
+      <Label fx:id="lblTongTien" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="582.0" layoutY="147.0" prefHeight="27.0" prefWidth="190.0" text="10000 Đ" textAlignment="RIGHT" textFill="#1552d7">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="443.0" layoutY="204.0" prefHeight="59.0" prefWidth="135.0" text="Tiền khách hàng thanh toán:" textFill="#1552d7" wrapText="true">
+      <Label layoutX="443.0" layoutY="173.0" prefHeight="59.0" prefWidth="135.0" text="Tiền khách hàng thanh toán:" textFill="#1552d7" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="443.0" layoutY="263.0" prefHeight="25.0" prefWidth="135.0" text="Tiền thối lại:" textFill="#1552d7" wrapText="true">
+      <Label layoutX="443.0" layoutY="232.0" prefHeight="25.0" prefWidth="135.0" text="Tiền thối lại:" textFill="#1552d7" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTienThoiLai" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="591.0" layoutY="263.0" prefHeight="27.0" prefWidth="181.0" text="10000 Đ" textFill="#1552d7">
+      <Label fx:id="lblTienThoiLai" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="591.0" layoutY="232.0" prefHeight="27.0" prefWidth="181.0" text="10000 Đ" textFill="#1552d7">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="578.0" layoutY="214.0" prefHeight="39.0" prefWidth="181.0" promptText="Nhập số tièn khách đưa vào đây" text="15000">
+      <TextField fx:id="txtTienKhachDua" alignment="CENTER_RIGHT" layoutX="578.0" layoutY="183.0" prefHeight="39.0" prefWidth="181.0" promptText="Nhập số tièn khách đưa vào đây" text="15000">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="759.0" layoutY="220.0" text="Đ" textFill="#1552d7">
+      <Label layoutX="759.0" layoutY="189.0" text="Đ" textFill="#1552d7">
          <font>
             <Font size="18.0" />
          </font>
@@ -210,5 +211,6 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <CheckBox fx:id="cbAutoInHoaDon" layoutX="502.0" layoutY="268.0" mnemonicParsing="false" selected="true" text="In hóa đơn khi thanh toán thành công" />
    </children>
 </AnchorPane>

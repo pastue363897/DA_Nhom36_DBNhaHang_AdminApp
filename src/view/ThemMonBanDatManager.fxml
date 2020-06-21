@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -11,12 +11,11 @@
 
 <AnchorPane prefHeight="610.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ThemMonBanDatController">
    <children>
-      <Label layoutX="52.0" layoutY="67.0" text="Tìm kiếm món ăn" />
-      <Separator layoutX="356.0" layoutY="131.0" orientation="VERTICAL" prefHeight="200.0" />
-      <Label layoutX="367.0" layoutY="68.0" text="Các món đã chọn" />
-      <Button fx:id="btnThemMonAn" layoutX="98.0" layoutY="436.0" mnemonicParsing="false" onAction="#themMonVaoDS" text="Thêm vào danh sách món muốn đặt" />
-      <Button fx:id="btnXoaMonAn" layoutX="451.0" layoutY="437.0" mnemonicParsing="false" onAction="#xoaMonKhoiDS" text="Xóa món đang chọn" />
-      <Label layoutX="46.0" layoutY="470.0" prefHeight="27.0" prefWidth="185.0" text="Tiền thanh toán thêm">
+      <Label layoutX="35.0" layoutY="67.0" text="Tìm kiếm món ăn" />
+      <Label layoutX="389.0" layoutY="68.0" text="Các món đã chọn" />
+      <Button fx:id="btnThemMonAn" layoutX="81.0" layoutY="436.0" mnemonicParsing="false" onAction="#themMonVaoDS" text="Thêm vào danh sách món muốn đặt" />
+      <Button fx:id="btnXoaMonAn" layoutX="473.0" layoutY="437.0" mnemonicParsing="false" onAction="#xoaMonKhoiDS" text="Xóa món đang chọn" />
+      <Label layoutX="34.0" layoutY="470.0" prefHeight="27.0" prefWidth="197.0" text="Tiền thanh toán thêm">
          <font>
             <Font size="18.0" />
          </font>
@@ -26,7 +25,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="45.0" layoutY="496.0" prefHeight="51.0" prefWidth="197.0" text="Tiền khách đưa thêm (Bỏ qua nếu bàn chưa thanh toán)" wrapText="true">
+      <Label layoutX="35.0" layoutY="496.0" prefHeight="51.0" prefWidth="207.0" text="Tiền khách đưa thêm (Bỏ qua nếu bàn chưa thanh toán)" wrapText="true">
          <font>
             <Font size="13.0" />
          </font>
@@ -41,7 +40,7 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="45.0" layoutY="545.0" prefHeight="39.0" prefWidth="197.0" text="Tiền thối lại (Bỏ qua nếu bàn chưa thanh toán)" wrapText="true">
+      <Label layoutX="35.0" layoutY="545.0" prefHeight="39.0" prefWidth="207.0" text="Tiền thối lại (Bỏ qua nếu bàn chưa thanh toán)" wrapText="true">
          <font>
             <Font size="13.0" />
          </font>
@@ -51,33 +50,43 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnThanhToan" layoutX="422.0" layoutY="473.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="69.0" prefWidth="197.0" text="Thêm món ăn cho bàn" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="btnThanhToan" layoutX="441.0" layoutY="476.0" mnemonicParsing="false" onAction="#thanhToan" prefHeight="69.0" prefWidth="197.0" text="Thêm món ăn cho bàn" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="btnHuy" layoutX="485.0" layoutY="556.0" mnemonicParsing="false" onAction="#dongGiaoDien" prefHeight="25.0" prefWidth="70.0" text="Hủy" />
-      <Label layoutX="52.0" layoutY="25.0" text="Thêm món cho bàn đang ăn">
+      <Button fx:id="btnHuy" layoutX="505.0" layoutY="553.0" mnemonicParsing="false" onAction="#dongGiaoDien" prefHeight="25.0" prefWidth="70.0" text="Hủy" />
+      <Label layoutX="35.0" layoutY="25.0" text="Thêm món cho bàn đang ăn">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="lvMonAnDangBan" layoutX="52.0" layoutY="146.0" prefHeight="286.0" prefWidth="295.0">
+      <TableView fx:id="lvMonAnDangBan" layoutX="35.0" layoutY="146.0" prefHeight="286.0" prefWidth="295.0">
         <columns>
           <TableColumn fx:id="tenMon" prefWidth="100.0" text="Tên món" />
           <TableColumn fx:id="soLuongNguoi" prefWidth="106.0" text="Số lượng người" />
             <TableColumn fx:id="donGia" prefWidth="88.0" text="Đơn giá" />
         </columns>
       </TableView>
-      <TableView fx:id="lvMonAnDaChon" layoutX="366.0" layoutY="106.0" prefHeight="324.0" prefWidth="302.0">
+      <TableView fx:id="lvMonAnDaChon" layoutX="388.0" layoutY="106.0" prefHeight="324.0" prefWidth="302.0">
         <columns>
           <TableColumn fx:id="tenMonChon" prefWidth="129.0" text="Tên món" />
           <TableColumn fx:id="donGiaMua" prefWidth="90.0" text="Đơn giá" />
             <TableColumn fx:id="soLuongDat" prefWidth="79.0" text="Số lượng đặt" />
         </columns>
       </TableView>
-      <TextField fx:id="txtMonAnSearch" layoutX="52.0" layoutY="100.0" prefHeight="25.0" prefWidth="171.0" />
-      <Button fx:id="btnTimMon" layoutX="228.0" layoutY="100.0" mnemonicParsing="false" onAction="#timMon" text="Tìm" />
-      <Button fx:id="btnShowAllMon" layoutX="269.0" layoutY="100.0" mnemonicParsing="false" onAction="#showAll" text="Hiện tất cả" />
+      <TextField fx:id="txtMonAnSearch" layoutX="35.0" layoutY="100.0" prefHeight="25.0" prefWidth="171.0" />
+      <Button fx:id="btnTimMon" layoutX="211.0" layoutY="100.0" mnemonicParsing="false" onAction="#timMon" text="Tìm" />
+      <Button fx:id="btnShowAllMon" layoutX="252.0" layoutY="100.0" mnemonicParsing="false" onAction="#showAll" text="Hiện tất cả" />
+      <Button fx:id="btnAddMon" layoutX="340.0" layoutY="250.0" mnemonicParsing="false" onAction="#themMonVaoDS" prefHeight="27.0" prefWidth="41.0">
+         <graphic>
+            <FontAwesomeIconView glyphName="CHEVRON_RIGHT" />
+         </graphic>
+      </Button>
+      <Button fx:id="btnRemoveMon" layoutX="340.0" layoutY="286.0" mnemonicParsing="false" onAction="#xoaMonKhoiDS" prefHeight="27.0" prefWidth="41.0">
+         <graphic>
+            <FontAwesomeIconView glyphName="CHEVRON_LEFT" />
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
