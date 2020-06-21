@@ -402,6 +402,7 @@ public class MonAnManagerController implements Initializable {
 		idMonAnUpdate = "";
 		txtTenMonAn.setText("");
 		txtMoTaMA.setText("");
+		txtNguyenLieu.setText("");
 		txtSoLuongNguoiMA.setText("");
 		txtGiaTienMA.setText("");
 		txtTenMonAn.requestFocus();
