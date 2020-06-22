@@ -28,6 +28,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -146,7 +147,73 @@ public class ItemTTBanDatDetailController implements Initializable {
 	}
 	@FXML
 	void huyBan(ActionEvent event) {
-		
+		LocalDate nowTime = LocalDate.now();
+		LocalDate ngayPhucVu = ttBanDat.getNgayPhucVu().toLocalDateTime().toLocalDate();
+		LocalDate lastHuy = ngayPhucVu.minusDays(1);
+		if(nowTime.isEqual(lastHuy)) {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+			alert.setTitle("Xác nhận hủy bàn?");
+			alert.setContentText("Ngày mai đã là ngày phục vụ khách, có thực sự hủy bàn này không?");
+			alert.showAndWait();
+			
+			if(alert.getResult() == ButtonType.YES) {
+				HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
+				ttBanDat.setDaHuy(true);
+				hoaDonDao.update(ttBanDat);
+				Stage frame = (Stage) btnThanhToan.getScene().getWindow();
+		    	banDatMGCT.loadAllBanDat();
+		    	frame.close();
+			}
+			return;
+		}
+		else if(nowTime.isBefore(lastHuy)) {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+			alert.setTitle("Xác nhận hủy bàn?");
+			alert.setContentText("Có thực sự hủy bàn này không?");
+			alert.showAndWait();
+			
+			if(alert.getResult() == ButtonType.YES) {
+				HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
+				ttBanDat.setDaHuy(true);
+				hoaDonDao.update(ttBanDat);
+				Stage frame = (Stage) btnThanhToan.getScene().getWindow();
+		    	banDatMGCT.loadAllBanDat();
+		    	frame.close();
+			}
+			return;
+		}
+		else if(nowTime.isEqual(ngayPhucVu)) {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Thông báo");
+			alert.setContentText("Hôm nay đã là ngày phục vụ, không thể hủy bàn nữa");
+			alert.showAndWait();
+			return;
+		}
+		else if(nowTime.isAfter(ngayPhucVu)) {
+			if(!ttBanDat.isDaThanhToan()) {
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+				alert.setTitle("Xác nhận hủy bàn");
+				alert.setContentText("Bàn này đã qua ngày phục vụ và chưa thanh toán, hủy bàn này?");
+				alert.showAndWait();
+				
+				if(alert.getResult() == ButtonType.YES) {
+					HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
+					ttBanDat.setDaHuy(true);
+					hoaDonDao.update(ttBanDat);
+					Stage frame = (Stage) btnThanhToan.getScene().getWindow();
+			    	banDatMGCT.loadAllBanDat();
+			    	frame.close();
+				}
+				return;
+			}
+			else {
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("Thông báo");
+				alert.setContentText("Đã qua khỏi ngày phục vụ, không thể hủy bàn nữa");
+				alert.showAndWait();
+				return;
+			}
+		}
 	}
 
 	@Override

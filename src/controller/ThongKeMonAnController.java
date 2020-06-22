@@ -212,7 +212,7 @@ public class ThongKeMonAnController implements Initializable {
 						}
 						else if((Long)thongKeData.get(row.getItem().getMaMA()).get(3) < (Long)thongKeData.get(row.getItem().getMaMA()).get(5)) {
 							if(d14 * 1.0 / d7 > 1.1)
-								txtXuHuongAuto.setText("Món ăn đang có xu hướng được ít đi");
+								txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt ít đi");
 							else
 								txtXuHuongAuto.setText("Món ăn đang có xu hướng ổn định về số lần đặt");
 						}
@@ -474,7 +474,7 @@ public class ThongKeMonAnController implements Initializable {
 					}
 					else if((Long)thongKeData.get(ma.getMaMA()).get(3) < (Long)thongKeData.get(ma.getMaMA()).get(5)) {
 						if(d14 * 1.0 / d7 > 1.1)
-							trend = "Món ăn đang có xu hướng được ít đi";
+							trend = "Món ăn đang có xu hướng được đặt ít đi";
 						else
 							trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
 					}
