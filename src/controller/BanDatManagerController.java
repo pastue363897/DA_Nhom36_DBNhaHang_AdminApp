@@ -55,7 +55,7 @@ public class BanDatManagerController implements Initializable{
       loadAllBanDat();
   }
   public void loadAllBanDat() {
-    List<HoaDonBanDat> list = new HoaDonBanDatDAO().timHoaDon(null,"","","");
+    List<HoaDonBanDat> list = new HoaDonBanDatDAO().getDSTTBanDatUnique();
     loadBanDat(list);
   }
   public void loadBanDat(List<HoaDonBanDat> list) {

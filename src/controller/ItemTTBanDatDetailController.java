@@ -160,8 +160,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 				HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
 				ttBanDat.setDaHuy(true);
 				hoaDonDao.update(ttBanDat);
-				Stage frame = (Stage) btnThanhToan.getScene().getWindow();
-		    	banDatMGCT.loadAllBanDat();
+				Stage frame = (Stage) btnHuyBan.getScene().getWindow();
 		    	frame.close();
 			}
 			return;
@@ -176,8 +175,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 				HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
 				ttBanDat.setDaHuy(true);
 				hoaDonDao.update(ttBanDat);
-				Stage frame = (Stage) btnThanhToan.getScene().getWindow();
-		    	banDatMGCT.loadAllBanDat();
+				Stage frame = (Stage) btnHuyBan.getScene().getWindow();
 		    	frame.close();
 			}
 			return;
@@ -200,8 +198,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 					HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
 					ttBanDat.setDaHuy(true);
 					hoaDonDao.update(ttBanDat);
-					Stage frame = (Stage) btnThanhToan.getScene().getWindow();
-			    	banDatMGCT.loadAllBanDat();
+					Stage frame = (Stage) btnHuyBan.getScene().getWindow();
 			    	frame.close();
 				}
 				return;
@@ -311,7 +308,6 @@ public class ItemTTBanDatDetailController implements Initializable {
 			if(cbAutoInHoaDon.isSelected())
 				inHoaDon(ttBanDat);
 			Stage frame = (Stage) btnThanhToan.getScene().getWindow();
-	    	banDatMGCT.loadAllBanDat();
 	    	frame.close();
     	}
     	catch(HibernateException ex1) {
@@ -414,6 +410,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 			lblTienThoiLai.setText(String.valueOf(ttBanDat.getTienDaDua()-ttBanDat.getTongTien())+" Đ");
 			btnThanhToan.setVisible(false);
 			btnHuyBan.setVisible(false);
+			cbAutoInHoaDon.setVisible(false);
 			lblDaThanhToan.setVisible(true);
 			btnInHoaDon.setVisible(true);
 		}
@@ -424,6 +421,8 @@ public class ItemTTBanDatDetailController implements Initializable {
 			txtTienKhachDua.setEditable(false);
 			btnThanhToan.setVisible(false);
 			btnHuyBan.setVisible(false);
+			btnThemMonHoaDon.setVisible(false);
+			cbAutoInHoaDon.setVisible(false);
 			lblDaHuy.setVisible(true);
 		}
 	}
