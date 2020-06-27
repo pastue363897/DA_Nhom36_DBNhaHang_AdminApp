@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -254,7 +255,10 @@ public class ItemTTBanDatDetailController implements Initializable {
 		lblThangPhucVu.setText(stringMonth(ttBanDat.getNgayPhucVu().getMonth() + 1));
 		lblNamPhucVu.setText(String.valueOf(ttBanDat.getNgayPhucVu().getYear() + 1900));
 		dsMonAn = ttBanDat.getDsMonAn();
+		if(dsMonAn == null)
+			dsMonAn = new ArrayList<CTHoaDonBanDat>();
 		dsOBMonAn = FXCollections.observableArrayList(dsMonAn);
+				
 		lvMonAn.setItems(dsOBMonAn);
 		lvMonAn.refresh();
 		txtBanAn.setText("* Ký số bàn: "+ttBanDat.getBanAn().getKySoBA()+"\n");
@@ -305,18 +309,22 @@ public class ItemTTBanDatDetailController implements Initializable {
 			alert.setContentText("Thanh toán bàn đã đặt thành công");
 			alert.show();
 			
+			ttBanDat = das.getTTBanDat(ttBanDat.getMaBD());
+			
 			if(cbAutoInHoaDon.isSelected())
 				inHoaDon(ttBanDat);
 			Stage frame = (Stage) btnThanhToan.getScene().getWindow();
 	    	frame.close();
     	}
     	catch(HibernateException ex1) {
+    		ex1.printStackTrace();
     		Alert alert = new Alert(Alert.AlertType.ERROR);
     		alert.setTitle("Thanh toán thất bại");
     		alert.setContentText("Có lỗi xảy ra, kiểm tra lại");
     		alert.show();
     	}
     	catch(Exception ex2) {
+    	  ex2.printStackTrace();
     	  Alert alert = new Alert(Alert.AlertType.ERROR);
 	      alert.setTitle("Thanh toán thất bại");
 	      alert.setContentText("Có lỗi xảy ra, kiểm tra lại");
@@ -329,43 +337,43 @@ public class ItemTTBanDatDetailController implements Initializable {
 		String result;
 		switch (month) {
 		case 1:
-			result = "JAN";
+			result = "THÁNG 1";
 			break;
 		case 2:
-			result = "FEB";
+			result = "THÁNG 2";
 			break;
 		case 3:
-			result = "MAR";
+			result = "THÁNG 3";
 			break;
 		case 4:
-			result = "APR";
+			result = "THÁNG 4";
 			break;
 		case 5:
-			result = "MAY";
+			result = "THÁNG 5";
 			break;
 		case 6:
-			result = "JUN";
+			result = "THÁNG 6";
 			break;
 		case 7:
-			result = "JUL";
+			result = "THÁNG 7";
 			break;
 		case 8:
-			result = "AUG";
+			result = "THÁNG 8";
 			break;
 		case 9:
-			result = "STE";
+			result = "THÁNG 9";
 			break;
 		case 10:
-			result = "OCT";
+			result = "THÁNG 10";
 			break;
 		case 11:
-			result = "SEP";
+			result = "THÁNG 11";
 			break;
 		case 12:
-			result = "DEC";
+			result = "THÁNG 12";
 			break;
 		default:
-			result = "JAN";
+			result = "THÁNG 1";
 			break;
 		}
 		return result;

@@ -53,6 +53,9 @@
 .status-unpaid {
     -fx-background-color: rgba(47, 181, 179, 1);
 }
+.status-serving {
+    -fx-background-color: rgba(111, 143, 0, 1);
+}
 .status-cancel {
     -fx-background-color: rgba(189, 26, 26, 1);
 }

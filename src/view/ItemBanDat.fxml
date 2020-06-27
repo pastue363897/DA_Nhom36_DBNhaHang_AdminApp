@@ -109,6 +109,15 @@
                   <String fx:value="status" />
                </styleClass>
             </Label>
+            <Label fx:id="lblDangAn" alignment="CENTER" prefHeight="19.0" prefWidth="96.0" text="Đang ăn">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="status-serving" />
+                  <String fx:value="status" />
+               </styleClass>
+            </Label>
          </children>
       </StackPane>
    </children>

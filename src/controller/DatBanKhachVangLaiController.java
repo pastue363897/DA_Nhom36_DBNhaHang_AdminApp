@@ -2,8 +2,11 @@ package controller;
 
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -30,6 +33,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -68,15 +73,6 @@ public class DatBanKhachVangLaiController implements Initializable {
 
     @FXML
     private Button btnXoaMonAn;
-
-    @FXML
-    private Label lblTongTien;
-
-    @FXML
-    private TextField txtTienKhachDua;
-
-    @FXML
-    private Label lblTienThoi;
 
     @FXML
     private Button btnThanhToan;
@@ -142,13 +138,19 @@ public class DatBanKhachVangLaiController implements Initializable {
     private Button btnShowAllBan;
     
     @FXML
-    private CheckBox cbInHoaDon;
-    
-    @FXML
     private Button btnAddMon;
 
     @FXML
     private Button btnRemoveMon;
+    
+    @FXML
+    private CheckBox cbDatTruoc;
+    
+    @FXML
+    private DatePicker dpNgayDatBan;
+
+    @FXML
+    private ComboBox<String> cmbGioDat;
     
     private BanDatManagerController banDatMGCT;
     
@@ -159,9 +161,7 @@ public class DatBanKhachVangLaiController implements Initializable {
     private List<CTHoaDonBanDat> dsMonAnDaChon;
     private ObservableList<CTHoaDonBanDat> dsOBMonAnDaChon;
     
-    private long tempTongTien;
-    
-    private String stringHoaDon;
+    private ArrayList<String> listGioDat = new ArrayList<String>();
     
     public BanDatManagerController getBanDatMGCT() {
 		return banDatMGCT;
@@ -198,16 +198,6 @@ public class DatBanKhachVangLaiController implements Initializable {
 		dsOBMonAnTimThay = FXCollections.observableArrayList(dsMonAnTimThay);
 		dsOBMonAnDaChon = FXCollections.observableArrayList(dsMonAnDaChon);
 		
-		txtTienKhachDua.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue.length() > 15) {
-					String s = newValue.substring(0, 15);
-					txtTienKhachDua.setText(s);
-				}
-				tinhTienThoi();
-			}
-		});
 		txtSoDT.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -227,16 +217,6 @@ public class DatBanKhachVangLaiController implements Initializable {
 			}
 		});
 		txtMaKH.setDisable(true);
-		
-		lvBanAn.setRowFactory(x -> {
-			TableRow<BanAn> row = new TableRow<>();
-			row.setOnMouseClicked(event -> {
-				if(!row.isEmpty()) {
-					tinhTongTien();
-				}
-			});
-			return row;
-		});
 		
 		lvMonAnDangBan.setRowFactory(x -> {
 			TableRow<MonAn> row = new TableRow<>();
@@ -258,10 +238,31 @@ public class DatBanKhachVangLaiController implements Initializable {
 			return row;
 		});
 		
-		tinhTongTien();
+		// liệt kê danh sách giờ dùng được
+		int time = 0;
+		do
+		{
+			listGioDat.add(String.format("%02d:%02d:00", time/60, time%60));
+			time += 30;
+		}
+		while(time <= 1410);
+
+		ObservableList<String> gioDat = FXCollections.observableArrayList(listGioDat);
+		cmbGioDat.setItems(gioDat);
+		
+		cbDatTruoc.setSelected(false);
+		cmbGioDat.setDisable(true);
+    	dpNgayDatBan.setDisable(true);
+		
 		showAllBan();
 		showAllMon();
 	}
+	
+    @FXML
+    void coDatTruoc(ActionEvent event) {
+    	cmbGioDat.setDisable(!cbDatTruoc.isSelected());
+    	dpNgayDatBan.setDisable(!cbDatTruoc.isSelected());
+    }
 
     @FXML
     void coTaiKhoanChange(ActionEvent event) {
@@ -319,19 +320,12 @@ public class DatBanKhachVangLaiController implements Initializable {
     void thanhToan(ActionEvent event) {
     	CustomerDAO cusDao = new CustomerDAO();
     	Customer cus = null;
-    	long test = tinhTongTien();
-    	if(test == -1 || test == -2) {
-    		Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Lỗi thanh toán");
-			alert.setContentText("Số tiền khách đưa không hợp lệ");
-			alert.show();
-			return;
-    	}
+    	
     	if(cbCoTaiKhoan.isSelected()) {
     		cus = cusDao.get(txtMaKH.getText());
     		if(cus == null) {
     			Alert alert = new Alert(Alert.AlertType.ERROR);
-    			alert.setTitle("Lỗi thanh toán");
+    			alert.setTitle("Lỗi đặt bàn");
     			alert.setContentText("Không tìm thấy khách hàng");
     			alert.show();
     			return;
@@ -345,14 +339,14 @@ public class DatBanKhachVangLaiController implements Initializable {
     	HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
     	if(lvBanAn.getSelectionModel().getSelectedItem() == null) {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Lỗi thanh toán");
+			alert.setTitle("Lỗi đặt bàn");
 			alert.setContentText("Chưa chọn bàn ăn");
 			alert.show();
 			return;
     	}
     	if(lvMonAnDaChon.getItems().isEmpty()) {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Lỗi thanh toán");
+			alert.setTitle("Lỗi đặt bàn");
 			alert.setContentText("Chưa chọn món ăn nào");
 			alert.show();
 			return;
@@ -362,10 +356,39 @@ public class DatBanKhachVangLaiController implements Initializable {
     		x.setTtBanDat(hoaDon);
     	}
     	CTHoaDonBanDatDAO cthdDao = new CTHoaDonBanDatDAO();
-    	hoaDon.setDaThanhToan(true);
-    	hoaDon.setTongTien(tempTongTien);
-    	hoaDon.setTienDaDua(tempTongTien + test);
-    	hoaDon.setNgayThanhToan(Timestamp.valueOf(LocalDateTime.now()));
+    	if(cbDatTruoc.isSelected()) {
+    		LocalDate ngayDat = null;
+    		if(dpNgayDatBan.getValue() == null) {
+    			Alert alert = new Alert(Alert.AlertType.ERROR);
+    			alert.setTitle("Lỗi đặt bàn");
+    			alert.setContentText("Bàn được chọn là đặt trước nhưng chưa chọn ngày phục vụ nào");
+    			alert.showAndWait();
+    			return;
+    		}
+    		ngayDat = dpNgayDatBan.getValue();
+    		if(cmbGioDat.getValue() == null) {
+    			Alert alert = new Alert(Alert.AlertType.ERROR);
+    			alert.setTitle("Lỗi đặt bàn");
+    			alert.setContentText("Bàn được chọn là đặt trước nhưng chưa chọn giờ phục vụ nào");
+    			alert.showAndWait();
+    			return;
+    		}
+    		;
+    		Timestamp timeDat = Timestamp.valueOf(LocalDateTime.of(ngayDat, LocalTime.parse(cmbGioDat.getValue())));
+    		Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+    		LocalDate ngayDatMin = now.toLocalDateTime().toLocalDate();
+    		LocalDate ngayDatChon = timeDat.toLocalDateTime().toLocalDate();
+    		if(!ngayDatChon.isAfter(ngayDatMin)) {
+    			Alert alert = new Alert(Alert.AlertType.ERROR);
+    			alert.setTitle("Lỗi đặt bàn");
+    			alert.setContentText("Ngày phục vụ chỉ có thể từ ngày mai trở đi");
+    			alert.showAndWait();
+    			return;
+    		}
+    		hoaDon.setNgayPhucVu(timeDat);
+    		
+    	}
+    	hoaDon.setDaThanhToan(false);
     	hoaDon.setDaHuy(false);
     	hoaDon.setDsMonAn(dsMonAnDaChon);
     	if(!cbCoTaiKhoan.isSelected())
@@ -376,79 +399,13 @@ public class DatBanKhachVangLaiController implements Initializable {
     	}
     	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Thành công");
-		alert.setContentText("Bàn đã được đặt và thông tin thanh toán đã được lưu");
+		alert.setContentText("Thông tin bàn đặt đã được lưu, để thêm món hay thanh toán. Tìm bàn này trong quản lý bàn đặt");
 		alert.showAndWait();
-		
-		if(cbInHoaDon.isSelected())
-			inHoaDon(hoaDon);
 		
 		banDatMGCT.loadAllBanDat();
 		Stage currentStage = (Stage) btnHuy.getScene().getWindow();
     	currentStage.close();
 		return;
-    }
-    
-    void inHoaDon(HoaDonBanDat hoaDon) {
-    	stringHoaDon = "";
-		for(int i = 0; i < 73; i++) {
-			stringHoaDon += "*";
-		}
-		stringHoaDon += "\n";
-		
-		int beforeName = (73 - PrimaryConf.RESTAURANT_NAME.length()) / 2;
-		int afterName = 73 - beforeName - PrimaryConf.RESTAURANT_NAME.length();
-		for(int i = 0; i < beforeName; i++) {
-			stringHoaDon += " ";
-		}
-		stringHoaDon += PrimaryConf.RESTAURANT_NAME;
-		for(int i = 0; i < afterName; i++) {
-			stringHoaDon += " ";
-		}
-		stringHoaDon += "\n";
-		
-		for(int i = 0; i < 73; i++) {
-			stringHoaDon += "*";
-		}
-		stringHoaDon += "\n";
-		stringHoaDon += "Ngày giờ thanh toán: "+hoaDon.getNgayThanhToan().toLocalDateTime().toString()+"\n";
-		stringHoaDon += "Ký số bàn: " + hoaDon.getBanAn().getKySoBA() + "\n";
-		stringHoaDon += "Số chỗ: " + hoaDon.getBanAn().getSoLuongGhe() + "\n";
-		stringHoaDon += "Phụ giá: " + hoaDon.getBanAn().getPhuGia() + "\n";
-		for(int i = 0; i < 73; i++) {
-			stringHoaDon += "*";
-		}
-		stringHoaDon += "\n";
-		stringHoaDon += "STT   Tên                            Đơn giá    Số lượng        Tổng tiền\n";
-		int xTT = 1;
-		for(CTHoaDonBanDat ma : hoaDon.getDsMonAn()) {
-			stringHoaDon +=
-					String.format("%-5d %-26s %9d Đ %11d %14d Đ\n", xTT++, ma.getMonAn().getTenMA(), ma.getDonGia(),
-							ma.getSoLuong(), ma.getDonGia() * ma.getSoLuong());
-		}
-		for(int i = 0; i < 73; i++) {
-			stringHoaDon += "*";
-		}
-		stringHoaDon += "\n";
-		stringHoaDon += String.format("                                             Tổng tiền: %15d Đ\n", hoaDon.getTongTien());
-		stringHoaDon += String.format("                                        Tiền khách đưa: %15d Đ\n", hoaDon.getTienDaDua());
-		stringHoaDon += String.format("                                         Tiền thối lại: %15d Đ\n", hoaDon.getTienDaDua() - hoaDon.getTongTien());
-		
-		javafx.print.PrinterJob psjob = javafx.print.PrinterJob.createPrinterJob();
-		Text textToPrint = new Text(stringHoaDon);
-		textToPrint.setFont(new javafx.scene.text.Font("Courier New", 11));
-		TextFlow d = new TextFlow(textToPrint);
-		boolean ok = psjob.showPrintDialog(btnHuy.getScene().getWindow());
-		if(ok) {
-			boolean success = psjob.printPage(d);
-	        if (success)
-	        	psjob.endJob();
-	        else {
-	        	Alert alert = new Alert(Alert.AlertType.ERROR);
-    			alert.setTitle("Lỗi");
-    			alert.setContentText("Không thể in hóa đơn, giao diện sẽ đóng lại. Bạn có thể thử in lại trong xem chi tiết bàn đặt.");
-    			alert.showAndWait();
-	        }
-		}
     }
     
     void themMon() {
@@ -470,7 +427,6 @@ public class DatBanKhachVangLaiController implements Initializable {
 	    	dsOBMonAnDaChon = FXCollections.observableArrayList(dsMonAnDaChon);
 	    	lvMonAnDaChon.setItems(dsOBMonAnDaChon);
 	    	lvMonAnDaChon.refresh();
-	    	tinhTongTien();
     	}
     	else {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -526,7 +482,6 @@ public class DatBanKhachVangLaiController implements Initializable {
 	    	dsOBMonAnDaChon = FXCollections.observableArrayList(dsMonAnDaChon);
 	    	lvMonAnDaChon.setItems(dsOBMonAnDaChon);
 	    	lvMonAnDaChon.refresh();
-	    	tinhTongTien();
     	}
     	else {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -542,34 +497,6 @@ public class DatBanKhachVangLaiController implements Initializable {
     		xoaMon(false);
     	else
     		xoaMon(true);
-    }
-    
-    long tinhTienThoi() {
-    	try {
-			long value = Long.parseLong(txtTienKhachDua.getText());
-			long charge = value - tempTongTien;
-			if (charge < 0) {
-				lblTienThoi.setText("Tiền đưa không đủ");
-				return -1;
-			}
-			lblTienThoi.setText(String.valueOf(charge) + " Đ");
-			return charge;
-		} catch (NumberFormatException ex1) {
-			lblTienThoi.setText("Tiền đưa sai");
-			return -2;
-		}
-    }
-    
-    long tinhTongTien() {
-    	if(lvBanAn.getSelectionModel().getSelectedItem() == null)
-    		tempTongTien = 0;
-    	else
-    		tempTongTien = lvBanAn.getSelectionModel().getSelectedItem().getPhuGia();
-    	for(CTHoaDonBanDat x : dsMonAnDaChon) {
-    		tempTongTien += x.getDonGia() * x.getSoLuong();
-    	}
-    	lblTongTien.setText(String.valueOf(tempTongTien) + " Đ");
-    	return tinhTienThoi();
     }
 
 }

@@ -7,6 +7,7 @@
 package controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import application.PrimaryConf;
 import database.HoaDonBanDatDAO;
@@ -34,7 +35,7 @@ public class ItemTTBanDatController {
 	@FXML
 	private Label lblTongTien;
 	@FXML
-	private Label lblDaThanhToan, lblDaHuy, lblChuaThanhToan;
+	private Label lblDaThanhToan, lblDaHuy, lblChuaThanhToan, lblDangAn;
 	@FXML
 	private ImageView imvBanAn;
 
@@ -63,6 +64,7 @@ public class ItemTTBanDatController {
 	}
 
 	public void showStatus(HoaDonBanDat b) {
+		lblDangAn.setVisible(false);
 		if (b.isDaHuy()) {
 			lblDaThanhToan.setVisible(false);
 			lblDaHuy.setVisible(true);
@@ -74,7 +76,13 @@ public class ItemTTBanDatController {
 		} else {
 			lblDaThanhToan.setVisible(false);
 			lblDaHuy.setVisible(false);
-			lblChuaThanhToan.setVisible(true);
+			if(!LocalDateTime.now().isBefore(b.getNgayPhucVu().toLocalDateTime())) {
+				lblChuaThanhToan.setVisible(false);
+				lblDangAn.setVisible(true);
+			}
+			else {
+				lblChuaThanhToan.setVisible(true);
+			}
 		}
 	}
 
@@ -92,43 +100,43 @@ public class ItemTTBanDatController {
 		String result;
 		switch (month) {
 		case 1:
-			result = "JAN";
+			result = "THÁNG 1";
 			break;
 		case 2:
-			result = "FEB";
+			result = "THÁNG 2";
 			break;
 		case 3:
-			result = "MAR";
+			result = "THÁNG 3";
 			break;
 		case 4:
-			result = "APR";
+			result = "THÁNG 4";
 			break;
 		case 5:
-			result = "MAY";
+			result = "THÁNG 5";
 			break;
 		case 6:
-			result = "JUN";
+			result = "THÁNG 6";
 			break;
 		case 7:
-			result = "JUL";
+			result = "THÁNG 7";
 			break;
 		case 8:
-			result = "AUG";
+			result = "THÁNG 8";
 			break;
 		case 9:
-			result = "STE";
+			result = "THÁNG 9";
 			break;
 		case 10:
-			result = "OCT";
+			result = "THÁNG 10";
 			break;
 		case 11:
-			result = "SEP";
+			result = "THÁNG 11";
 			break;
 		case 12:
-			result = "DEC";
+			result = "THÁNG 12";
 			break;
 		default:
-			result = "JAN";
+			result = "THÁNG 1";
 			break;
 		}
 		return result;
@@ -158,7 +166,7 @@ public class ItemTTBanDatController {
 			stage.setResizable(false);
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner(HomeManagerController.primaryStage);
-			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng");
+			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Chi tiết bàn đặt");
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.sizeToScene();
