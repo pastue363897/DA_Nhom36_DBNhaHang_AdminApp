@@ -39,28 +39,28 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="552.0" layoutY="27.0" prefHeight="27.0" prefWidth="95.0" text="Ngày đặt" textFill="#6f6d6d">
+            <Label layoutX="538.0" layoutY="27.0" prefHeight="27.0" prefWidth="95.0" text="Ngày đặt" textFill="#6f6d6d">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblNgayDat" layoutX="554.0" layoutY="50.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#6f6d6d">
+            <Label fx:id="lblNgayDat" layoutX="530.0" layoutY="50.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#6f6d6d">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label fx:id="lblThangDat" layoutX="598.0" layoutY="51.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#6f6d6d">
+            <Label fx:id="lblThangDat" layoutX="574.0" layoutY="51.0" prefHeight="27.0" prefWidth="72.0" text="THÁNG 4" textFill="#6f6d6d">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblNamDat" layoutX="598.0" layoutY="70.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
+            <Label fx:id="lblNamDat" layoutX="590.0" layoutY="70.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Separator layoutX="640.0" layoutY="32.0" orientation="VERTICAL" prefHeight="59.0" prefWidth="12.0" />
-            <Label layoutX="652.0" layoutY="28.0" prefHeight="27.0" prefWidth="124.0" text="Ngày phục vụ" textFill="#6f6d6d">
+            <Separator layoutX="642.0" layoutY="32.0" orientation="VERTICAL" prefHeight="59.0" prefWidth="12.0" />
+            <Label layoutX="653.0" layoutY="28.0" prefHeight="27.0" prefWidth="124.0" text="Ngày phục vụ" textFill="#6f6d6d">
                <font>
                   <Font size="18.0" />
                </font>
@@ -70,12 +70,12 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label fx:id="lblThangPhucVu" layoutX="698.0" layoutY="52.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#6f6d6d">
+            <Label fx:id="lblThangPhucVu" layoutX="698.0" layoutY="52.0" prefHeight="27.0" prefWidth="72.0" text="THÁNG 4" textFill="#6f6d6d">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblNamPhucVu" layoutX="698.0" layoutY="71.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
+            <Label fx:id="lblNamPhucVu" layoutX="717.0" layoutY="71.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#6f6d6d">
                <font>
                   <Font size="14.0" />
                </font>

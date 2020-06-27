@@ -18,69 +18,69 @@
             <Image url="@../images/table-view.png" />
          </image>
       </ImageView>
-      <Label layoutX="233.0" prefHeight="27.0" prefWidth="95.0" text="Ngày đặt" textFill="#50cd6f">
+      <Label layoutX="224.0" prefHeight="27.0" prefWidth="95.0" text="Ngày đặt" textFill="#50cd6f">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblDateDat" layoutX="235.0" layoutY="18.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#50cd6f">
+      <Label fx:id="lblDateDat" layoutX="213.0" layoutY="18.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#50cd6f">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="lblMonthDat" layoutX="275.0" layoutY="23.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#50cd6f">
+      <Label fx:id="lblMonthDat" layoutX="253.0" layoutY="23.0" prefHeight="27.0" prefWidth="73.0" text="THÁNG 4" textFill="#50cd6f">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="lblYearDat" layoutX="275.0" layoutY="38.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#50cd6f">
+      <Label fx:id="lblYearDat" layoutX="270.0" layoutY="38.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#50cd6f">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="333.0" layoutY="1.0" prefHeight="27.0" prefWidth="124.0" text="Ngày phục vụ" textFill="#d72a2a">
+      <Label layoutX="335.0" layoutY="1.0" prefHeight="27.0" prefWidth="124.0" text="Ngày phục vụ" textFill="#d72a2a">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblDatePhucVu" layoutX="335.0" layoutY="19.0" prefHeight="53.0" prefWidth="44.0" text="30" textFill="#d72a2a">
+      <Label fx:id="lblDatePhucVu" layoutX="337.0" layoutY="19.0" prefHeight="53.0" prefWidth="44.0" text="30" textFill="#d72a2a">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="lblMonthPhucVu" layoutX="375.0" layoutY="24.0" prefHeight="27.0" prefWidth="37.0" text="APR" textFill="#d72a2a">
+      <Label fx:id="lblMonthPhucVu" layoutX="377.0" layoutY="24.0" prefHeight="27.0" prefWidth="73.0" text="THÁNG 4" textFill="#d72a2a">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="lblYearPhucVu" layoutX="375.0" layoutY="39.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#d72a2a">
+      <Label fx:id="lblYearPhucVu" layoutX="395.0" layoutY="39.0" prefHeight="27.0" prefWidth="44.0" text="2020" textFill="#d72a2a">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Separator layoutX="316.0" layoutY="5.0" orientation="VERTICAL" prefHeight="53.0" prefWidth="12.0" />
-      <Separator layoutX="226.0" layoutY="61.0" prefHeight="16.0" prefWidth="215.0" />
-      <FontAwesomeIconView fill="#cdb21c" glyphName="USER" layoutX="229.0" layoutY="92.0" size="16" />
-      <FontAwesomeIconView fill="#cdb21c" glyphName="YELP" layoutX="229.0" layoutY="120.0" size="16" />
-      <FontAwesomeIconView fill="#cdb21c" glyphName="DOLLAR" layoutX="335.0" layoutY="122.0" size="16" />
-      <FontAwesomeIconView fill="#cdb21c" glyphName="INFO_CIRCLE" layoutX="230.0" layoutY="149.0" size="16" />
-      <Label fx:id="lblHoTenKhachHang" layoutX="250.0" layoutY="74.0" prefHeight="26.0" prefWidth="194.0" text="Nguyen Van A">
+      <Separator layoutX="324.0" layoutY="5.0" orientation="VERTICAL" prefHeight="53.0" prefWidth="12.0" />
+      <Separator layoutX="211.0" layoutY="61.0" prefHeight="17.0" prefWidth="229.0" />
+      <FontAwesomeIconView fill="#cdb21c" glyphName="USER" layoutX="212.0" layoutY="92.0" size="16" />
+      <FontAwesomeIconView fill="#cdb21c" glyphName="YELP" layoutX="212.0" layoutY="120.0" size="16" />
+      <FontAwesomeIconView fill="#cdb21c" glyphName="DOLLAR" layoutX="335.0" layoutY="120.0" size="16" />
+      <FontAwesomeIconView fill="#cdb21c" glyphName="INFO_CIRCLE" layoutX="213.0" layoutY="149.0" size="16" />
+      <Label fx:id="lblHoTenKhachHang" layoutX="236.0" layoutY="74.0" prefHeight="26.0" prefWidth="194.0" text="Nguyen Van A">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Label fx:id="lblKySoBanAn" layoutX="250.0" layoutY="103.0" prefHeight="26.0" prefWidth="87.0" text="BA001">
+      <Label fx:id="lblKySoBanAn" layoutX="236.0" layoutY="102.0" prefHeight="26.0" prefWidth="87.0" text="BA001">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Label fx:id="lblTongTien" layoutX="347.0" layoutY="103.0" prefHeight="26.0" prefWidth="110.0" text="100.000.000 Đ">
+      <Label fx:id="lblTongTien" layoutX="347.0" layoutY="101.0" prefHeight="26.0" prefWidth="110.0" text="100.000.000 Đ">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Button layoutX="367.0" layoutY="129.0" mnemonicParsing="false" onAction="#chiTietBanDat" prefHeight="31.0" prefWidth="73.0" styleClass="button-chitiet" text="Chi tiết" />
-      <StackPane layoutX="248.0" layoutY="131.0" prefHeight="26.0" prefWidth="110.0" styleClass="pane-background">
+      <Button layoutX="361.0" layoutY="128.0" mnemonicParsing="false" onAction="#chiTietBanDat" prefHeight="31.0" prefWidth="73.0" styleClass="button-chitiet" text="Chi tiết" />
+      <StackPane layoutX="230.0" layoutY="131.0" prefHeight="26.0" prefWidth="110.0" styleClass="pane-background">
          <children>
             <Label fx:id="lblDaThanhToan" alignment="CENTER" prefHeight="19.0" prefWidth="92.0" text="Đã thanh toán" visible="false">
                <font>

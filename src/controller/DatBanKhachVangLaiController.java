@@ -6,11 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import application.PrimaryConf;
 import database.BanAnDAO;
 import database.CTHoaDonBanDatDAO;
 import database.CustomerDAO;
@@ -35,15 +33,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import net.bytebuddy.utility.RandomString;
@@ -239,13 +234,13 @@ public class DatBanKhachVangLaiController implements Initializable {
 		});
 		
 		// liệt kê danh sách giờ dùng được
-		int time = 0;
+		int time = 300;
 		do
 		{
 			listGioDat.add(String.format("%02d:%02d:00", time/60, time%60));
 			time += 30;
 		}
-		while(time <= 1410);
+		while(time <= 1380);
 
 		ObservableList<String> gioDat = FXCollections.observableArrayList(listGioDat);
 		cmbGioDat.setItems(gioDat);
@@ -382,6 +377,14 @@ public class DatBanKhachVangLaiController implements Initializable {
     			Alert alert = new Alert(Alert.AlertType.ERROR);
     			alert.setTitle("Lỗi đặt bàn");
     			alert.setContentText("Ngày phục vụ chỉ có thể từ ngày mai trở đi");
+    			alert.showAndWait();
+    			return;
+    		}
+    		boolean checkDaDat = hoaDonDao.checkBanTrungDatTruoc(lvBanAn.getSelectionModel().getSelectedItem().getMaBA(), timeDat);
+    		if(checkDaDat) {
+    			Alert alert = new Alert(Alert.AlertType.ERROR);
+    			alert.setTitle("Lỗi đặt bàn");
+    			alert.setContentText("Bàn đã chọn đã có bàn đặt trùng ngày phục vụ với đang chọn, hãy chọn ngày khác.");
     			alert.showAndWait();
     			return;
     		}
