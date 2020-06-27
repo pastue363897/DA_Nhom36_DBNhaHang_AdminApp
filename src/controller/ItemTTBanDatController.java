@@ -7,6 +7,7 @@
 package controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import application.PrimaryConf;
@@ -69,14 +70,16 @@ public class ItemTTBanDatController {
 			lblDaThanhToan.setVisible(false);
 			lblDaHuy.setVisible(true);
 			lblChuaThanhToan.setVisible(false);
+			lblDangAn.setVisible(false);
 		} else if (b.isDaThanhToan()) {
 			lblDaThanhToan.setVisible(true);
 			lblDaHuy.setVisible(false);
 			lblChuaThanhToan.setVisible(false);
+			lblDangAn.setVisible(false);
 		} else {
 			lblDaThanhToan.setVisible(false);
 			lblDaHuy.setVisible(false);
-			if(!LocalDateTime.now().isBefore(b.getNgayPhucVu().toLocalDateTime())) {
+			if(LocalDate.now().toString().equals(b.getNgayPhucVu().toLocalDateTime().toLocalDate().toString()) && !LocalDateTime.now().isBefore(b.getNgayPhucVu().toLocalDateTime())) {
 				lblChuaThanhToan.setVisible(false);
 				lblDangAn.setVisible(true);
 			}
