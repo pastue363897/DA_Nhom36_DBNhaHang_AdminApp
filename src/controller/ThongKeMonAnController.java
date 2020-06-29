@@ -374,7 +374,7 @@ public class ThongKeMonAnController implements Initializable {
     		cellRow.setCellStyle(cellStyleContent);
     		colNum++;
     		cellRow = row.createCell(colNum++);
-    		cellRow.setCellValue(String.format(LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/MM/yyyy"))));
+    		cellRow.setCellValue(String.format(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"))));
     		cellRow.setCellStyle(cellStyleContent);
     		mainSheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 1));
     		mainSheet.addMergedRegion(new CellRangeAddress(1, 1, 2, 4));

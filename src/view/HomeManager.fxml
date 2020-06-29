@@ -33,9 +33,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Quản lỳ bàn đặt">
             <items>
-            	<MenuItem fx:id="menuDatBanVangLai" mnemonicParsing="false" onAction="#menuQLBanDat" text="Đặt bàn cho khách vãng lai" />
-              <MenuItem fx:id="menuHuyBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Hủy bàn đặt" />
-                  <MenuItem fx:id="menuTimKiemBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Tìm kiếm bàn đặt" />
+            	  <MenuItem fx:id="menuDatBanVangLai" mnemonicParsing="false" onAction="#menuQLBanDat" text="Đặt bàn cho khách vãng lai" />
+                  <MenuItem fx:id="menuTimKiemBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Hủy hay Tìm kiếm bàn đặt" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Quản lý bàn ăn">
@@ -46,13 +45,14 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Quản lý món ăn">
               <items>
-                <MenuItem fx:id="menuThemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Thêm, hủy hay sửa món ăn" />
+                  <MenuItem fx:id="menuThemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Thêm, hủy hay sửa món ăn" />
                   <MenuItem fx:id="menuTimKiemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Tìm kiếm món ăn" />
+                  <MenuItem fx:id="menuXuatDSMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Xuất danh sách món ăn ra file excel" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Quản lý khách hàng">
               <items>
-                <MenuItem fx:id="menuTaoKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Thêm khách hàng mới" />
+                  <MenuItem fx:id="menuTaoKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Thêm khách hàng mới" />
                   <MenuItem fx:id="menuXemDanhSachKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Xem danh sách khách hàng" />
               </items>
             </Menu>

@@ -53,6 +53,8 @@ public class HomeManagerController implements Initializable {
     @FXML
     private MenuItem menuTimKiemMonAn;
     @FXML
+    private MenuItem menuXuatDSMonAn;
+    @FXML
     private MenuItem menuTaoKhachHang;
     @FXML
     private MenuItem menuXemDanhSachKhachHang;
@@ -182,7 +184,11 @@ public class HomeManagerController implements Initializable {
 
     @FXML
     void menuQLMonAn(ActionEvent event) {
-    	if(event.getSource() == menuThemMonAn)
+    	if(event.getSource() == menuXuatDSMonAn) {
+    		monAnController.xuatMonAnExcel();
+    		return;
+    	}
+    	else if(event.getSource() == menuThemMonAn)
 			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabThem());
 		else if(event.getSource() == menuTimKiemMonAn)
 			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabTimKiem());

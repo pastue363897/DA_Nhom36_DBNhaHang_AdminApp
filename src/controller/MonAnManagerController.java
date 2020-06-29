@@ -8,15 +8,29 @@ package controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.HibernateException;
 
 import application.PrimaryConf;
@@ -396,6 +410,166 @@ public class MonAnManagerController implements Initializable {
 		if (f == null)
 			f = new ArrayList<MonAn>();
 		loadMonAn(f);
+	}
+	
+	public void xuatMonAnExcel() {
+		List<MonAn> dsMonAn = new MonAnDAO().getDSMonAn();
+		if(dsMonAn == null)
+			dsMonAn = new ArrayList<MonAn>();
+		if(dsMonAn.isEmpty()) {
+    		Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Lỗi");
+			alert.setContentText("Không có món ăn nào để thống kê");
+			alert.show();
+			return;
+    	}
+    	else {
+    		XSSFWorkbook outputWorkbook = new XSSFWorkbook();
+    		XSSFSheet mainSheet = outputWorkbook.createSheet("Danh sách các món ăn");
+    		int colNum = 0;
+    		int rowNum = 0;
+    		// row 1
+    		XSSFRow row = mainSheet.createRow(rowNum++);
+    		XSSFCell cellRow = row.createCell(colNum++);
+    		cellRow.setCellValue("DANH SÁCH CÁC MÓN ĂN");
+    		mainSheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 6));
+    		
+    		XSSFCellStyle cellStyleTitle = outputWorkbook.createCellStyle();
+    		cellStyleTitle.setAlignment(HorizontalAlignment.CENTER);
+    		cellStyleTitle.setVerticalAlignment(VerticalAlignment.CENTER);
+    		XSSFFont cellFont = outputWorkbook.createFont();
+    		cellFont.setFontName("Arial");
+    		cellFont.setFontHeightInPoints((short) 16);
+    		cellFont.setBold(true);
+    		cellStyleTitle.setFont(cellFont);
+    		cellRow.setCellStyle(cellStyleTitle);
+    		((Row)row).setHeightInPoints(30);
+    		
+    		XSSFCellStyle cellStyleHeader = outputWorkbook.createCellStyle();
+    		cellStyleHeader.setAlignment(HorizontalAlignment.CENTER);
+    		cellStyleHeader.setVerticalAlignment(VerticalAlignment.CENTER);
+    		XSSFFont cellFontHeader = outputWorkbook.createFont();
+    		cellFontHeader.setFontName("Arial");
+    		cellFontHeader.setFontHeightInPoints((short) 9);
+    		cellFontHeader.setBold(true);
+    		cellStyleHeader.setFont(cellFontHeader);
+    		
+    		XSSFCellStyle cellStyleContent = outputWorkbook.createCellStyle();
+    		XSSFFont cellFontContent = outputWorkbook.createFont();
+    		cellFontContent.setFontName("Arial");
+    		cellFontContent.setFontHeightInPoints((short) 9);
+    		cellFontContent.setBold(false);
+    		cellStyleContent.setFont(cellFontContent);
+    		
+    		XSSFCellStyle cellStyleContentWrap = outputWorkbook.createCellStyle();
+    		XSSFFont cellFontContentWrap = outputWorkbook.createFont();
+    		cellFontContentWrap.setFontName("Arial");
+    		cellFontContentWrap.setFontHeightInPoints((short) 9);
+    		cellFontContentWrap.setBold(false);
+    		cellStyleContentWrap.setFont(cellFontContentWrap);
+    		cellStyleContentWrap.setWrapText(true);
+    		
+    		CreationHelper createHelper = outputWorkbook.getCreationHelper();
+			XSSFCellStyle cellStyleContentMoney = outputWorkbook.createCellStyle();
+    		XSSFFont cellFontContentMoney = outputWorkbook.createFont();
+    		cellFontContentMoney.setFontName("Arial");
+    		cellFontContentMoney.setFontHeightInPoints((short) 9);
+    		cellFontContentMoney.setBold(false);
+    		cellStyleContentMoney.setFont(cellFontContentMoney);
+    		cellStyleContentMoney.setDataFormat(createHelper.createDataFormat().getFormat("#,##0 [$₫-vi-VN];[Red]#,##0 [$₫-vi-VN]"));
+    		
+    		System.out.println("Count "+outputWorkbook.getNumCellStyles());
+    		// row 2: 
+    		row = mainSheet.createRow(rowNum++);
+    		colNum = 0;
+    		cellRow = row.createCell(colNum++);
+    		cellRow.setCellValue("Ngày giờ xuất bản: ");
+    		cellRow.setCellStyle(cellStyleContent);
+    		colNum++;
+    		cellRow = row.createCell(colNum++);
+    		cellRow.setCellValue(String.format(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"))));
+    		cellRow.setCellStyle(cellStyleContent);
+    		mainSheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 1));
+    		mainSheet.addMergedRegion(new CellRangeAddress(1, 1, 2, 4));
+    		// row 3:
+    		row = mainSheet.createRow(rowNum++);
+    		String headers[] = {"STT", "Mã món ăn", "Tên món ăn", "Số người/phần", "Nguyên liệu", "Mô tả", "Đơn giá"};
+    		colNum = 0;
+    		for(String hd : headers) {
+        		cellRow = row.createCell(colNum++);
+        		cellRow.setCellValue(hd);
+        		cellRow.setCellStyle(cellStyleHeader);
+    		}
+    		// row 4-end:
+    		int stt = 1;
+    		for(MonAn ma : dsMonAn) {
+    			row = mainSheet.createRow(rowNum++);
+    			colNum = 0;
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(stt++);
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getMaMA());
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getTenMA());
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getSoLuongNguoi());
+    			cellRow.setCellStyle(cellStyleContent);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getNguyenLieu());
+    			cellRow.setCellStyle(cellStyleContentWrap);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getMoTaMA());
+    			cellRow.setCellStyle(cellStyleContentWrap);
+    			cellRow = row.createCell(colNum++);
+    			cellRow.setCellValue(ma.getGiaTien());
+    			cellRow.setCellStyle(cellStyleContentMoney);
+    		}
+    		
+    		for(int i = 0; i <= 6; i++) {
+    			mainSheet.autoSizeColumn(i, true);
+    		}
+    		
+    		mainSheet.setColumnWidth(4, 8500);
+    		mainSheet.setColumnWidth(5, 12000);
+    		
+    		FileChooser fileChooser = new FileChooser();
+    		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel 2007 or newer files (*.xlsx)", "*.xlsx");
+    		fileChooser.getExtensionFilters().add(extFilter);
+    		File outputExcelFile = fileChooser.showSaveDialog(btnShowAll.getScene().getWindow());
+    		if(outputExcelFile != null) {
+    			FileOutputStream outStream;
+				try {
+					outStream = new FileOutputStream(outputExcelFile);
+					outputWorkbook.write(outStream);
+					outStream.close();
+					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					alert.setTitle("Thông báo");
+					alert.setContentText("Xuất ra file excel thành công");
+					alert.showAndWait();
+					
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Lỗi");
+					alert.setContentText("Không thể lưu file excel, hãy thử lại.");
+					alert.showAndWait();
+				} catch (IOException e) {
+					e.printStackTrace();
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Lỗi");
+					alert.setContentText("Không thể lưu file excel, hãy thử lại.");
+					alert.showAndWait();
+				}
+    		}
+    		try {
+				outputWorkbook.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
 	}
 
 	public void xoaInput() {
