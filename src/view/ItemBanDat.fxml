@@ -23,9 +23,9 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblDateDat" layoutX="213.0" layoutY="18.0" prefHeight="53.0" prefWidth="44.0" text="06" textFill="#50cd6f">
+      <Label fx:id="lblDateDat" layoutX="225.0" layoutY="18.0" prefHeight="35.0" prefWidth="28.0" text="06" textFill="#50cd6f">
          <font>
-            <Font size="30.0" />
+            <Font size="24.0" />
          </font>
       </Label>
       <Label fx:id="lblMonthDat" layoutX="253.0" layoutY="23.0" prefHeight="27.0" prefWidth="73.0" text="THÁNG 4" textFill="#50cd6f">
@@ -43,9 +43,9 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblDatePhucVu" layoutX="337.0" layoutY="19.0" prefHeight="53.0" prefWidth="44.0" text="30" textFill="#d72a2a">
+      <Label fx:id="lblDatePhucVu" layoutX="349.0" layoutY="19.0" prefHeight="35.0" prefWidth="28.0" text="30" textFill="#d72a2a">
          <font>
-            <Font size="30.0" />
+            <Font size="24.0" />
          </font>
       </Label>
       <Label fx:id="lblMonthPhucVu" layoutX="377.0" layoutY="24.0" prefHeight="27.0" prefWidth="73.0" text="THÁNG 4" textFill="#d72a2a">
@@ -120,5 +120,7 @@
             </Label>
          </children>
       </StackPane>
+      <Label fx:id="lblTimeDat" layoutX="225.0" layoutY="45.0" text="12:30" textFill="#50cd6f" />
+      <Label fx:id="lblTimePhucVu" layoutX="348.0" layoutY="46.0" text="17:00" textFill="#d72a2a" />
    </children>
 </Pane>

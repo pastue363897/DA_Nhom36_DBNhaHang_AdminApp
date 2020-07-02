@@ -45,6 +45,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ItemTTBanDatDetailController implements Initializable {
+  @FXML
+  private Label lblGioDat;
 	@FXML
 	private Label lblNgayDat;
 
@@ -54,6 +56,8 @@ public class ItemTTBanDatDetailController implements Initializable {
 	@FXML
 	private Label lblNamDat;
 
+	@FXML
+  private Label lblGioPhucVu;
 	@FXML
 	private Label lblNgayPhucVu;
 
