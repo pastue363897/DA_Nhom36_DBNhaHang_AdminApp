@@ -39,6 +39,10 @@ public class HomeManagerController implements Initializable {
 	@FXML
 	private MonAnManagerController monAnController;
 	@FXML
+	private Parent datBan;
+	@FXML
+	private DatBanKhachVangLaiController datBanController;
+	@FXML
     private MenuItem menuDatBanVangLai;
     @FXML
     private MenuItem menuTimKiemBanDat;
@@ -67,7 +71,7 @@ public class HomeManagerController implements Initializable {
 	
 	public static Stage primaryStage;
 
-	public void datBanKhachVangLai(ActionEvent e) {
+	/*public void datBanKhachVangLai(ActionEvent e) {
 		Parent root;
 		try {
 			FXMLLoader fx = new FXMLLoader(getClass().getResource("/view/DatBanKhachVangLaiManager.fxml"));
@@ -87,7 +91,7 @@ public class HomeManagerController implements Initializable {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-	}
+	}*/
 
 	public void signOut(MouseEvent e) {
 		Stage current = (Stage) lblMenuThoat.getScene().getWindow();
@@ -114,6 +118,9 @@ public class HomeManagerController implements Initializable {
 		banDat.setVisible(true);
 		banAn.setVisible(false);
 		monAn.setVisible(false);
+		datBan.setVisible(false);
+		datBanController.setBanDatMGCT(banDatController);
+		datBanController.setHostMGCT(this);
 	}
 	
 	@FXML
@@ -125,19 +132,29 @@ public class HomeManagerController implements Initializable {
 		banDat.setVisible(false);
 		banAn.setVisible(true);
 		monAn.setVisible(false);
-		
+		datBan.setVisible(false);
     }
+	
+	void showQLBanDat() {
+		banDatController.loadAllBanDat();
+    	banDat.setVisible(true);
+		banAn.setVisible(false);
+		monAn.setVisible(false);
+		datBan.setVisible(false);
+	}
 
     @FXML
     void menuQLBanDat(ActionEvent event) {
     	if(event.getSource() == menuDatBanVangLai) {
-    		datBanKhachVangLai(null);
+    		//datBanKhachVangLai(null);
+    		
+    		banDat.setVisible(false);
+    		banAn.setVisible(false);
+    		monAn.setVisible(false);
+    		datBan.setVisible(true);
     	}
     	else {
-    		banDatController.loadAllBanDat();
-	    	banDat.setVisible(true);
-			banAn.setVisible(false);
-			monAn.setVisible(false);
+    		showQLBanDat();	
     	}
     }
 
@@ -195,6 +212,7 @@ public class HomeManagerController implements Initializable {
     	banDat.setVisible(false);
 		banAn.setVisible(false);
 		monAn.setVisible(true);
+		datBan.setVisible(false);
     }
 
     @FXML

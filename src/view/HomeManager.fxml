@@ -11,6 +11,7 @@
       <fx:include fx:id="banDat" source="BanDatManager.fxml" />
       <fx:include fx:id="banAn" source="BanAnManager.fxml" />
       <fx:include fx:id="monAn" source="MonAnManager.fxml" />
+      <fx:include fx:id="datBan" source="DatBanKhachVangLaiManager.fxml" />
       <MenuBar layoutY="-2.0" prefHeight="32.0" prefWidth="1273.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Đặt bàn" visible="false">

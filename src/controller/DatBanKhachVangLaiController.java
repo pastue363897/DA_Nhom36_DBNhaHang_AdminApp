@@ -149,6 +149,8 @@ public class DatBanKhachVangLaiController implements Initializable {
     
     private BanDatManagerController banDatMGCT;
     
+    private HomeManagerController hostMGCT;
+    
     private List<BanAn> dsBanAnTimThay;
     private ObservableList<BanAn> dsOBBanAnTimThay;
     private List<MonAn> dsMonAnTimThay;
@@ -164,6 +166,14 @@ public class DatBanKhachVangLaiController implements Initializable {
 
 	public void setBanDatMGCT(BanDatManagerController banDatMGCT) {
 		this.banDatMGCT = banDatMGCT;
+	}
+
+	public HomeManagerController getHostMGCT() {
+		return hostMGCT;
+	}
+
+	public void setHostMGCT(HomeManagerController hostMGCT) {
+		this.hostMGCT = hostMGCT;
 	}
 
 	@Override
@@ -406,8 +416,7 @@ public class DatBanKhachVangLaiController implements Initializable {
 		alert.showAndWait();
 		
 		banDatMGCT.loadAllBanDat();
-		Stage currentStage = (Stage) btnHuy.getScene().getWindow();
-    	currentStage.close();
+		hostMGCT.showQLBanDat();
 		return;
     }
     
