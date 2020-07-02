@@ -8,7 +8,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -42,6 +44,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -57,10 +61,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ThongKeMonAnController implements Initializable {
-
-    @FXML
-    private CheckBox cbBaoGomChuaThanhToan;
-
     @FXML
     private Label lblTongDoanhThu;
 
@@ -107,12 +107,6 @@ public class ThongKeMonAnController implements Initializable {
     private Label lblSoPhanDD14;
 
     @FXML
-    private Label lblSoPhanDD21;
-
-    @FXML
-    private Label lblSoPhanDD28;
-
-    @FXML
     private TextArea txtXuHuongAuto;
 
     @FXML
@@ -123,12 +117,6 @@ public class ThongKeMonAnController implements Initializable {
 
     @FXML
     private Label lblDoanhThuMon14;
-
-    @FXML
-    private Label lblDoanhThuMon21;
-
-    @FXML
-    private Label lblDoanhThuMon28;
 
     @FXML
     private TextField txtMaMA;
@@ -148,6 +136,57 @@ public class ThongKeMonAnController implements Initializable {
     @FXML
     private TextField txtDonGia;
     
+    @FXML
+    private Label lblNgay7;
+
+    @FXML
+    private Label lblNgay14;
+    
+    @FXML
+    private CheckBox cbTuyChonKhoangNgay;
+    
+    @FXML
+    private ComboBox<String> cmbChuKyNgay;
+
+    @FXML
+    private DatePicker dpNgayFrom7;
+
+    @FXML
+    private DatePicker dpNgayTo7;
+
+    @FXML
+    private DatePicker dpNgayFrom14;
+
+    @FXML
+    private DatePicker dpNgayTo14;
+    
+    @FXML
+    private Label lblKyTruocDo;
+
+    @FXML
+    private Label lblKyNay;
+
+    @FXML
+    private Label lblLuuYAdvanced;
+
+    @FXML
+    private Label lblNgayFrom14;
+
+    @FXML
+    private Label lblNgayFrom7;
+
+    @FXML
+    private Label lblNgayTo14;
+
+    @FXML
+    private Label lblNgayTo7;
+
+    @FXML
+    private Label lblLuuYSimple;
+
+    @FXML
+    private Button btnXoaTrang;
+    
     private List<MonAn> dsMonAn;
 	private ObservableList<MonAn> dsOBMonAn;
 	private List<CTHoaDonBanDat> dsCTHD;
@@ -157,13 +196,13 @@ public class ThongKeMonAnController implements Initializable {
 	 * 2 số bàn đặt
 	 * 3 - 4 số phần 7 và doanh thu 7
 	 * 5 - 6 số phần 14 và doanh thu 14
-	 * 7 - 8 số phần 21 và doanh thu 21
-	 * 9 - 10 số phần 28 và doanh thu 28
-	 * 11 ngày đặt cũ nhất
+	 * 7 ngày đặt cũ nhất
 	 */
 	private Map<String, List<Object>> thongKeData;
 	
 	private String textBtnThongKe;
+	
+	private List<String> textArrayChuKyNgay;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -196,11 +235,7 @@ public class ThongKeMonAnController implements Initializable {
 					lblDoanhThuMon7.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(4)) + " Đ");
 					lblSoPhanDD14.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(5)));
 					lblDoanhThuMon14.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(6)) + " Đ");
-					lblSoPhanDD21.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(7)));
-					lblDoanhThuMon21.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(8)) + " Đ");
-					lblSoPhanDD28.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(9)));
-					lblDoanhThuMon28.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(10)) + " Đ");
-					LocalDate oldest = (LocalDate)thongKeData.get(row.getItem().getMaMA()).get(11);
+					LocalDate oldest = (LocalDate)thongKeData.get(row.getItem().getMaMA()).get(7);
 					if(oldest.isBefore(LocalDate.now().minusDays(7))) {
 						Long d7 = (Long)thongKeData.get(row.getItem().getMaMA()).get(3);
 						Long d14 = (Long)thongKeData.get(row.getItem().getMaMA()).get(5);
@@ -229,25 +264,144 @@ public class ThongKeMonAnController implements Initializable {
 			return row;
 		});
 		
+		textArrayChuKyNgay = Arrays.asList(
+			"7 ngày gần đây", "2 tuần gần đây", "1 tháng gần đây", "3 tháng gần đây",
+			"6 tháng gần đây", "1 năm gần đây", "3 năm gần đây"
+			);
+		ObservableList<String> obChuKyNgay = FXCollections.observableArrayList(textArrayChuKyNgay);
+		cmbChuKyNgay.setItems(obChuKyNgay);
+		cmbChuKyNgay.setPromptText("Chọn chu kỳ ngày");
 		dsMonAn = new ArrayList<MonAn>();
+		xoaTrangAction(true);
 	}
-
-    @FXML
-    void baoGomChuaThanhToanChange(ActionEvent event) {
-
-    }
 
     @FXML
     void dongGiaoDien(ActionEvent event) {
     	Stage currentStage = (Stage) btnDong.getScene().getWindow();
 		currentStage.close();
     }
+    
+    @FXML
+    void coTuyChonKhoangNgay(ActionEvent event) {
+    	updateKhoangNgayState(cbTuyChonKhoangNgay.isSelected());
+    }
+    
+    @FXML
+    void xoaTrang(ActionEvent event) {
+    	xoaTrangAction(true);
+    }
+    
+    void xoaTrangAction(boolean clear) {
+    	dsMonAn.clear();
+    	if(dsOBMonAn != null)
+    		dsOBMonAn.clear();
+    	txtDonGia.clear();
+    	txtMaMA.clear();
+    	txtMoTaMA.clear();
+    	txtNguyenLieu.clear();
+    	txtSoNguoi.clear();
+    	txtTenMA.clear();
+    	txtXuHuongAuto.clear();
+    	
+    	lblDoanhThuMon14.setText("0 Đ");
+    	lblDoanhThuMon7.setText("0 Đ");
+    	lblNgay14.setText("<Chưa xác định>");
+    	lblNgay7.setText("<Chưa xác định>");
+    	lblSoBanDatMon.setText("0");
+    	lblSoPhanDD.setText("0");
+    	lblSoPhanDD14.setText("0");
+    	lblSoPhanDD7.setText("0");
+    	lblTongDoanhThu.setText("0 Đ");
+    	if(clear)
+    		xoaTrangMini();
+    }
+    void xoaTrangMini() {
+    	cmbChuKyNgay.setValue(null);
+    	cmbChuKyNgay.setPromptText("Chọn chu kỳ ngày");
+    	dpNgayFrom14.setValue(null);
+    	dpNgayFrom7.setValue(null);
+    	dpNgayTo14.setValue(null);
+    	dpNgayTo7.setValue(null);
+    }
+    
+    void updateKhoangNgayState(boolean isAdvanced) {
+    	dpNgayFrom14.setDisable(!isAdvanced);
+    	dpNgayFrom7.setDisable(!isAdvanced);
+    	dpNgayTo14.setDisable(!isAdvanced);
+    	dpNgayTo7.setDisable(!isAdvanced);
+    	lblKyTruocDo.setDisable(!isAdvanced);
+    	lblKyNay.setDisable(!isAdvanced);
+    	lblNgayFrom14.setDisable(!isAdvanced);
+    	lblNgayFrom7.setDisable(!isAdvanced);
+    	lblNgayTo14.setDisable(!isAdvanced);
+    	lblNgayTo7.setDisable(!isAdvanced);
+    	lblLuuYSimple.setVisible(!isAdvanced);
+    	lblLuuYAdvanced.setVisible(isAdvanced);
+    	cmbChuKyNgay.setDisable(isAdvanced);
+    }
 
     @FXML
     void thongKeMonAn(ActionEvent event) {
+    	boolean coKyTruoc = false;
+    	if(!cbTuyChonKhoangNgay.isSelected()) {
+    		if(cmbChuKyNgay.getSelectionModel().isEmpty()) {
+    			Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Lỗi");
+				alert.setContentText("Chưa chọn chu kỳ ngày, hãy kiểm tra lại");
+				alert.showAndWait();
+				return;
+    		}
+    	}
+    	else {
+    		if(dpNgayFrom7.getValue() == null || dpNgayTo7.getValue() == null) {
+    			Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Lỗi");
+				alert.setContentText("Chưa chọn chu kỳ ngày kỳ này, hãy kiểm tra lại");
+				alert.showAndWait();
+				return;
+    		}
+    		else {
+    			if(dpNgayFrom7.getValue().isAfter(dpNgayTo7.getValue())) {
+    				Alert alert = new Alert(Alert.AlertType.ERROR);
+    				alert.setTitle("Lỗi");
+    				alert.setContentText("Ngày bắt đầu chu kỳ (từ ngày) phải trước hoặc bằng ngày đến");
+    				alert.showAndWait();
+    				return;
+    			}
+    		}
+    		
+    		if(dpNgayFrom14.getValue() == null && dpNgayTo14.getValue() == null) {
+    			
+    		}
+    		else if(dpNgayFrom14.getValue() != null ^ dpNgayTo14.getValue() != null) {
+    			Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Lỗi");
+				alert.setContentText("Nếu đã chọn ngày của chu kỳ trước thì phải chọn đủ từ ngày và đến ngày");
+				alert.showAndWait();
+				return;
+    		}
+    		else {
+    			if(dpNgayFrom14.getValue().isAfter(dpNgayTo14.getValue())) {
+    				Alert alert = new Alert(Alert.AlertType.ERROR);
+    				alert.setTitle("Lỗi");
+    				alert.setContentText("Ngày bắt đầu chu kỳ (từ ngày) phải trước hoặc bằng ngày đến");
+    				alert.showAndWait();
+    				return;
+    			}
+    			else if(!dpNgayTo14.getValue().isBefore(dpNgayFrom7.getValue())) {
+    				Alert alert = new Alert(Alert.AlertType.ERROR);
+    				alert.setTitle("Lỗi");
+    				alert.setContentText("Ngày cuối chu kỳ trước phải trước ngày đầu tiên của chu kỳ hiện tại");
+    				alert.showAndWait();
+    				return;
+    			}
+    			coKyTruoc = true;
+    		}
+    	}
     	btnThongKe.setText("Đang xử lý...");
     	btnThongKe.setDisable(true);
     	
+		xoaTrangAction(false);
     	MonAnDAO monAnDao = new MonAnDAO();
     	dsMonAn = monAnDao.getDSMonAn();
     	CTHoaDonBanDatDAO cthdDao = new CTHoaDonBanDatDAO();
@@ -257,18 +411,87 @@ public class ThongKeMonAnController implements Initializable {
     	for(MonAn ma : dsMonAn) {
     		String currentMaMA = ma.getMaMA();
 	    	ArrayList<Object> firstOb = new ArrayList<Object>();
-	    	for(int i = 0; i < 11; i++)
+	    	for(int i = 0; i < 7; i++)
 	    		firstOb.add((long)0);
 	    	firstOb.add(LocalDate.now());
 	    	thongKeData.put(currentMaMA, firstOb);
     	}
+    	DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     	if(dsCTHD.size() >= 1) {
 	    	//int indexNew = 0;
 	    	LocalDate now = LocalDate.now();
-	    	LocalDate back7 = now.minusDays(7);
-	    	LocalDate back14 = back7.minusDays(7);
-	    	LocalDate back21 = back14.minusDays(7);
-	    	LocalDate back28 = back21.minusDays(7);
+	    	LocalDate back7 = null;
+	    	LocalDate back14 = null;
+	    	LocalDate back1 = null, back8 = null;
+	    	if(!cbTuyChonKhoangNgay.isSelected()) {
+	    		switch(cmbChuKyNgay.getSelectionModel().getSelectedIndex()) {
+	    		case 0:
+	    		{
+	    			back7 = now.minusDays(7);
+	    			back14 = back7.minusDays(7);
+	    		}
+	    		break;
+	    		case 1:
+	    		{
+	    			back7 = now.minusWeeks(2);
+	    			back14 = back7.minusWeeks(2);
+	    		}
+	    		break;
+	    		case 2:
+	    		{
+	    			back7 = now.minusMonths(1);
+	    			back14 = back7.minusMonths(1);
+	    		}
+	    		break;
+	    		case 3:
+	    		{
+	    			back7 = now.minusMonths(3);
+	    			back14 = back7.minusMonths(3);
+	    		}
+	    		break;
+	    		case 4:
+	    		{
+	    			back7 = now.minusMonths(6);
+	    			back14 = back7.minusMonths(6);
+	    		}
+	    		break;
+	    		case 5:
+	    		{
+	    			back7 = now.minusYears(1);
+	    			back14 = back7.minusYears(1);
+	    		}
+	    		break;
+	    		case 6:
+	    		{
+	    			back7 = now.minusYears(3);
+	    			back14 = back7.minusYears(3);
+	    		}
+	    		break;
+	    		}
+	    		lblNgay7.setText(String.format("%s - %s", df.format(back7), df.format(now)));
+	    		lblNgay14.setText(String.format("%s - %s", df.format(back14), df.format(back7.minusDays(1))));
+	    	}
+	    	else {
+	    		back1 = dpNgayTo7.getValue();
+	    		back7 = dpNgayFrom7.getValue();
+	    		if(coKyTruoc) {
+	    			back8 = dpNgayTo14.getValue();
+	    			back14 = dpNgayFrom14.getValue();
+	    		}
+	    		else {
+	    			back8 = dpNgayFrom7.getValue().minusDays(1);
+	    			back14 = back8.minusDays(ChronoUnit.DAYS.between(back7, back1));
+	    		}
+	    		if(back7.isEqual(back1))
+	    			lblNgay7.setText(String.format("%s", df.format(back7)));
+	    		else
+	    			lblNgay7.setText(String.format("%s - %s", df.format(back7), df.format(back1)));
+	    		
+	    		if(back14.isEqual(back8))
+	    			lblNgay14.setText(String.format("%s", df.format(back14)));
+	    		else
+	    			lblNgay14.setText(String.format("%s - %s", df.format(back14), df.format(back8)));
+	    	}
 	    	String currentMaBD = dsCTHD.get(0).getTtBanDat().getMaBD();
 	    	for(int i = 0; i < dsCTHD.size(); i++) 	{
 	    		CTHoaDonBanDat curr = dsCTHD.get(i);
@@ -282,24 +505,28 @@ public class ThongKeMonAnController implements Initializable {
     				currentMaBD = curr.getTtBanDat().getMaBD();
     			}
     			LocalDate ngayTT = curr.getTtBanDat().getNgayThanhToan().toLocalDateTime().toLocalDate();
-    			if(ngayTT.isBefore((LocalDate)thongKeData.get(currentMaMA).get(11))) {
-    				thongKeData.get(currentMaMA).set(11, ngayTT);
+    			if(ngayTT.isBefore((LocalDate)thongKeData.get(currentMaMA).get(7))) {
+    				thongKeData.get(currentMaMA).set(7, ngayTT);
     			}
-    			if(ngayTT.isAfter(back7) && (ngayTT.isBefore(now) || ngayTT.isEqual(now))) {
-    				thongKeData.get(currentMaMA).set(3, (long)thongKeData.get(currentMaMA).get(3) + curr.getSoLuong());
-	    			thongKeData.get(currentMaMA).set(4, (long)thongKeData.get(currentMaMA).get(4) + curr.getDonGia() * curr.getSoLuong());
-    			}
-    			else if(ngayTT.isAfter(back14) && (ngayTT.isBefore(back7) || ngayTT.isEqual(back7))) {
-    				thongKeData.get(currentMaMA).set(5, (long)thongKeData.get(currentMaMA).get(5) + curr.getSoLuong());
-	    			thongKeData.get(currentMaMA).set(6, (long)thongKeData.get(currentMaMA).get(6) + curr.getDonGia() * curr.getSoLuong());
-    			}
-    			else if(ngayTT.isAfter(back21) && (ngayTT.isBefore(back14) || ngayTT.isEqual(back14))) {
-    				thongKeData.get(currentMaMA).set(7, (long)thongKeData.get(currentMaMA).get(7) + curr.getSoLuong());
-	    			thongKeData.get(currentMaMA).set(8, (long)thongKeData.get(currentMaMA).get(8) + curr.getDonGia() * curr.getSoLuong());
-    			}
-    			else if(ngayTT.isAfter(back28) && (ngayTT.isBefore(back21) || ngayTT.isEqual(back21))) {
-    				thongKeData.get(currentMaMA).set(9, (long)thongKeData.get(currentMaMA).get(9) + curr.getSoLuong());
-	    			thongKeData.get(currentMaMA).set(10, (long)thongKeData.get(currentMaMA).get(10) + curr.getDonGia() * curr.getSoLuong());
+    			if(!cbTuyChonKhoangNgay.isSelected()) {
+	    			if(ngayTT.isAfter(back7) && (ngayTT.isBefore(now) || ngayTT.isEqual(now))) {
+	    				thongKeData.get(currentMaMA).set(3, (long)thongKeData.get(currentMaMA).get(3) + curr.getSoLuong());
+		    			thongKeData.get(currentMaMA).set(4, (long)thongKeData.get(currentMaMA).get(4) + curr.getDonGia() * curr.getSoLuong());
+	    			}
+	    			else if(ngayTT.isAfter(back14) && (ngayTT.isBefore(back7) || ngayTT.isEqual(back7))) {
+	    				thongKeData.get(currentMaMA).set(5, (long)thongKeData.get(currentMaMA).get(5) + curr.getSoLuong());
+		    			thongKeData.get(currentMaMA).set(6, (long)thongKeData.get(currentMaMA).get(6) + curr.getDonGia() * curr.getSoLuong());
+	    			}
+	    		}
+    			else {
+    				if((ngayTT.isAfter(back7) || ngayTT.isEqual(back7)) && (ngayTT.isBefore(back1) || ngayTT.isEqual(back1))) {
+	    				thongKeData.get(currentMaMA).set(3, (long)thongKeData.get(currentMaMA).get(3) + curr.getSoLuong());
+		    			thongKeData.get(currentMaMA).set(4, (long)thongKeData.get(currentMaMA).get(4) + curr.getDonGia() * curr.getSoLuong());
+	    			}
+	    			else if((ngayTT.isAfter(back14) || ngayTT.isEqual(back14)) && (ngayTT.isBefore(back8) || ngayTT.isEqual(back8))) {
+	    				thongKeData.get(currentMaMA).set(5, (long)thongKeData.get(currentMaMA).get(5) + curr.getSoLuong());
+		    			thongKeData.get(currentMaMA).set(6, (long)thongKeData.get(currentMaMA).get(6) + curr.getDonGia() * curr.getSoLuong());
+	    			}
     			}
 	    	}
     	}
@@ -381,7 +608,7 @@ public class ThongKeMonAnController implements Initializable {
     		// row 3:
     		row = mainSheet.createRow(rowNum++);
     		String headers[] = {"STT", "Mã món ăn", "Tên món ăn", "Số người/phần", "Đơn giá hiện tại", "Doanh thu của món",
-    				"Số phần được đặt", "Số bàn đặt món này","Số phần được đặt và doanh thu theo giai đoạn","","","","","","","","Xu hướng"
+    				"Số phần được đặt", "Số bàn đặt món này","Số phần được đặt và doanh thu theo giai đoạn","","","","Xu hướng"
     		};
     		colNum = 0;
     		for(String hd : headers) {
@@ -393,30 +620,28 @@ public class ThongKeMonAnController implements Initializable {
     			cellRow = mainSheet.getRow(2).getCell(ks);
 	    		cellRow.setCellStyle(cellStyleHeader);
     		}
-    		mainSheet.addMergedRegion(new CellRangeAddress(2, 2, 8, 15));
+    		mainSheet.addMergedRegion(new CellRangeAddress(2, 2, 8, 11));
     		cellRow = mainSheet.getRow(2).getCell(8);
     		cellRow.setCellStyle(cellStyleHeader);
-    		mainSheet.addMergedRegion(new CellRangeAddress(2, 4, 16, 16));
-    		cellRow = mainSheet.getRow(2).getCell(16);
+    		mainSheet.addMergedRegion(new CellRangeAddress(2, 4, 12, 12));
+    		cellRow = mainSheet.getRow(2).getCell(12);
     		cellRow.setCellStyle(cellStyleHeader);
     		// row 4:
     		row = mainSheet.createRow(rowNum++);
-    		String headers2[] = {"","","","","","","","","Trong 28-22 ngày trước", "", "Trong 21-15 ngày trước", "",
-    				"Trong 14-8 ngày trước", "", "7 ngày gần đây", ""};
+    		String headers2[] = {"","","","","","","","",lblNgay14.getText(), "", lblNgay7.getText(), ""};
     		colNum = 0;
     		for(String hd : headers2) {
         		cellRow = row.createCell(colNum++);
         		cellRow.setCellValue(hd);
     		}
-    		for (int ks = 8; ks <= 15; ks+=2) {
+    		for (int ks = 8; ks <= 11; ks+=2) {
 	    		mainSheet.addMergedRegion(new CellRangeAddress(3, 3, ks, ks+1));
 	    		cellRow = mainSheet.getRow(3).getCell(ks);
 	    		cellRow.setCellStyle(cellStyleHeader);
     		}
     		// row 5:
     		row = mainSheet.createRow(rowNum++);
-    		String headers3[] = {"","","","","","","","","Số phần", "Doanh thu", "Số phần", "Doanh thu",
-    				"Số phần", "Doanh thu", "Số phần", "Doanh thu"};
+    		String headers3[] = {"","","","","","","","","Số phần", "Doanh thu", "Số phần", "Doanh thu"};
     		colNum = 0;
     		for(String hd : headers3) {
         		cellRow = row.createCell(colNum++);
@@ -452,7 +677,7 @@ public class ThongKeMonAnController implements Initializable {
     			cellRow = row.createCell(colNum++);
     			cellRow.setCellValue((Long)thongKeData.get(ma.getMaMA()).get(2));
     			cellRow.setCellStyle(cellStyleContent);
-    			for(int fs = 9; fs >= 3; fs-=2) {
+    			for(int fs = 5; fs >= 3; fs-=2) {
     				cellRow = row.createCell(colNum++);
         			cellRow.setCellValue((Long)thongKeData.get(ma.getMaMA()).get(fs));
         			cellRow.setCellStyle(cellStyleContent);
@@ -462,7 +687,7 @@ public class ThongKeMonAnController implements Initializable {
     			}
     			cellRow = row.createCell(colNum++);
     			String trend = "";
-    			LocalDate oldest = (LocalDate)thongKeData.get(ma.getMaMA()).get(11);
+    			LocalDate oldest = (LocalDate)thongKeData.get(ma.getMaMA()).get(7);
 				if(oldest.isBefore(LocalDate.now().minusDays(7))) {
 					Long d7 = (Long)thongKeData.get(ma.getMaMA()).get(3);
 					Long d14 = (Long)thongKeData.get(ma.getMaMA()).get(5);
@@ -489,7 +714,7 @@ public class ThongKeMonAnController implements Initializable {
     			cellRow.setCellStyle(cellStyleContent);
     		}
     		
-    		for(int i = 0; i <= 16; i++) {
+    		for(int i = 0; i <= 12; i++) {
     			mainSheet.autoSizeColumn(i, true);
     		}
     		
