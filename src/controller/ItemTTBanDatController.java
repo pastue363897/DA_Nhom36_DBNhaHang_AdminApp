@@ -26,9 +26,9 @@ import javafx.stage.Stage;
 
 public class ItemTTBanDatController {
 	@FXML
-	private Label lblDateDat, lblMonthDat, lblYearDat;
+	private Label lblTimeDat, lblDateDat, lblMonthDat, lblYearDat;
 	@FXML
-	private Label lblDatePhucVu, lblMonthPhucVu, lblYearPhucVu;
+	private Label lblTimePhucVu, lblDatePhucVu, lblMonthPhucVu, lblYearPhucVu;
 	@FXML
 	private Label lblHoTenKhachHang;
 	@FXML

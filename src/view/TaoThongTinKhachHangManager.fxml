@@ -5,48 +5,126 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="610.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TaoThongTinKhachHangController">
+<AnchorPane prefHeight="648.0" prefWidth="666.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TaoThongTinKhachHangController">
    <children>
-      <Label layoutX="54.0" layoutY="68.0" prefHeight="43.0" prefWidth="503.0" text="Mã khách hàng sẽ được phát sinh tự động và thông báo khi nhấn và thêm khách hàng mới thành công" wrapText="true">
-         <font>
-            <Font name="System Italic" size="12.0" />
-         </font></Label>
-      <Label layoutX="52.0" layoutY="126.0" prefHeight="17.0" prefWidth="70.0" text="Họ tên" />
-      <Label layoutX="53.0" layoutY="169.0" prefHeight="17.0" prefWidth="70.0" text="Địa chỉ" />
-      <Label layoutX="190.0" layoutY="18.0" text="Thêm khách hàng mới">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Label>
-      <Label layoutX="51.0" layoutY="274.0" prefHeight="17.0" prefWidth="122.0" text="Số CMND/CCCD" />
-      <Label layoutX="51.0" layoutY="316.0" prefHeight="17.0" prefWidth="95.0" text="Số điện thoại" />
-      <Label layoutX="51.0" layoutY="359.0" prefHeight="17.0" prefWidth="61.0" text="Email" />
-      <Label layoutX="51.0" layoutY="401.0" prefHeight="35.0" prefWidth="122.0" text="Username dùng để sử dụng trên web" wrapText="true" />
-      <TextField fx:id="txtTenKH" layoutX="187.0" layoutY="122.0" prefHeight="25.0" prefWidth="368.0" />
-      <TextArea fx:id="txtDiaChi" layoutX="187.0" layoutY="167.0" prefHeight="87.0" prefWidth="368.0" wrapText="true" />
-      <TextField fx:id="txtSoCMND" layoutX="187.0" layoutY="270.0" prefHeight="25.0" prefWidth="180.0" />
-      <TextField fx:id="txtSoDT" layoutX="187.0" layoutY="313.0" prefHeight="25.0" prefWidth="180.0" />
-      <TextField fx:id="txtEmail" layoutX="187.0" layoutY="355.0" prefHeight="25.0" prefWidth="368.0" />
-      <TextField fx:id="txtUsername" layoutX="187.0" layoutY="406.0" prefHeight="25.0" prefWidth="368.0" />
-      <Button fx:id="btnThemKhachHang" layoutX="163.0" layoutY="498.0" mnemonicParsing="false" onAction="#themKhachHang" prefHeight="43.0" prefWidth="284.0" text="Tạo thông tin khách hàng mới" textAlignment="CENTER" textFill="#009700" wrapText="true">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Button layoutX="295.0" layoutY="508.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="241.0" text="Xem thống kê doanh thu của khách hàng đang chọn" textAlignment="CENTER" visible="false" wrapText="true">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Label layoutX="52.0" layoutY="445.0" prefHeight="35.0" prefWidth="143.0" text="Password tạm thời (thông báo người dùng cập nhật)" wrapText="true" />
-      <TextField fx:id="txtPassword" layoutX="201.0" layoutY="450.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button fx:id="btnRandomPass" layoutX="406.0" layoutY="450.0" mnemonicParsing="false" onAction="#randomPass" prefHeight="25.0" prefWidth="150.0" text="Phát sinh ngẫu nhiên" wrapText="true" />
-      <Button fx:id="btnClose" layoutX="223.0" layoutY="552.0" mnemonicParsing="false" onAction="#dongGiaoDien" prefHeight="34.0" prefWidth="165.0" text="Đóng" wrapText="true">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
+      <BorderPane layoutX="51.0" layoutY="18.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="18.0">
+         <center>
+            <FlowPane alignment="TOP_CENTER">
+               <children>
+                  <Pane prefHeight="637.0" prefWidth="562.0">
+                     <children>
+                        <Label alignment="CENTER" layoutX="24.0" layoutY="50.0" prefHeight="43.0" prefWidth="503.0" text="Mã khách hàng sẽ được phát sinh tự động và thông báo khi nhấn và thêm khách hàng mới thành công" wrapText="true">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="21.0" layoutY="108.0" prefHeight="17.0" prefWidth="70.0" text="Họ tên">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="22.0" layoutY="158.0" prefHeight="17.0" prefWidth="70.0" text="Địa chỉ">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="163.0" text="Thêm khách hàng mới">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="20.0" layoutY="258.0" prefHeight="27.0" prefWidth="138.0" text="Số CMND/CCCD">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="20.0" layoutY="308.0" prefHeight="27.0" prefWidth="135.0" text="Số điện thoại">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="20.0" layoutY="361.0" prefHeight="17.0" prefWidth="61.0" text="Email">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="20.0" layoutY="408.0" prefHeight="37.0" prefWidth="102.0" text="Username" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtTenKH" layoutX="172.0" layoutY="104.0" prefHeight="25.0" prefWidth="368.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextArea fx:id="txtDiaChi" layoutX="172.0" layoutY="156.0" prefHeight="87.0" prefWidth="368.0" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextArea>
+                        <TextField fx:id="txtSoCMND" layoutX="172.0" layoutY="254.0" prefHeight="25.0" prefWidth="180.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtSoDT" layoutX="172.0" layoutY="305.0" prefHeight="25.0" prefWidth="180.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtEmail" layoutX="172.0" layoutY="357.0" prefHeight="25.0" prefWidth="368.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtUsername" layoutX="172.0" layoutY="409.0" prefHeight="25.0" prefWidth="368.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="btnThemKhachHang" layoutX="148.0" layoutY="530.0" mnemonicParsing="false" onAction="#themKhachHang" prefHeight="43.0" prefWidth="284.0" text="Tạo thông tin khách hàng mới" textAlignment="CENTER" textFill="#009700" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="280.0" layoutY="490.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="241.0" text="Xem thống kê doanh thu của khách hàng đang chọn" textAlignment="CENTER" visible="false" wrapText="true">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="21.0" layoutY="462.0" prefHeight="39.0" prefWidth="151.0" text="Password tạm thời" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtPassword" layoutX="173.0" layoutY="462.0" prefHeight="39.0" prefWidth="170.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="btnRandomPass" layoutX="347.0" layoutY="462.0" mnemonicParsing="false" onAction="#randomPass" prefHeight="39.0" prefWidth="194.0" text="Phát sinh ngẫu nhiên" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnClose" layoutX="208.0" layoutY="589.0" mnemonicParsing="false" onAction="#dongGiaoDien" prefHeight="34.0" prefWidth="165.0" text="Đóng" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="22.0" layoutY="500.0" prefHeight="22.0" prefWidth="238.0" text="(thông báo người dùng cập nhật)" />
+                        <Label layoutX="20.0" layoutY="438.0" text="(sử dụng trên web)" />
+                     </children>
+                  </Pane>
+               </children>
+            </FlowPane>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>
