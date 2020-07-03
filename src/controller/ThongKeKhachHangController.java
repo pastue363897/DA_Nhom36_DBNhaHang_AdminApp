@@ -556,6 +556,7 @@ public class ThongKeKhachHangController implements Initializable {
 			int stt = 1;
 			DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			MonAnDAO monAnDao = new MonAnDAO();
+			Object time;
 			for(Customer ma : dsKhachHang) {
 				row = mainSheet.createRow(rowNum++);
 				String maKH = ma.getTaiKhoan().getMaTK();
@@ -591,7 +592,8 @@ public class ThongKeKhachHangController implements Initializable {
 				cellRow.setCellValue((Long)thongKeData.get(maKH).get(2));
 				cellRow.setCellStyle(cellStyleContent);
 				cellRow = row.createCell(colNum++);
-				cellRow.setCellValue(((Timestamp)thongKeData.get(maKH).get(3)).toLocalDateTime().format(dtFormat));
+				time = thongKeData.get(maKH).get(3);
+				cellRow.setCellValue((time == null) ? null : ((Timestamp)time).toLocalDateTime().format(dtFormat));
 				cellRow.setCellStyle(cellStyleContent);
 				cellRow = row.createCell(colNum++);
 				cellRow.setCellValue((Long)thongKeData.get(maKH).get(4));
@@ -612,7 +614,8 @@ public class ThongKeKhachHangController implements Initializable {
 				cellRow.setCellValue((Long)thongKeData.get(maKH).get(7));
 				cellRow.setCellStyle(cellStyleContent);
 				cellRow = row.createCell(colNum++);
-				cellRow.setCellValue(((Timestamp)thongKeData.get(maKH).get(8)).toLocalDateTime().format(dtFormat));
+				time = thongKeData.get(maKH).get(8);
+				cellRow.setCellValue((time == null) ? null : ((Timestamp)time).toLocalDateTime().format(dtFormat));
 				cellRow.setCellStyle(cellStyleContent);
 				
 				MonAn ms2 = monAnDao.get((String)thongKeData.get(maKH).get(9));
@@ -630,7 +633,8 @@ public class ThongKeKhachHangController implements Initializable {
 				cellRow.setCellValue((Long)thongKeData.get(maKH).get(11));
 				cellRow.setCellStyle(cellStyleContent);
 				cellRow = row.createCell(colNum++);
-				cellRow.setCellValue(((Timestamp)thongKeData.get(maKH).get(12)).toLocalDateTime().format(dtFormat));
+				time = thongKeData.get(maKH).get(12);
+				cellRow.setCellValue((time == null) ? null : ((Timestamp)time).toLocalDateTime().format(dtFormat));
 				cellRow.setCellStyle(cellStyleContent);
 			}
 			
