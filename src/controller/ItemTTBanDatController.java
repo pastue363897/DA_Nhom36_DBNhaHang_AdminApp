@@ -48,9 +48,11 @@ public class ItemTTBanDatController {
 	  Image image = new Image("file:" + PrimaryConf.CUSTOM_FILE_PATH_HEAD + b.getBanAn().getHinhAnh(), 200, 165, false,
         true);
     imvBanAn.setImage(image);
+    lblTimeDat.setText(stringTime(b.getNgayDatBan().getHours(), b.getNgayDatBan().getMinutes()));
 		lblDateDat.setText(stringDate(b.getNgayDatBan().getDate()));
 		lblMonthDat.setText(stringMonth(b.getNgayDatBan().getMonth() + 1));
 		lblYearDat.setText(String.valueOf(b.getNgayDatBan().getYear() + 1900));
+		lblTimePhucVu.setText(stringTime(b.getNgayPhucVu().getHours(), b.getNgayPhucVu().getMinutes()));
 		lblDatePhucVu.setText(stringDate(b.getNgayPhucVu().getDate()));
 		lblMonthPhucVu.setText(stringMonth(b.getNgayPhucVu().getMonth() + 1));
 		lblYearPhucVu.setText(String.valueOf(b.getNgayPhucVu().getYear() + 1900));
@@ -88,6 +90,10 @@ public class ItemTTBanDatController {
 			}
 		}
 	}
+	
+	public String stringTime(int hour, int minute) {
+    return stringDate(hour) + ":" + stringDate(minute);
+  }
 
 	public String stringDate(int date) {
 		String result;

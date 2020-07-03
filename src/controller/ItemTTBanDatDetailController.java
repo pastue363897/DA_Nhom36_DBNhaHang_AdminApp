@@ -252,9 +252,11 @@ public class ItemTTBanDatDetailController implements Initializable {
 		  lblTongTien.setText(String.valueOf(ttBanDat.getTongTien()) + " Đ");
 		else
 			lblTongTien.setText(String.valueOf(ttBanDat.tinhTongTien()) + " Đ");
+		lblGioDat.setText(stringTime(ttBanDat.getNgayDatBan().getHours(), ttBanDat.getNgayDatBan().getMinutes()));
 		lblNgayDat.setText(stringDate(ttBanDat.getNgayDatBan().getDate()));
 		lblThangDat.setText(stringMonth(ttBanDat.getNgayDatBan().getMonth() + 1));
 		lblNamDat.setText(String.valueOf(ttBanDat.getNgayDatBan().getYear() + 1900));
+		lblGioPhucVu.setText(stringTime(ttBanDat.getNgayPhucVu().getHours(), ttBanDat.getNgayPhucVu().getMinutes()));
 		lblNgayPhucVu.setText(stringDate(ttBanDat.getNgayPhucVu().getDate()));
 		lblThangPhucVu.setText(stringMonth(ttBanDat.getNgayPhucVu().getMonth() + 1));
 		lblNamPhucVu.setText(String.valueOf(ttBanDat.getNgayPhucVu().getYear() + 1900));
@@ -382,6 +384,10 @@ public class ItemTTBanDatDetailController implements Initializable {
 		}
 		return result;
 	}
+	
+	public String stringTime(int hour, int minute) {
+    return stringDate(hour) + ":" + stringDate(minute);
+  }
 
 	public String stringDate(int date) {
 		String result;
