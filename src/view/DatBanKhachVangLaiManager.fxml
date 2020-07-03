@@ -185,7 +185,7 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnHuy" mnemonicParsing="false" visible="false" onAction="#dongGiaoDien" prefHeight="47.0" prefWidth="70.0" text="Hủy">
+                  <Button fx:id="btnHuy" mnemonicParsing="false" visible="false" managed="false" onAction="#dongGiaoDien" prefHeight="47.0" prefWidth="70.0" text="Hủy">
                      <font>
                         <Font size="18.0" />
                      </font>
