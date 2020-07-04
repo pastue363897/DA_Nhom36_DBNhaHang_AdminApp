@@ -147,7 +147,13 @@ public class HomeManagerController implements Initializable {
     void menuQLBanDat(ActionEvent event) {
     	if(event.getSource() == menuDatBanVangLai) {
     		//datBanKhachVangLai(null);
-    		
+    	  if(datBanController.daDat == 0) {
+    	    datBanController.reload();
+    	    datBanController.daDat = 1;
+    	  }
+    	  else if(datBanController.daDat == 1) {
+    	    datBanController.showAllMon();
+    	  }
     		banDat.setVisible(false);
     		banAn.setVisible(false);
     		monAn.setVisible(false);

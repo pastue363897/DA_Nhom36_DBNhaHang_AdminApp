@@ -87,7 +87,6 @@ public class ItemMonAnController implements Initializable {
 	}
 
 	public void huyMonAn(ActionEvent e) {
-		monAnMGCT.xoaInput();
 		try {
 			MonAnDAO maDao = new MonAnDAO();
 			if (maDao.checkPreviouslyBooked(ttMonAn)) {
@@ -102,11 +101,12 @@ public class ItemMonAnController implements Initializable {
 					Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
 					alert2.setTitle("Hủy bán món ăn thành công");
 					alert2.setContentText("Đã hủy bán món ăn trong hệ thống");
-					alert2.show();
+					alert2.showAndWait();
+					monAnMGCT.xoaInput();
 				}
-				
+				return;		
 			} else {
-				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Có thực sự xóa món ăn nàt?", ButtonType.YES, ButtonType.NO);
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Có thực sự xóa món ăn này?", ButtonType.YES, ButtonType.NO);
 				alert.setTitle("Xác nhận?");
 				alert.showAndWait();
 				
@@ -118,11 +118,11 @@ public class ItemMonAnController implements Initializable {
 					}
 					maDao.delete(ttMonAn);
 					
-					
 					Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
 					alert2.setTitle("Xóa món ăn bàn thành công");
 					alert2.setContentText("Đã xóa món ăn trong hệ thống");
-					alert2.show();
+					alert2.showAndWait();
+					monAnMGCT.xoaInput();
 					monAnMGCT.loadAllMonAn();
 				}
 			}

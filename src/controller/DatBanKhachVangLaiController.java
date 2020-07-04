@@ -160,6 +160,8 @@ public class DatBanKhachVangLaiController implements Initializable {
     
     private ArrayList<String> listGioDat = new ArrayList<String>();
     
+    public int daDat = 0; // 0 
+    
     public BanDatManagerController getBanDatMGCT() {
 		return banDatMGCT;
 	}
@@ -297,16 +299,16 @@ public class DatBanKhachVangLaiController implements Initializable {
     	currentStage.close();
     }
     
-    void showAllBan() {
+    public void showAllBan() {
     	BanAnDAO banAnDao = new BanAnDAO();
 		dsBanAnTimThay = banAnDao.timBanAnDatDuoc();
 		dsOBBanAnTimThay = FXCollections.observableArrayList(dsBanAnTimThay);
 		lvBanAn.setItems(dsOBBanAnTimThay);
 		lvBanAn.refresh();
     }
-    void showAllMon() {
+    public void showAllMon() {
     	MonAnDAO monAnDao = new MonAnDAO();
-		dsMonAnTimThay = monAnDao.getAll();
+		dsMonAnTimThay = monAnDao.getDSMonAn();
 		dsOBMonAnTimThay = FXCollections.observableArrayList(dsMonAnTimThay);
 		lvMonAnDangBan.setItems(dsOBMonAnTimThay);
 		lvMonAnDangBan.refresh();
@@ -414,10 +416,26 @@ public class DatBanKhachVangLaiController implements Initializable {
 		alert.setTitle("Thành công");
 		alert.setContentText("Thông tin bàn đặt đã được lưu, để thêm món hay thanh toán. Tìm bàn này trong quản lý bàn đặt");
 		alert.showAndWait();
+		daDat = 0;
+		showAllBan();
+		showAllMon();
 		
 		banDatMGCT.loadAllBanDat();
 		hostMGCT.showQLBanDat();
 		return;
+    }
+    
+    public void reload() {
+      dsOBMonAnDaChon.clear();
+      showAllBan();
+      showAllMon();
+      txtBanAnSearch.setText("");
+      txtMonAnSearch.setText("");
+      txtMaKH.setText("");
+      txtTenKhachHang.setText("");
+      txtSoCMND.setText("");
+      txtSoDT.setText("");
+      txtDiaChi.setText("");
     }
     
     void themMon() {

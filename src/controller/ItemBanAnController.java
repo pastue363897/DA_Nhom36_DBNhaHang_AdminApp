@@ -119,7 +119,9 @@ public class ItemBanAnController implements Initializable {
 						alert2.setTitle("Xóa bàn thất bại");
 						alert2.setContentText("Đã xảy ra sự cố, hãy thử lại");
 						alert2.show();
+						banAnMGCT.xoaInput();
 				    }
+				    return;
 				}
 			    catch(HibernateException ex1) {
 			    	Alert alert2 = new Alert(Alert.AlertType.ERROR);
