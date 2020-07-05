@@ -16,6 +16,7 @@ import application.PrimaryConf;
 import database.HoaDonBanDatDAO;
 import entites.CTHoaDonBanDat;
 import entites.HoaDonBanDat;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -95,7 +96,7 @@ public class ItemTTBanDatDetailController implements Initializable {
     private TableColumn<CTHoaDonBanDat, Long> donGia;
 
     @FXML
-    private TableColumn<String, Long> tongGia;
+    private TableColumn<CTHoaDonBanDat, Long> tongGia;
 
 	@FXML
 	private Label lblDaHuy;
@@ -239,6 +240,12 @@ public class ItemTTBanDatDetailController implements Initializable {
 		});
 		soLuong.setCellValueFactory(new PropertyValueFactory<CTHoaDonBanDat, Integer>("soLuong"));
 		donGia.setCellValueFactory(new PropertyValueFactory<CTHoaDonBanDat, Long>("donGia"));
+		tongGia.setCellValueFactory(new Callback<CellDataFeatures<CTHoaDonBanDat, Long>, ObservableValue<Long>>() {
+			@Override
+			public ObservableValue<Long> call(CellDataFeatures<CTHoaDonBanDat, Long> param) {
+				return new SimpleLongProperty(param.getValue().getDonGia()*param.getValue().getSoLuong()).asObject();
+			}
+		});
 	}
 
 	@SuppressWarnings("deprecation")
@@ -249,9 +256,9 @@ public class ItemTTBanDatDetailController implements Initializable {
 		lblDiaChiKH.setText(ttBanDat.getKhachHang().getDiaChi());
 		lblSoCMND.setText(ttBanDat.getKhachHang().getCmnd());
 		if(ttBanDat.isDaThanhToan())
-		  lblTongTien.setText(String.valueOf(ttBanDat.getTongTien()) + " Đ");
+			lblTongTien.setText(String.valueOf(ttBanDat.tinhTongTien() + ttBanDat.getPhuGiaBanAn()) + " Đ");
 		else
-			lblTongTien.setText(String.valueOf(ttBanDat.tinhTongTien()) + " Đ");
+			lblTongTien.setText(String.valueOf(ttBanDat.tinhTongTien() + ttBanDat.getBanAn().getPhuGia()) + " Đ");
 		lblGioDat.setText(stringTime(ttBanDat.getNgayDatBan().getHours(), ttBanDat.getNgayDatBan().getMinutes()));
 		lblNgayDat.setText(stringDate(ttBanDat.getNgayDatBan().getDate()));
 		lblThangDat.setText(stringMonth(ttBanDat.getNgayDatBan().getMonth() + 1));
@@ -279,13 +286,13 @@ public class ItemTTBanDatDetailController implements Initializable {
     void thanhToan(ActionEvent event) {
 		// Khi debug xong thì bỏ comment, vì đây là check ngày thanh toán >= ngày phục vụ
 		// vì ko thể nào thanh toán trước khi phục vụ được
-		/*if((Date.valueOf(LocalDate.now()).before(ttBanDat.getNgayPhucVu()))) {
+		if(LocalDateTime.now().isBefore(ttBanDat.getNgayPhucVu().toLocalDateTime())) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Thanh toán thất bại");
-			alert.setContentText("Ngày thanh toán phải tính từ ngày phục vụ trở đi, thanh toán thất bại");
+			alert.setContentText("Chỉ được thanh toán từ lúc bắt đầu phục vụ trở đi, thanh toán thất bại");
 			alert.show();
 			return;
-		}*/
+		}
     	long tienThoi = tinhTienThoi();
     	if(tienThoi == -1) {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -303,9 +310,11 @@ public class ItemTTBanDatDetailController implements Initializable {
     	}
     	try {
     		ttBanDat.setNgayThanhToan(Timestamp.valueOf(LocalDateTime.now()));
-	    	ttBanDat.setTongTien(ttBanDat.tinhTongTien());
-	    	ttBanDat.setTienDaDua(ttBanDat.getTongTien()+tienThoi);
+	    	ttBanDat.setPhuGiaBanAn(ttBanDat.getBanAn().getPhuGia());
+	    	ttBanDat.setTienDaDua(ttBanDat.tinhTongTien()+ttBanDat.getBanAn().getPhuGia()+tienThoi);
 	    	ttBanDat.setDaThanhToan(true);
+	    	if(PrimaryConf.currentAdmin != null)
+	    		ttBanDat.setNhanVien(PrimaryConf.currentAdmin);
 	    	
 	    	HoaDonBanDatDAO das = new HoaDonBanDatDAO();
 	    	ttBanDat = das.update(ttBanDat);
@@ -402,7 +411,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 	private long tinhTienThoi() {
 		try {
 			long value = Long.parseLong(txtTienKhachDua.getText());
-			long charge = value - ttBanDat.tinhTongTien();
+			long charge = value - ttBanDat.tinhTongTien() - ttBanDat.getBanAn().getPhuGia();
 			if (charge < 0) {
 				lblTienThoiLai.setText("Tiền đưa không đủ");
 				return -1;
@@ -425,7 +434,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 		if(ttBanDat.isDaThanhToan()) {
 			txtTienKhachDua.setText(String.valueOf(ttBanDat.getTienDaDua()));
 			txtTienKhachDua.setEditable(false);
-			lblTienThoiLai.setText(String.valueOf(ttBanDat.getTienDaDua()-ttBanDat.getTongTien())+" Đ");
+			lblTienThoiLai.setText(String.valueOf(ttBanDat.getTienDaDua()-ttBanDat.getPhuGiaBanAn())+" Đ");
 			btnThanhToan.setVisible(false);
 			btnHuyBan.setVisible(false);
 			cbAutoInHoaDon.setVisible(false);
@@ -507,6 +516,19 @@ public class ItemTTBanDatDetailController implements Initializable {
 		for(int i = 0; i < 73; i++) {
 			stringHoaDon += "*";
 		}
+		if(PrimaryConf.currentAdmin != null) {
+			for(int i = 0; i < 73; i++) {
+				stringHoaDon += "*";
+			}
+			stringHoaDon += "\n";
+			
+			stringHoaDon += "Mã nhân viên thanh toán: " + PrimaryConf.currentAdmin.getMaNV() + "\n";
+			stringHoaDon += "Tên nhân viên thanh toán: " + PrimaryConf.currentAdmin.getHoTen() + "\n";
+			for(int i = 0; i < 73; i++) {
+				stringHoaDon += "*";
+			}
+			stringHoaDon += "\n";
+		}
 		stringHoaDon += "\n";
 		stringHoaDon += "STT   Tên                            Đơn giá    Số lượng        Tổng tiền\n";
 		int xTT = 1;
@@ -519,9 +541,9 @@ public class ItemTTBanDatDetailController implements Initializable {
 			stringHoaDon += "*";
 		}
 		stringHoaDon += "\n";
-		stringHoaDon += String.format("                                             Tổng tiền: %15d Đ\n", hoaDon.getTongTien());
+		stringHoaDon += String.format("                                             Tổng tiền: %15d Đ\n", hoaDon.getPhuGiaBanAn() + hoaDon.tinhTongTien());
 		stringHoaDon += String.format("                                        Tiền khách đưa: %15d Đ\n", hoaDon.getTienDaDua());
-		stringHoaDon += String.format("                                         Tiền thối lại: %15d Đ\n", hoaDon.getTienDaDua() - hoaDon.getTongTien());
+		stringHoaDon += String.format("                                         Tiền thối lại: %15d Đ\n", hoaDon.getTienDaDua() - hoaDon.getPhuGiaBanAn() - hoaDon.tinhTongTien());
 		
 		javafx.print.PrinterJob psjob = javafx.print.PrinterJob.createPrinterJob();
 		Text textToPrint = new Text(stringHoaDon);

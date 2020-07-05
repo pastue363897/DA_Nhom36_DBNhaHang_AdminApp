@@ -301,14 +301,14 @@ public class ThongKeKhachHangController implements Initializable {
     			if(isFirst) {
     				if(curr.isDaThanhToan()) {
     					thongKeData.get(currentMaKH).set(3, curr.getNgayThanhToan());
-    					thongKeData.get(currentMaKH).set(4, curr.getTongTien());
+    					thongKeData.get(currentMaKH).set(4, curr.getPhuGiaBanAn() + curr.tinhTongTien());
     				}
     				isFirst = false;
     			}
     			if(curr.isDaThanhToan()) {
     				thongKeData.get(currentMaKH).set(1, (Long)thongKeData.get(currentMaKH).get(1) + 1);
-    				tongDoanhThu += curr.getTongTien();
-    				thongKeData.get(currentMaKH).set(0, (Long)thongKeData.get(currentMaKH).get(0) + curr.getTongTien());
+    				tongDoanhThu += curr.getPhuGiaBanAn() + curr.tinhTongTien();
+    				thongKeData.get(currentMaKH).set(0, (Long)thongKeData.get(currentMaKH).get(0) + curr.getPhuGiaBanAn() + curr.tinhTongTien());
     			}
     			else if(curr.isDaHuy()) {
     				thongKeData.get(currentMaKH).set(2, (Long)thongKeData.get(currentMaKH).get(2) + 1);

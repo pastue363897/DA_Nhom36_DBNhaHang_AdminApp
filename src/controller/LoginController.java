@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 
+import application.PrimaryConf;
 import database.AdminDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,10 +27,14 @@ public class LoginController {
 	private PasswordField txtPassWord;
 	@FXML
 	private Button btnSignin;
-
-	@FXML
-	void signIn(ActionEvent event) {
-		// dang nhap ko password de debug: nhap username: DEBUG_LOGIN rui sign in
+	
+    @FXML
+    void onEnter(ActionEvent event) {
+    	signIn();
+    }
+    
+    void signIn() {
+    	// dang nhap ko password de debug: nhap username: DEBUG_LOGIN rui sign in
 		String username = txtUserName.getText();
 		String password = txtPassWord.getText();
 		AdminDAO adminDao = new AdminDAO();
@@ -41,13 +46,18 @@ public class LoginController {
 			alert.show();
 		} else {
 			try {
+				PrimaryConf.currentAdmin = adminDao.getAdminByUsername(username);
 				// Close sign in window
 				Stage currentStage = (Stage) btnSignin.getScene().getWindow();
 				currentStage.close();
 				// load main
 				Parent root = FXMLLoader.load(getClass().getResource("/view/HomeManager.fxml"));
 				Stage stage = new Stage();
-				stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng");
+				String title = "Hệ thống quản lý đặt bàn nhà hàng";
+				if(PrimaryConf.currentAdmin != null) {
+					title += " - Mã NV: " + PrimaryConf.currentAdmin.getMaNV();
+				}
+				stage.setTitle(title);
 				Scene scene = new Scene(root);
 				stage.setScene(scene);
 				HomeManagerController.primaryStage = stage;
@@ -55,8 +65,11 @@ public class LoginController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			
 		}
+    }
+
+	@FXML
+	void signIn(ActionEvent event) {
+		signIn();
 	}
 }

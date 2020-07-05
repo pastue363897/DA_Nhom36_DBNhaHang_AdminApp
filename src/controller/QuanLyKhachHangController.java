@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -83,10 +84,16 @@ public class QuanLyKhachHangController implements Initializable {
     @FXML
     private Button btnThemKhachHang;
     
+    @FXML
+    private Button btnDatBanKhachHang;
+    
     private List<Customer> dsKhachHang;
     private ObservableList<Customer> dsOBKhachHang;
     
     public static Stage primaryStage;
+    
+    private HomeManagerController homeController;
+    private DatBanKhachVangLaiController datBanKHController;
     
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -172,4 +179,38 @@ public class QuanLyKhachHangController implements Initializable {
 			e1.printStackTrace();
 		}
     }
+    
+    @FXML
+    void datBanKhachHang(ActionEvent event) {
+    	Customer cs = lvKhachHang.getSelectionModel().getSelectedItem();
+    	if(cs != null) {
+    		homeController.showDatBanKhachVangLai();
+    		datBanKHController.autoSetKhachHang(cs.getTaiKhoan().getMaTK());
+    		Stage currentStage = (Stage) btnDatBanKhachHang.getScene().getWindow();
+    		currentStage.close();
+    	}
+    	else {
+    		Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Lỗi");
+			alert.setContentText("Chưa chọn khách hàng nào");
+			alert.showAndWait();
+			return;
+    	}
+    }
+
+	public DatBanKhachVangLaiController getDatBanKHController() {
+		return datBanKHController;
+	}
+
+	public void setDatBanKHController(DatBanKhachVangLaiController datBanKHController) {
+		this.datBanKHController = datBanKHController;
+	}
+
+	public HomeManagerController getHomeController() {
+		return homeController;
+	}
+
+	public void setHomeController(HomeManagerController homeController) {
+		this.homeController = homeController;
+	}
 }

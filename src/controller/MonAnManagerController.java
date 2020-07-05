@@ -1,7 +1,7 @@
 /**
  * Created on: 14:44:24 26 thg 4, 2020
  * 
- * @author Dinh Van Dung YKNB
+ * @author Dinh Van Dung YKNB, Ta Khanh Hoang
  */
 
 package controller;

@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import database.HoaDonBanDatDAO;
 import entites.HoaDonBanDat;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -91,9 +92,17 @@ public class ThongKeDoanhThuTheoNgayController implements Initializable {
 
 	@FXML
 	private Label lblDoanhThuKhachHang;
+	
+    @FXML
+    private Button btnMaxBan;
+
+    @FXML
+    private Button btnMinBan;
 
 	private List<HoaDonBanDat> dsHoaDon;
 	private ObservableList<HoaDonBanDat> dsOBHoaDon;
+	
+	private HoaDonBanDat maxBanBD, minBanBD;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -117,7 +126,12 @@ public class ThongKeDoanhThuTheoNgayController implements Initializable {
 			}
 		});
 		ngayThanhToan.setCellValueFactory(new PropertyValueFactory<HoaDonBanDat, Timestamp>("ngayThanhToan"));
-		tongTien.setCellValueFactory(new PropertyValueFactory<HoaDonBanDat, Long>("tongTien"));
+		tongTien.setCellValueFactory(new Callback<CellDataFeatures<HoaDonBanDat, Long>, ObservableValue<Long>>() {
+			@Override
+			public ObservableValue<Long> call(CellDataFeatures<HoaDonBanDat, Long> param) {
+				return new SimpleLongProperty(param.getValue().tinhTongTien()+param.getValue().getPhuGiaBanAn()).asObject();
+			}
+		});
 
 		dsHoaDon = new ArrayList<HoaDonBanDat>();
 		tinhThongSo();
@@ -149,13 +163,17 @@ public class ThongKeDoanhThuTheoNgayController implements Initializable {
 		long maxBan = -1;
 		long minBan = 19000000000000L;
 		for (HoaDonBanDat h : dsHoaDon) {
-			tongDoanhThu += h.getTongTien();
-			if (h.getTongTien() > maxBan)
-				maxBan = h.getTongTien();
-			if (h.getTongTien() < minBan)
-				minBan = h.getTongTien();
+			tongDoanhThu += h.tinhTongTien() + h.getPhuGiaBanAn();
+			if (h.tinhTongTien() + h.getPhuGiaBanAn() > maxBan) {
+				maxBan = h.tinhTongTien() + h.getPhuGiaBanAn();
+				maxBanBD = h;
+			}
+			if (h.tinhTongTien() + h.getPhuGiaBanAn() < minBan) {
+				minBan = h.tinhTongTien() + h.getPhuGiaBanAn();
+				minBanBD = h;
+			}
 			if (h.getKhachHang().getTaiKhoan().getMaTK().contains("VL")) {
-				doanhThuVL += h.getTongTien();
+				doanhThuVL += h.tinhTongTien() + h.getPhuGiaBanAn();
 			}
 		}
 		if (maxBan == -1) {
@@ -249,6 +267,23 @@ public class ThongKeDoanhThuTheoNgayController implements Initializable {
 		}
 		tinhThongSo();
 	}
+	
+
+    @FXML
+    void findBan(ActionEvent event) {
+    	if(event.getSource() == btnMaxBan) {
+    		lvHoaDon.getSelectionModel().select(maxBanBD);
+    		lvHoaDon.getFocusModel().focus(lvHoaDon.getSelectionModel().getSelectedIndex());
+    		lvHoaDon.scrollTo(maxBanBD);
+    		lvHoaDon.requestFocus();
+    	}
+    	else if(event.getSource() == btnMinBan) {
+    		lvHoaDon.getSelectionModel().select(minBanBD);
+    		lvHoaDon.getFocusModel().focus(lvHoaDon.getSelectionModel().getSelectedIndex());
+    		lvHoaDon.scrollTo(minBanBD);
+    		lvHoaDon.requestFocus();
+    	}
+    }
 
 	@FXML
 	void timBanDat(ActionEvent event) {

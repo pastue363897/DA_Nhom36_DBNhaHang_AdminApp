@@ -267,6 +267,10 @@ public class DatBanKhachVangLaiController implements Initializable {
 	
     @FXML
     void coDatTruoc(ActionEvent event) {
+    	setDatTruocFields();
+    }
+    
+    void setDatTruocFields() {
     	cmbGioDat.setDisable(!cbDatTruoc.isSelected());
     	dpNgayDatBan.setDisable(!cbDatTruoc.isSelected());
     }
@@ -359,6 +363,7 @@ public class DatBanKhachVangLaiController implements Initializable {
 			return;
     	}
     	HoaDonBanDat hoaDon = new HoaDonBanDat(cus, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), lvBanAn.getSelectionModel().getSelectedItem());
+    	hoaDon.setPhuGiaBanAn(lvBanAn.getSelectionModel().getSelectedItem().getPhuGia());
     	for(CTHoaDonBanDat x : dsMonAnDaChon) {
     		x.setTtBanDat(hoaDon);
     	}
@@ -436,6 +441,10 @@ public class DatBanKhachVangLaiController implements Initializable {
       txtSoCMND.setText("");
       txtSoDT.setText("");
       txtDiaChi.setText("");
+      cbDatTruoc.setSelected(false);
+      cmbGioDat.getSelectionModel().clearSelection();
+      dpNgayDatBan.setValue(null);
+      setDatTruocFields();
     }
     
     void themMon() {
@@ -487,6 +496,12 @@ public class DatBanKhachVangLaiController implements Initializable {
     	dsOBMonAnTimThay = FXCollections.observableArrayList(dsMonAnTimThay);
     	lvMonAnDangBan.setItems(dsOBMonAnTimThay);
 		lvMonAnDangBan.refresh();
+    }
+    
+    public void autoSetKhachHang(String maKH) {
+    	swapKhachHangInput(true);
+    	cbCoTaiKhoan.setSelected(true);
+    	txtMaKH.setText(maKH);
     }
     
     void xoaMon(boolean all) {

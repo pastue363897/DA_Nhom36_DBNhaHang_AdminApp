@@ -46,12 +46,12 @@
                               </Label>
                            </children>
                         </Pane>
-                        <TextField fx:id="txtUserName" layoutX="63.0" layoutY="149.0" prefHeight="39.0" prefWidth="272.0" promptText="Username">
+                        <TextField fx:id="txtUserName" layoutX="63.0" layoutY="149.0" onAction="#onEnter" prefHeight="39.0" prefWidth="272.0" promptText="Username">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </TextField>
-                        <PasswordField fx:id="txtPassWord" layoutX="63.0" layoutY="216.0" prefHeight="39.0" prefWidth="272.0" promptText="Password">
+                        <PasswordField fx:id="txtPassWord" layoutX="63.0" layoutY="216.0" onAction="#onEnter" prefHeight="39.0" prefWidth="272.0" promptText="Password">
                            <font>
                               <Font size="18.0" />
                            </font>

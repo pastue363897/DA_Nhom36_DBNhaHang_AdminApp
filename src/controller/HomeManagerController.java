@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.PrimaryConf;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -94,6 +95,7 @@ public class HomeManagerController implements Initializable {
 	}*/
 
 	public void signOut(MouseEvent e) {
+		PrimaryConf.currentAdmin = null;
 		Stage current = (Stage) lblMenuThoat.getScene().getWindow();
 		current.close();
 		Parent root;
@@ -142,22 +144,26 @@ public class HomeManagerController implements Initializable {
 		monAn.setVisible(false);
 		datBan.setVisible(false);
 	}
-
-    @FXML
-    void menuQLBanDat(ActionEvent event) {
-    	if(event.getSource() == menuDatBanVangLai) {
-    		//datBanKhachVangLai(null);
-    	  if(datBanController.daDat == 0) {
+	
+	void showDatBanKhachVangLai() {
+		if(datBanController.daDat == 0) {
     	    datBanController.reload();
     	    datBanController.daDat = 1;
     	  }
     	  else if(datBanController.daDat == 1) {
     	    datBanController.showAllMon();
+    	    datBanController.showAllBan();
     	  }
     		banDat.setVisible(false);
     		banAn.setVisible(false);
     		monAn.setVisible(false);
     		datBan.setVisible(true);
+	}
+
+    @FXML
+    void menuQLBanDat(ActionEvent event) {
+    	if(event.getSource() == menuDatBanVangLai) {
+    		showDatBanKhachVangLai();
     	}
     	else {
     		showQLBanDat();	
@@ -168,8 +174,10 @@ public class HomeManagerController implements Initializable {
     void menuQLKhachHang(ActionEvent event) {
     	if(event.getSource() == menuXemDanhSachKhachHang) {
     		Parent root;
+    		FXMLLoader fload;
     		try {
-    			root = FXMLLoader.load(getClass().getResource("/view/QuanLyKhachHangManager.fxml"));
+    			fload = new FXMLLoader(getClass().getResource("/view/QuanLyKhachHangManager.fxml"));
+    			root = fload.load();
     			Stage stage = new Stage();
     			stage.setResizable(false);
     			stage.initModality(Modality.WINDOW_MODAL);
@@ -181,6 +189,9 @@ public class HomeManagerController implements Initializable {
     			stage.centerOnScreen();
     			stage.show();
     			QuanLyKhachHangController.primaryStage = stage;
+    			QuanLyKhachHangController qlkhct = fload.getController();
+    			qlkhct.setDatBanKHController(datBanController);
+    			qlkhct.setHomeController(this);
     		} catch (IOException e1) {
     			e1.printStackTrace();
     		}

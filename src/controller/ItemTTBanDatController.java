@@ -1,7 +1,7 @@
 /**
  * Created on: 16:46:19 2 thg 5, 2020
  * 
- * @author Dinh Van Dung YKNB
+ * @author Dinh Van Dung YKNB, Ta Khanh Hoang
  */
 
 package controller;
@@ -59,9 +59,9 @@ public class ItemTTBanDatController {
 		lblHoTenKhachHang.setText(b.getKhachHang().getHoTen());
 		lblKySoBanAn.setText(b.getBanAn().getKySoBA());
 		if(b.isDaThanhToan())
-			lblTongTien.setText(String.valueOf(b.getTongTien()) + " Đ");
+			lblTongTien.setText(String.valueOf(b.tinhTongTien() + b.getPhuGiaBanAn()) + " Đ");
 		else
-			lblTongTien.setText(String.valueOf(b.tinhTongTien()) + " Đ");
+			lblTongTien.setText(String.valueOf(b.tinhTongTien() + b.getBanAn().getPhuGia()) + " Đ");
 		showStatus(b);
 		ttBanDat = b;
 	}

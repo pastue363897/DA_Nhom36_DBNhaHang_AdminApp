@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import application.PrimaryConf;
 import database.CTHoaDonBanDatDAO;
 import database.HoaDonBanDatDAO;
 import database.MonAnDAO;
@@ -230,12 +231,16 @@ public class ThemMonBanDatController implements Initializable {
     			cthdDao.addCTHoaDonBanDat(x);
     		}
     	}
-    	hoaDonHienTai.setTongTien(hoaDonHienTai.getTongTien() + tempTongTien);
     	if(hoaDonHienTai.isDaThanhToan()) {
     		hoaDonHienTai.setTienDaDua(hoaDonHienTai.getTienDaDua() + tinhTienThoi() + tempTongTien);
     	}
     	HoaDonBanDatDAO banDatDao = new HoaDonBanDatDAO();
     	banDatDao.update(hoaDonHienTai);
+    	if(PrimaryConf.currentAdmin != null) {
+    		HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
+    		HoaDonBanDat tmp = hoaDonDao.get(hoaDonHienTai.getMaBD());
+    		tmp.setNhanVien(PrimaryConf.currentAdmin);
+    	}
     	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Thành công");
 		alert.setContentText("Bàn đã được đặt và thông tin thanh toán đã được lưu");
