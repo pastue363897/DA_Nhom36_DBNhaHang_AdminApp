@@ -434,7 +434,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 		if(ttBanDat.isDaThanhToan()) {
 			txtTienKhachDua.setText(String.valueOf(ttBanDat.getTienDaDua()));
 			txtTienKhachDua.setEditable(false);
-			lblTienThoiLai.setText(String.valueOf(ttBanDat.getTienDaDua()-ttBanDat.getPhuGiaBanAn())+" Đ");
+			lblTienThoiLai.setText(String.valueOf(ttBanDat.getTienDaDua()-ttBanDat.getPhuGiaBanAn() - ttBanDat.tinhTongTien())+" Đ");
 			btnThanhToan.setVisible(false);
 			btnHuyBan.setVisible(false);
 			cbAutoInHoaDon.setVisible(false);
