@@ -66,6 +66,11 @@
             </Menu>
             <Menu mnemonicParsing="false">
                <graphic>
+                  <Label fx:id="lblMenuHuongDanShortcut" onMouseClicked="#huongDanShortcut" text="Hướng dẫn phím tắt" />
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false">
+               <graphic>
                   <Label fx:id="lblMenuThoat" onMouseClicked="#signOut" text="Đăng xuất" />
                </graphic>
             </Menu>

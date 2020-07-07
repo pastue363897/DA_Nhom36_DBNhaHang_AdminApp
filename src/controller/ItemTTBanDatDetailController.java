@@ -166,6 +166,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 				HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
 				ttBanDat.setDaHuy(true);
 				hoaDonDao.update(ttBanDat);
+				banDatMGCT.loadAllBanDat();
 				Stage frame = (Stage) btnHuyBan.getScene().getWindow();
 		    	frame.close();
 			}
@@ -181,6 +182,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 				HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
 				ttBanDat.setDaHuy(true);
 				hoaDonDao.update(ttBanDat);
+				banDatMGCT.loadAllBanDat();
 				Stage frame = (Stage) btnHuyBan.getScene().getWindow();
 		    	frame.close();
 			}
@@ -204,6 +206,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 					HoaDonBanDatDAO hoaDonDao = new HoaDonBanDatDAO();
 					ttBanDat.setDaHuy(true);
 					hoaDonDao.update(ttBanDat);
+					banDatMGCT.loadAllBanDat();
 					Stage frame = (Stage) btnHuyBan.getScene().getWindow();
 			    	frame.close();
 				}
@@ -328,6 +331,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 			
 			if(cbAutoInHoaDon.isSelected())
 				inHoaDon(ttBanDat);
+			banDatMGCT.loadAllBanDat();
 			Stage frame = (Stage) btnThanhToan.getScene().getWindow();
 	    	frame.close();
     	}

@@ -51,7 +51,9 @@ public class LoginController {
 				Stage currentStage = (Stage) btnSignin.getScene().getWindow();
 				currentStage.close();
 				// load main
-				Parent root = FXMLLoader.load(getClass().getResource("/view/HomeManager.fxml"));
+				FXMLLoader fload;
+				fload = new FXMLLoader(getClass().getResource("/view/HomeManager.fxml"));
+				Parent root = fload.load();
 				Stage stage = new Stage();
 				String title = "Hệ thống quản lý đặt bàn nhà hàng";
 				if(PrimaryConf.currentAdmin != null) {
@@ -61,12 +63,16 @@ public class LoginController {
 				Scene scene = new Scene(root);
 				stage.setScene(scene);
 				HomeManagerController.primaryStage = stage;
+				HomeManagerController ctr = fload.getController();
+				ctr.addWindowKeyEvent(scene);
 				stage.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
     }
+    
+
 
 	@FXML
 	void signIn(ActionEvent event) {

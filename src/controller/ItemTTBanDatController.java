@@ -40,6 +40,7 @@ public class ItemTTBanDatController {
 	@FXML
 	private ImageView imvBanAn;
 
+	@SuppressWarnings("unused")
 	private BanDatManagerController banDatMGCT;
 	private HoaDonBanDat ttBanDat;
 
@@ -182,7 +183,6 @@ public class ItemTTBanDatController {
 			stage.centerOnScreen();
 			ItemTTBanDatDetailController.primaryStage = stage;
 			stage.showAndWait();
-			banDatMGCT.loadAllBanDat();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

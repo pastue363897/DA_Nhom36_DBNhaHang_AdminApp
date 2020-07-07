@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 import application.PrimaryConf;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -69,6 +74,8 @@ public class HomeManagerController implements Initializable {
     private MenuItem menuTKMonAn;
     @FXML
     private MenuItem menuTKKhachHang;
+    @FXML
+    private Label lblMenuHuongDanShortcut;
 	
 	public static Stage primaryStage;
 
@@ -125,16 +132,90 @@ public class HomeManagerController implements Initializable {
 		datBanController.setHostMGCT(this);
 	}
 	
+    public void addWindowKeyEvent(Scene scene) {
+    	scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+    		final KeyCombination keyDatBan = new KeyCodeCombination(KeyCode.F1, KeyCombination.CONTROL_DOWN);
+    		final KeyCombination keyBanDat = new KeyCodeCombination(KeyCode.F2, KeyCombination.CONTROL_DOWN);
+    		final KeyCombination keyBanAn = new KeyCodeCombination(KeyCode.F3, KeyCombination.CONTROL_DOWN);
+    		final KeyCombination keyMonAn = new KeyCodeCombination(KeyCode.F4, KeyCombination.CONTROL_DOWN);
+    		final KeyCombination keyXemDSKH = new KeyCodeCombination(KeyCode.F5, KeyCombination.CONTROL_DOWN);
+    		final KeyCombination keyThongKeDoanhThuNgay = new KeyCodeCombination(KeyCode.F6, KeyCombination.CONTROL_DOWN);
+    		final KeyCombination keyThongKeDoanhThuMon = new KeyCodeCombination(KeyCode.F7, KeyCombination.CONTROL_DOWN);
+    		final KeyCombination keyThongKeDoanhThuKH = new KeyCodeCombination(KeyCode.F8, KeyCombination.CONTROL_DOWN);
+    		
+			@Override
+			public void handle(KeyEvent event) {
+				if(keyDatBan.match(event)) {
+					showDatBanKhachVangLai();
+				}
+				else if(keyBanDat.match(event)) {
+					showQLBanDat();
+				}
+				else if(keyBanAn.match(event)) {
+					showQLBanAn();
+				}
+				else if(keyMonAn.match(event)) {
+					showQLMonAn();
+				}
+				else if(keyXemDSKH.match(event)) {
+					showXemDanhSachKhachHang();
+				}
+				else if(keyThongKeDoanhThuNgay.match(event)) {
+					showThongKe(1);
+				}
+				else if(keyThongKeDoanhThuMon.match(event)) {
+					showThongKe(2);
+				}
+				else if(keyThongKeDoanhThuKH.match(event)) {
+					showThongKe(3);
+				}
+				else if(event.getCode() == KeyCode.F1) {
+					showHuongDanShortcut();
+				}
+			}
+    		
+		});
+    }
+    
+    public void huongDanShortcut(MouseEvent e) {
+    	showHuongDanShortcut();
+    }
+    
+    void showHuongDanShortcut() {
+    	Parent root;
+		try {
+			FXMLLoader fload = new FXMLLoader(getClass().getResource("/view/HuongDanShortcut.fxml"));
+			root = fload.load();
+			Stage stage = new Stage();
+			stage.setResizable(false);
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner(HomeManagerController.primaryStage);
+			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Hướng dẫn");
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.centerOnScreen();
+			HuongDanShortcutController ctr = fload.getController();
+			ctr.addWindowKeyEvent(scene);
+			stage.showAndWait();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+    }
+    
+    void showQLBanAn() {
+    	banDat.setVisible(false);
+		banAn.setVisible(true);
+		monAn.setVisible(false);
+		datBan.setVisible(false);
+    }
+	
 	@FXML
     void menuQLBanAn(ActionEvent event) {
 		if(event.getSource() == menuThemBanAn)
 			banAnController.getTabPane().getSelectionModel().select(banAnController.getTabThem());
 		else if(event.getSource() == menuTimKiemBanAn)
 			banAnController.getTabPane().getSelectionModel().select(banAnController.getTabTimKiem());
-		banDat.setVisible(false);
-		banAn.setVisible(true);
-		monAn.setVisible(false);
-		datBan.setVisible(false);
+		showQLBanAn();
     }
 	
 	void showQLBanDat() {
@@ -169,32 +250,36 @@ public class HomeManagerController implements Initializable {
     		showQLBanDat();	
     	}
     }
+    
+    void showXemDanhSachKhachHang() {
+    	Parent root;
+		FXMLLoader fload;
+		try {
+			fload = new FXMLLoader(getClass().getResource("/view/QuanLyKhachHangManager.fxml"));
+			root = fload.load();
+			Stage stage = new Stage();
+			stage.setResizable(false);
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner(HomeManagerController.primaryStage);
+			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Quản lý khách hàng");
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.sizeToScene();
+			stage.centerOnScreen();
+			stage.show();
+			QuanLyKhachHangController.primaryStage = stage;
+			QuanLyKhachHangController qlkhct = fload.getController();
+			qlkhct.setDatBanKHController(datBanController);
+			qlkhct.setHomeController(this);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+    }
 
     @FXML
     void menuQLKhachHang(ActionEvent event) {
     	if(event.getSource() == menuXemDanhSachKhachHang) {
-    		Parent root;
-    		FXMLLoader fload;
-    		try {
-    			fload = new FXMLLoader(getClass().getResource("/view/QuanLyKhachHangManager.fxml"));
-    			root = fload.load();
-    			Stage stage = new Stage();
-    			stage.setResizable(false);
-    			stage.initModality(Modality.WINDOW_MODAL);
-    			stage.initOwner(HomeManagerController.primaryStage);
-    			stage.setTitle("Hệ thống quản lý đặt bàn nhà hàng - Quản lý khách hàng");
-    			Scene scene = new Scene(root);
-    			stage.setScene(scene);
-    			stage.sizeToScene();
-    			stage.centerOnScreen();
-    			stage.show();
-    			QuanLyKhachHangController.primaryStage = stage;
-    			QuanLyKhachHangController qlkhct = fload.getController();
-    			qlkhct.setDatBanKHController(datBanController);
-    			qlkhct.setHomeController(this);
-    		} catch (IOException e1) {
-    			e1.printStackTrace();
-    		}
+    		showXemDanhSachKhachHang();
     	}
     	else if(event.getSource() == menuTaoKhachHang) {
     		Parent root;
@@ -215,17 +300,8 @@ public class HomeManagerController implements Initializable {
     		}
     	}
     }
-
-    @FXML
-    void menuQLMonAn(ActionEvent event) {
-    	if(event.getSource() == menuXuatDSMonAn) {
-    		monAnController.xuatMonAnExcel();
-    		return;
-    	}
-    	else if(event.getSource() == menuThemMonAn)
-			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabThem());
-		else if(event.getSource() == menuTimKiemMonAn)
-			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabTimKiem());
+    
+    void showQLMonAn() {
     	banDat.setVisible(false);
 		banAn.setVisible(false);
 		monAn.setVisible(true);
@@ -233,8 +309,22 @@ public class HomeManagerController implements Initializable {
     }
 
     @FXML
-    void menuThongKe(ActionEvent event) {
-    	if(event.getSource() == menuTKDTBanDatTheoNgay) {
+    void menuQLMonAn(ActionEvent event) {
+    	if(event.getSource() == menuXuatDSMonAn) {
+    		monAnController.xuatMonAnExcel();
+    		return;
+    	}
+    	if(event.getSource() == menuThemMonAn)
+			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabThem());
+		else if(event.getSource() == menuTimKiemMonAn)
+			monAnController.getTabPane().getSelectionModel().select(monAnController.getTabTimKiem());
+    	showQLMonAn();
+    }
+    
+    void showThongKe(int i) {
+    	switch(i) {
+    	case 1:
+    	{
     		Parent root;
     		try {
     			root = FXMLLoader.load(getClass().getResource("/view/ThongKeDoanhThuTheoNgay.fxml"));
@@ -252,7 +342,9 @@ public class HomeManagerController implements Initializable {
     			e1.printStackTrace();
     		}
     	}
-    	else if(event.getSource() == menuTKMonAn) {
+    	break;
+    	case 2:
+    	{
     		Parent root;
     		try {
     			root = FXMLLoader.load(getClass().getResource("/view/ThongKeMonAn.fxml"));
@@ -270,7 +362,8 @@ public class HomeManagerController implements Initializable {
     			e1.printStackTrace();
     		}
     	}
-    	else if(event.getSource() == menuTKKhachHang) {
+    	case 3:
+    	{
     		Parent root;
     		try {
     			root = FXMLLoader.load(getClass().getResource("/view/ThongKeKhachHang.fxml"));
@@ -287,6 +380,20 @@ public class HomeManagerController implements Initializable {
     		} catch (IOException e1) {
     			e1.printStackTrace();
     		}
+    	}
+    	}
+    }
+
+    @FXML
+    void menuThongKe(ActionEvent event) {
+    	if(event.getSource() == menuTKDTBanDatTheoNgay) {
+    		showThongKe(1);
+    	}
+    	else if(event.getSource() == menuTKMonAn) {
+    		showThongKe(2);
+    	}
+    	else if(event.getSource() == menuTKKhachHang) {
+    		showThongKe(3);
     	}
     }
 }

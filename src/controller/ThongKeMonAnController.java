@@ -235,28 +235,22 @@ public class ThongKeMonAnController implements Initializable {
 					lblDoanhThuMon7.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(4)) + " Đ");
 					lblSoPhanDD14.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(5)));
 					lblDoanhThuMon14.setText(String.valueOf((Long)thongKeData.get(row.getItem().getMaMA()).get(6)) + " Đ");
-					LocalDate oldest = (LocalDate)thongKeData.get(row.getItem().getMaMA()).get(7);
-					if(oldest.isBefore(LocalDate.now().minusDays(7))) {
-						Long d7 = (Long)thongKeData.get(row.getItem().getMaMA()).get(3);
-						Long d14 = (Long)thongKeData.get(row.getItem().getMaMA()).get(5);
-						if(d7 > d14) {
-							if(d7 * 1.0 / d14 > 1.1)
-								txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt nhiều hơn");
-							else
-								txtXuHuongAuto.setText("Món ăn đang có xu hướng ổn định về số lần đặt");
-						}
-						else if((Long)thongKeData.get(row.getItem().getMaMA()).get(3) < (Long)thongKeData.get(row.getItem().getMaMA()).get(5)) {
-							if(d14 * 1.0 / d7 > 1.1)
-								txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt ít đi");
-							else
-								txtXuHuongAuto.setText("Món ăn đang có xu hướng ổn định về số lần đặt");
-						}
-						else if((Long)thongKeData.get(row.getItem().getMaMA()).get(3) == (Long)thongKeData.get(row.getItem().getMaMA()).get(5)) {
-							txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt ít đi");
-						}
+					Long d7 = (Long)thongKeData.get(row.getItem().getMaMA()).get(3);
+					Long d14 = (Long)thongKeData.get(row.getItem().getMaMA()).get(5);
+					if(d7 > d14) {
+						if(d7 * 1.0 / d14 > 1.1)
+							txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt nhiều hơn");
+						else
+							txtXuHuongAuto.setText("Món ăn đang có xu hướng ổn định về số lần đặt");
 					}
-					else {
-						txtXuHuongAuto.setText("Món ăn không được đặt lần nào từ ngày thứ 8 đổ về trước, không xác định xu hướng được");
+					else if((Long)thongKeData.get(row.getItem().getMaMA()).get(3) < (Long)thongKeData.get(row.getItem().getMaMA()).get(5)) {
+						if(d14 * 1.0 / d7 > 1.1)
+							txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt ít đi");
+						else
+							txtXuHuongAuto.setText("Món ăn đang có xu hướng ổn định về số lần đặt");
+					}
+					else if((Long)thongKeData.get(row.getItem().getMaMA()).get(3) == (Long)thongKeData.get(row.getItem().getMaMA()).get(5)) {
+						txtXuHuongAuto.setText("Món ăn đang có xu hướng được đặt ít đi");
 					}
 					tinhThongSo(row.getItem());
 				}
@@ -687,28 +681,22 @@ public class ThongKeMonAnController implements Initializable {
     			}
     			cellRow = row.createCell(colNum++);
     			String trend = "";
-    			LocalDate oldest = (LocalDate)thongKeData.get(ma.getMaMA()).get(7);
-				if(oldest.isBefore(LocalDate.now().minusDays(7))) {
-					Long d7 = (Long)thongKeData.get(ma.getMaMA()).get(3);
-					Long d14 = (Long)thongKeData.get(ma.getMaMA()).get(5);
-					if(d7 > d14) {
-						if(d7 * 1.0 / d14 > 1.1)
-							trend = "Món ăn đang có xu hướng được đặt nhiều hơn";
-						else
-							trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
-					}
-					else if((Long)thongKeData.get(ma.getMaMA()).get(3) < (Long)thongKeData.get(ma.getMaMA()).get(5)) {
-						if(d14 * 1.0 / d7 > 1.1)
-							trend = "Món ăn đang có xu hướng được đặt ít đi";
-						else
-							trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
-					}
-					else if((Long)thongKeData.get(ma.getMaMA()).get(3) == (Long)thongKeData.get(ma.getMaMA()).get(5)) {
-						trend = "Món ăn đang có xu hướng được đặt ít đi";
-					}
+				Long d7 = (Long)thongKeData.get(ma.getMaMA()).get(3);
+				Long d14 = (Long)thongKeData.get(ma.getMaMA()).get(5);
+				if(d7 > d14) {
+					if(d7 * 1.0 / d14 > 1.1)
+						trend = "Món ăn đang có xu hướng được đặt nhiều hơn";
+					else
+						trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
 				}
-				else {
-					trend = "Món ăn không được đặt lần nào từ ngày thứ 8 đổ về trước, không xác định xu hướng được";
+				else if((Long)thongKeData.get(ma.getMaMA()).get(3) < (Long)thongKeData.get(ma.getMaMA()).get(5)) {
+					if(d14 * 1.0 / d7 > 1.1)
+						trend = "Món ăn đang có xu hướng được đặt ít đi";
+					else
+						trend = "Món ăn đang có xu hướng ổn định về số lần đặt";
+				}
+				else if((Long)thongKeData.get(ma.getMaMA()).get(3) == (Long)thongKeData.get(ma.getMaMA()).get(5)) {
+					trend = "Món ăn đang có xu hướng được đặt ít đi";
 				}
     			cellRow.setCellValue(trend);
     			cellRow.setCellStyle(cellStyleContent);
