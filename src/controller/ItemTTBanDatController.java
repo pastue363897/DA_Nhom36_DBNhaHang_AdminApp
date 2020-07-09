@@ -169,7 +169,7 @@ public class ItemTTBanDatController {
 			root = fx.load();
 			root.applyCss();
 			ItemTTBanDatDetailController ctr = fx.getController();
-			ctr.setBanDatMGCT(new BanDatManagerController());
+			ctr.setBanDatMGCT(banDatMGCT);
 			ctr.loadData(new HoaDonBanDatDAO().getTTBanDat(ttBanDat.getMaBD()));
 			
 			Stage stage = new Stage();

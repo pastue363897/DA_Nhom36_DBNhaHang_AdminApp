@@ -362,6 +362,7 @@ public class HomeManagerController implements Initializable {
     			e1.printStackTrace();
     		}
     	}
+    	break;
     	case 3:
     	{
     		Parent root;
@@ -381,6 +382,7 @@ public class HomeManagerController implements Initializable {
     			e1.printStackTrace();
     		}
     	}
+    	break;
     	}
     }
 

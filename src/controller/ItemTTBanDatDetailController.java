@@ -325,7 +325,7 @@ public class ItemTTBanDatDetailController implements Initializable {
 	    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Thanh toán thành công");
 			alert.setContentText("Thanh toán bàn đã đặt thành công");
-			alert.show();
+			alert.showAndWait();
 			
 			ttBanDat = das.getTTBanDat(ttBanDat.getMaBD());
 			
