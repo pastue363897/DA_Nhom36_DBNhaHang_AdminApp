@@ -64,7 +64,7 @@ public class TaoThongTinKhachHangController implements Initializable {
 
 	@FXML
 	void randomPass(ActionEvent event) {
-		txtPassword.setText(new RandomString(8).nextString());
+		txtPassword.setText(new RandomString(8).nextString().concat("@"));
 	}
 
 	@FXML
