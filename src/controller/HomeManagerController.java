@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.PrimaryConf;
+import enums.EChucVu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -49,6 +51,10 @@ public class HomeManagerController implements Initializable {
 	@FXML
 	private DatBanKhachVangLaiController datBanController;
 	@FXML
+  private Menu menuQLBanAn;
+	@FXML
+  private Menu menuQLThongKe;
+	  @FXML
     private MenuItem menuDatBanVangLai;
     @FXML
     private MenuItem menuTimKiemBanDat;
@@ -76,6 +82,15 @@ public class HomeManagerController implements Initializable {
     private MenuItem menuTKKhachHang;
     @FXML
     private Label lblMenuHuongDanShortcut;
+    
+    private KeyCombination keyDatBan = new KeyCodeCombination(KeyCode.F1, KeyCombination.CONTROL_DOWN);
+    private KeyCombination keyBanDat = new KeyCodeCombination(KeyCode.F2, KeyCombination.CONTROL_DOWN);
+    private KeyCombination keyBanAn = null;
+    private KeyCombination keyMonAn = null;
+    private KeyCombination keyXemDSKH = new KeyCodeCombination(KeyCode.F5, KeyCombination.CONTROL_DOWN);
+    private KeyCombination keyThongKeDoanhThuNgay = null;
+    private KeyCombination keyThongKeDoanhThuMon = null;
+    private KeyCombination keyThongKeDoanhThuKH = null;
 	
 	public static Stage primaryStage;
 
@@ -130,18 +145,26 @@ public class HomeManagerController implements Initializable {
 		datBan.setVisible(false);
 		datBanController.setBanDatMGCT(banDatController);
 		datBanController.setHostMGCT(this);
+		checkNguoiQuanLy();
+	}
+	
+	private void checkNguoiQuanLy() {
+	  if(PrimaryConf.currentAdmin != null && PrimaryConf.currentAdmin.getChucVu() == EChucVu.NguoiQuanLy) {
+      menuQLBanAn.setVisible(true);
+      menuQLThongKe.setVisible(true);
+      menuTaoKhachHang.setVisible(true);
+      menuThemMonAn.setVisible(true);
+      menuTimKiemMonAn.setVisible(true);
+      keyBanAn = new KeyCodeCombination(KeyCode.F3, KeyCombination.CONTROL_DOWN);
+      keyMonAn = new KeyCodeCombination(KeyCode.F4, KeyCombination.CONTROL_DOWN);
+      keyThongKeDoanhThuNgay = new KeyCodeCombination(KeyCode.F6, KeyCombination.CONTROL_DOWN);
+      keyThongKeDoanhThuMon = new KeyCodeCombination(KeyCode.F7, KeyCombination.CONTROL_DOWN);
+      keyThongKeDoanhThuKH = new KeyCodeCombination(KeyCode.F8, KeyCombination.CONTROL_DOWN);
+    }
 	}
 	
     public void addWindowKeyEvent(Scene scene) {
     	scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-    		final KeyCombination keyDatBan = new KeyCodeCombination(KeyCode.F1, KeyCombination.CONTROL_DOWN);
-    		final KeyCombination keyBanDat = new KeyCodeCombination(KeyCode.F2, KeyCombination.CONTROL_DOWN);
-    		final KeyCombination keyBanAn = new KeyCodeCombination(KeyCode.F3, KeyCombination.CONTROL_DOWN);
-    		final KeyCombination keyMonAn = new KeyCodeCombination(KeyCode.F4, KeyCombination.CONTROL_DOWN);
-    		final KeyCombination keyXemDSKH = new KeyCodeCombination(KeyCode.F5, KeyCombination.CONTROL_DOWN);
-    		final KeyCombination keyThongKeDoanhThuNgay = new KeyCodeCombination(KeyCode.F6, KeyCombination.CONTROL_DOWN);
-    		final KeyCombination keyThongKeDoanhThuMon = new KeyCodeCombination(KeyCode.F7, KeyCombination.CONTROL_DOWN);
-    		final KeyCombination keyThongKeDoanhThuKH = new KeyCodeCombination(KeyCode.F8, KeyCombination.CONTROL_DOWN);
     		
 			@Override
 			public void handle(KeyEvent event) {
@@ -151,22 +174,22 @@ public class HomeManagerController implements Initializable {
 				else if(keyBanDat.match(event)) {
 					showQLBanDat();
 				}
-				else if(keyBanAn.match(event)) {
+				else if(keyBanAn != null && keyBanAn.match(event)) {
 					showQLBanAn();
 				}
-				else if(keyMonAn.match(event)) {
+				else if(keyMonAn != null && keyMonAn.match(event)) {
 					showQLMonAn();
 				}
 				else if(keyXemDSKH.match(event)) {
 					showXemDanhSachKhachHang();
 				}
-				else if(keyThongKeDoanhThuNgay.match(event)) {
+				else if(keyThongKeDoanhThuNgay != null && keyThongKeDoanhThuNgay.match(event)) {
 					showThongKe(1);
 				}
-				else if(keyThongKeDoanhThuMon.match(event)) {
+				else if(keyThongKeDoanhThuMon != null && keyThongKeDoanhThuMon.match(event)) {
 					showThongKe(2);
 				}
-				else if(keyThongKeDoanhThuKH.match(event)) {
+				else if(keyThongKeDoanhThuKH != null && keyThongKeDoanhThuKH.match(event)) {
 					showThongKe(3);
 				}
 				else if(event.getCode() == KeyCode.F1) {

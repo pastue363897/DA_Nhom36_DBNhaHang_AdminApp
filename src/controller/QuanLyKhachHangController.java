@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import application.PrimaryConf;
 import database.CustomerDAO;
 import entites.Customer;
+import enums.EChucVu;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -132,6 +134,9 @@ public class QuanLyKhachHangController implements Initializable {
 		});
     	
     	timKhachHang();
+    	if(PrimaryConf.currentAdmin != null && PrimaryConf.currentAdmin.getChucVu() == EChucVu.NguoiQuanLy) {
+    	  btnThemKhachHang.setVisible(true);
+    	}
 	}
     
     @FXML

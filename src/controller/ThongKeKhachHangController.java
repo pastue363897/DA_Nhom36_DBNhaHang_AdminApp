@@ -205,44 +205,65 @@ public class ThongKeKhachHangController implements Initializable {
     
     void setChiTiet(Customer cs) {
     	List<Object> s = thongKeData.get(cs.getTaiKhoan().getMaTK());
-		DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		lblDoanhThuKH.setText(String.valueOf((Long)s.get(0) + " Đ"));
-		lblSoLanDat.setText(String.valueOf((Long)s.get(1)));
-		lblSoLanHuy.setText(String.valueOf((Long)s.get(2)));
-		if(s.get(3) != null) {
-			lblNgayGanNhat.setText(((Timestamp)s.get(3)).toLocalDateTime().format(dtFormat));
-			lblDoanhThuKHGanNhat.setText(String.valueOf((Long)s.get(4) + " Đ"));
-		}
-		else {
-			lblNgayGanNhat.setText("Không có");
-			lblDoanhThuKHGanNhat.setText("Không có");
-		}
-		
-		MonAnDAO monAnDao = new MonAnDAO();
-		int buffer = cbChiConBan.isSelected() ? 4 : 0;
-		MonAn ms = monAnDao.get((String)s.get(5+buffer));
-		if(ms != null) {
-			txtMaMA.setText(ms.getMaMA());
-			txtTenMA.setText(ms.getTenMA());
-			txtSoNguoi.setText(String.valueOf(ms.getSoLuongNguoi()));
-			txtDonGia.setText(String.valueOf(ms.getGiaTien()));
-			txtNguyenLieu.setText(ms.getNguyenLieu());
-			txtMoTaMA.setText(ms.getMoTaMA());
-			lblThongSoMonGanNhat.setText(String.format("Đặt %d phần trong %d lần đặt bàn. Lần cuối đặt món này vào ngày %s",
-					(Long)s.get(6+buffer), (Long)s.get(7+buffer), ((Timestamp)s.get(8+buffer)).toLocalDateTime().format(dtFormat)));
-			Image image = new Image("file:" + PrimaryConf.CUSTOM_FILE_PATH_HEAD + ms.getHinhAnhMA(), 200, 143, false, true);
-			imgHinhAnhMA.setImage(image);
-		}
-		else {
-			txtMaMA.setText("");
-			txtTenMA.setText("");
-			txtSoNguoi.setText("");
-			txtDonGia.setText("");
-			txtNguyenLieu.setText("");
-			txtMoTaMA.setText("");
-			lblThongSoMonGanNhat.setText("");
-			imgHinhAnhMA.setImage(null);
-		}
+    	if (((Long)s.get(0)) > 0) {
+    	  DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        lblDoanhThuKH.setText(String.valueOf((Long)s.get(0) + " Đ"));
+        lblSoLanDat.setText(String.valueOf((Long)s.get(1)));
+        lblSoLanHuy.setText(String.valueOf((Long)s.get(2)));
+        if(s.get(3) != null) {
+          lblNgayGanNhat.setText(((Timestamp)s.get(3)).toLocalDateTime().format(dtFormat));
+          lblDoanhThuKHGanNhat.setText(String.valueOf((Long)s.get(4) + " Đ"));
+        }
+        else {
+          lblNgayGanNhat.setText("Không có");
+          lblDoanhThuKHGanNhat.setText("Không có");
+        }
+        
+        MonAnDAO monAnDao = new MonAnDAO();
+        int buffer = cbChiConBan.isSelected() ? 4 : 0;
+        MonAn ms = monAnDao.get((String)s.get(5+buffer));
+        if(ms != null) {
+          txtMaMA.setText(ms.getMaMA());
+          txtTenMA.setText(ms.getTenMA());
+          txtSoNguoi.setText(String.valueOf(ms.getSoLuongNguoi()));
+          txtDonGia.setText(String.valueOf(ms.getGiaTien()));
+          txtNguyenLieu.setText(ms.getNguyenLieu());
+          txtMoTaMA.setText(ms.getMoTaMA());
+          lblThongSoMonGanNhat.setText(String.format("Đặt %d phần trong %d lần đặt bàn. Lần cuối đặt món này vào ngày %s",
+              (Long)s.get(6+buffer), (Long)s.get(7+buffer), ((Timestamp)s.get(8+buffer)).toLocalDateTime().format(dtFormat)));
+          Image image = new Image("file:" + PrimaryConf.CUSTOM_FILE_PATH_HEAD + ms.getHinhAnhMA(), 200, 143, false, true);
+          imgHinhAnhMA.setImage(image);
+        }
+        else {
+          xoaThongTinMonAn();
+        }
+    	} else {
+    	  xoaThongTinThongKe();
+    	}
+    }
+    
+    private void xoaThongTinMonAn() {
+      txtMaMA.setText("");
+      txtTenMA.setText("");
+      txtSoNguoi.setText("");
+      txtDonGia.setText("");
+      txtNguyenLieu.setText("");
+      txtMoTaMA.setText("");
+      lblThongSoMonGanNhat.setText("Đặt %d phần trong %d lần đặt bàn. Lần cuối đặt món này vào ngày dd/MM/yyyy");
+      imgHinhAnhMA.setImage(null);
+    }
+    
+    private void xoaThongTinThongKeKhachHang() {
+      lblDoanhThuKH.setText("0 Đ");
+      lblSoLanDat.setText("0");
+      lblSoLanHuy.setText("0");
+      lblNgayGanNhat.setText("01/01/2020");
+      lblDoanhThuKHGanNhat.setText("0 Đ");
+    }
+    
+    private void xoaThongTinThongKe() {
+      xoaThongTinThongKeKhachHang();
+      xoaThongTinMonAn();
     }
 
 	@FXML

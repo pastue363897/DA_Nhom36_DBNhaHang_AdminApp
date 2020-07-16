@@ -25,7 +25,7 @@
                   <MenuItem mnemonicParsing="false" text="Tìm bàn" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Quản lý tài khoản" visible="false">
+          <Menu fx:id="menuQLTaiKhoan" mnemonicParsing="false" text="Quản lý tài khoản" visible="false">
             <items>
                   <MenuItem mnemonicParsing="false" text="Đăng ký người dùng" />
               <MenuItem mnemonicParsing="false" text="Quản lý tài khoản" />
@@ -38,26 +38,26 @@
                   <MenuItem fx:id="menuTimKiemBanDat" mnemonicParsing="false" onAction="#menuQLBanDat" text="Hủy hay Tìm kiếm bàn đặt" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Quản lý bàn ăn">
+            <Menu fx:id="menuQLBanAn" mnemonicParsing="false" text="Quản lý bàn ăn" visible="false">
               <items>
                   <MenuItem fx:id="menuThemBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Thêm, hủy hay sửa bàn ăn" />
                   <MenuItem fx:id="menuTimKiemBanAn" mnemonicParsing="false" onAction="#menuQLBanAn" text="Tìm kiếm bàn ăn" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Quản lý món ăn">
+            <Menu fx:id="menuQLMonAn" mnemonicParsing="false" text="Quản lý món ăn">
               <items>
-                  <MenuItem fx:id="menuThemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Thêm, hủy hay sửa món ăn" />
-                  <MenuItem fx:id="menuTimKiemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Tìm kiếm món ăn" />
+                  <MenuItem fx:id="menuThemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Thêm, hủy hay sửa món ăn" visible="false" />
+                  <MenuItem fx:id="menuTimKiemMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Tìm kiếm món ăn" visible="false" />
                   <MenuItem fx:id="menuXuatDSMonAn" mnemonicParsing="false" onAction="#menuQLMonAn" text="Xuất danh sách món ăn ra file excel" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Quản lý khách hàng">
               <items>
-                  <MenuItem fx:id="menuTaoKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Thêm khách hàng mới" />
+                  <MenuItem fx:id="menuTaoKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Thêm khách hàng mới" visible="false" />
                   <MenuItem fx:id="menuXemDanhSachKhachHang" mnemonicParsing="false" onAction="#menuQLKhachHang" text="Xem danh sách khách hàng" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Thống kê">
+            <Menu fx:id="menuQLThongKe" mnemonicParsing="false" text="Thống kê" visible="false">
                <items>
                   <MenuItem fx:id="menuTKDTBanDatTheoNgay" mnemonicParsing="false" onAction="#menuThongKe" text="Thống kê doanh thu bàn đặt theo ngày" />
                   <MenuItem fx:id="menuTKMonAn" mnemonicParsing="false" onAction="#menuThongKe" text="Thống kê về các món ăn" />
