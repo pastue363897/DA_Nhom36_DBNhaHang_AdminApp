@@ -55,7 +55,7 @@ public class BanDatManagerController implements Initializable{
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    cbTrangThaiBanDat.setItems(FXCollections.observableArrayList(ETinhTrangHoaDon.DaThanhToan, ETinhTrangHoaDon.ChuaThanhToan, ETinhTrangHoaDon.DaHuy));
+    cbTrangThaiBanDat.setItems(FXCollections.observableArrayList(ETinhTrangHoaDon.TatCa, ETinhTrangHoaDon.DaThanhToan, ETinhTrangHoaDon.ChuaThanhToan, ETinhTrangHoaDon.DaHuy));
     cbTrangThaiBanDat.setConverter(new StringConverter<ETinhTrangHoaDon>() {
       
       @Override
